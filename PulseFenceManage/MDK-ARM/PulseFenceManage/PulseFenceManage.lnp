@@ -11,6 +11,7 @@
 "pulsefencemanage\battery.o"
 "pulsefencemanage\max485.o"
 "pulsefencemanage\sim800c.o"
+"pulsefencemanage\master_manage.o"
 "pulsefencemanage\startup_stm32f407xx.o"
 "pulsefencemanage\system_stm32f4xx.o"
 "pulsefencemanage\stm32f4xx_hal_flash_ex.o"

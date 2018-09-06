@@ -59,6 +59,7 @@
 #include "battery.h"
 #include "max485.h"
 #include "sim800c.h"
+#include "master_manage.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -77,6 +78,7 @@ UART_HandleTypeDef huart6;
 /* Private variables ---------------------------------------------------------*/
 extern UART_RX_TypeDef uart6_rx_struct;
 extern uint8_t uart6_rx_buff;
+extern uint8_t uart1_rx_buff;
 extern uint8_t logo_256x160[5120];
 /* USER CODE END PV */
 
@@ -109,10 +111,7 @@ static void MX_NVIC_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-//uint8_t test1[7] = {0xA5, 0x5A, 0x02, 0x01, 0x01, 0x00, 0x00};
-//uint8_t test2[7] = {0xA5, 0x5A, 0x02, 0x01, 0x00, 0x00, 0x00};
-
-//float voltage_bat;
+//  float voltage_bat;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -148,23 +147,20 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim1);
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
-	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
+//	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
+//	__HAL_RCC_PWR_CLK_ENABLE();
 	
+	lcd_init();
+	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
 	sim800c_init(5,5);
-	lcd_init();
-//	HAL_UART_Transmit(&huart1,test1,7,1000);
-	
-	lcd_show_256x160(logo_256x160);
 	HAL_Delay(2000);
 	lcd_show_main_page();
-//	lcd_show_str_8x16(1, 1, "hello world!");
-//	lcd_show_str_8x16(3, 100, "NI HAO!");
-//	clear_screen(1, 1, 20, 256);
-//	led_arming(LED_ON);
-//	relay_battery(RELAY_ON);
-//	voltage_bat = get_battery_voltage();
+//	HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port,RELAY_BAT_Pin, GPIO_PIN_RESET);      
+//  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);   
+
+//	get_battery_voltage();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -185,7 +181,11 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 		MX_LWIP_Process();
+		dynamic_lcd_process();
+		lcd_update_main_page_process();
 		key_drive();
+		demolition_detect_process();
+		bettery_manage_process();
   }
   /* USER CODE END 3 */
 
@@ -264,7 +264,7 @@ void SystemClock_Config(void)
 static void MX_NVIC_Init(void)
 {
   /* USART1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(USART1_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(USART1_IRQn);
   /* USART2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(USART2_IRQn, 2, 0);
@@ -464,16 +464,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, RELAY_BAT_Pin|RELAY_SIREN_Pin|BUZZ_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, ETH_RESET_Pin|DISPLAY_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RELAY_ALARM_GPIO_Port, RELAY_ALARM_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOE, BUZZ_Pin|RELAY_ZONE2_SIREN_Pin|RELAY_ZONE1_SIREN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DISPLAY_E_Pin|DISPLAY_WR_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, DISPLAY_E_Pin|DISPLAY_WR_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE1_ALARM_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, DISPLAY_D0_Pin|DISPLAY_D1_Pin|DISPLAY_D2_Pin|DISPLAY_D3_Pin 
@@ -493,8 +493,14 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(DISPLAY_PWR_GPIO_Port, DISPLAY_PWR_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : RELAY_BAT_Pin RELAY_ALARM_Pin RELAY_SIREN_Pin BUZZ_Pin */
-  GPIO_InitStruct.Pin = RELAY_BAT_Pin|RELAY_ALARM_Pin|RELAY_SIREN_Pin|BUZZ_Pin;
+  /*Configure GPIO pin : CHRG_STA_Pin */
+  GPIO_InitStruct.Pin = CHRG_STA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(CHRG_STA_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RELAY_BAT_Pin BUZZ_Pin RELAY_ZONE2_SIREN_Pin RELAY_ZONE1_SIREN_Pin */
+  GPIO_InitStruct.Pin = RELAY_BAT_Pin|BUZZ_Pin|RELAY_ZONE2_SIREN_Pin|RELAY_ZONE1_SIREN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -568,12 +574,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : DISPLAY_PWR_Pin */
-  GPIO_InitStruct.Pin = DISPLAY_PWR_Pin;
+  /*Configure GPIO pins : DISPLAY_PWR_Pin RELAY_ZONE2_ALARM_Pin RELAY_ZONE1_ALARM_Pin */
+  GPIO_InitStruct.Pin = DISPLAY_PWR_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE1_ALARM_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DISPLAY_PWR_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
@@ -581,7 +587,9 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	static uint16_t connect_to_server_cnt = 0;
-	
+	static uint16_t dynamic_lcd_cnt = 0;
+	static uint16_t demolition_detect_cnt = 0;
+	static uint16_t bettery_manage_cnt = 0;
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
   /* NOTE : This function Should not be modified, when the callback is needed,
@@ -596,38 +604,249 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			connect_to_server_cnt = 0;
 			connect_to_server_mask = 1;
 		}
+		
+		if(++dynamic_lcd_cnt >= 1000)
+		{			
+			dynamic_lcd_cnt = 0;
+			dynamic_lcd_mask = 1;
+		}
+		
+		if(++demolition_detect_cnt >= 5000)
+		{
+			demolition_detect_cnt = 0;
+			demolition_detect_mask = 1;
+		}
+		
+		if(++bettery_manage_cnt >= 1000)
+		{
+			bettery_manage_cnt = 0;
+			bettery_manage_mask = 1;
+		}
 	}
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {	
+	static uint8_t uart1_rx_cnt = 0;
+	static uint8_t uart1_package_lenth = 0;
+	
+	static uint8_t uart2_rx_cnt = 0;
+	static uint8_t uart2_package_lenth = 0;	
+	
+//	uint16_t crc;
+	
   UNUSED(huart);
+	
+	if(huart->Instance == huart1.Instance)
+	{
+		uart1_rx_cnt++;
+		
+		if(uart1_rx_cnt == 1)
+		{
+			if(uart1_rx_buff == 0xA5)
+			{
+				uart1_rx_data[0] = 0xA5;
+			}
+			else
+			{
+				uart1_rx_cnt = 0;
+			}
+		}
+		else if(uart1_rx_cnt == 2)
+		{
+			if(uart1_rx_buff == 0x5A)
+			{
+				uart1_rx_data[1] = 0x5A;
+			}
+			else
+			{
+				uart1_rx_cnt = 0;
+			}
+		}
+		else if(uart1_rx_cnt == 3)
+		{
+			uart1_package_lenth = uart1_rx_buff + 5;
+			uart1_rx_data[2] = uart1_rx_buff;
+		}
+		/*后面加上校验位数据判断*/
+		else if(uart1_rx_cnt == uart1_package_lenth)
+		{
+			uart1_rx_data[uart1_rx_cnt - 1] = uart1_rx_buff; 
+			uart1_rx_cnt = 0;
+			if(max485_wait_usart1_flag)
+			{
+				max485_wait_usart1_finish = 1;
+			}
+			uart1_deal(uart1_rx_data);
+		}
+		else if(uart1_rx_cnt > 50)
+		{
+			uart1_rx_cnt = 0;
+		}
+		else
+		{
+			uart1_rx_data[uart1_rx_cnt - 1] = uart1_rx_buff;
+		}
+	}		
+	
 	
 	if(huart->Instance == huart6.Instance)
 	{
-			if(uart6_rx_struct.rx_enable)		//是否使能接收
+		if(uart6_rx_struct.rx_enable)		//是否使能接收
+		{
+			if(!uart6_rx_struct.cmd_data_flag)						//是否为命令接收
 			{
-				if(!uart6_rx_struct.cmd_data_flag)						//是否为命令接收
+				uart6_rx_struct.rx_cmd[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
+				if(uart6_rx_buff == '\n')
 				{
-					uart6_rx_struct.rx_cmd[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
-					if(uart6_rx_buff == '\n')
-					{
-						uart6_rx_struct.cmd_data_flag = 1;
-						uart6_rx_struct.rx_cnt = 0;
-					}
-				}
-				else if(uart6_rx_struct.cmd_data_flag)						//是否为数据接收
-				{
-					uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
-					if(uart6_rx_buff == '\n')
-					{
-						uart6_rx_struct.cmd_data_flag = 0;
-						uart6_rx_struct.rx_cnt = 0;
-						uart6_rx_struct.rx_enable = 0;
-						uart6_rx_struct.rx_end = 1;
-					}					
+					uart6_rx_struct.cmd_data_flag = 1;
+					uart6_rx_struct.rx_cnt = 0;
 				}
 			}
+			else if(uart6_rx_struct.cmd_data_flag)						//是否为数据接收
+			{
+				uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
+				if(uart6_rx_buff == '\n')
+				{
+					uart6_rx_struct.cmd_data_flag = 0;
+					uart6_rx_struct.rx_cnt = 0;
+					uart6_rx_struct.rx_enable = 0;
+					uart6_rx_struct.rx_end = 1;
+				}					
+			}
+		}
+	}
+	
+	if(huart->Instance == huart2.Instance)
+	{
+		uart2_rx_cnt++;
+		
+		if(uart2_rx_cnt == 1)
+		{
+			if(max485_1_receivebuf == 0xE7)
+			{
+				max485_1_receive_data[0] = 0xE7;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 2)
+		{
+			if(max485_1_receivebuf == 0xD9)
+			{
+				max485_1_receive_data[1] = 0xD9;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 3)
+		{
+			if(max485_1_receivebuf == 0xE7)
+			{
+				max485_1_receive_data[2] = 0xE7;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 4)
+		{
+			if(max485_1_receivebuf == 0xD9)
+			{
+				max485_1_receive_data[3] = 0xD9;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 5)
+		{
+			if(max485_1_receivebuf == 0x02)
+			{
+				max485_1_receive_data[4] = 0x02;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 6)
+		{
+			if(max485_1_receivebuf == zone_struct.zone1_id)
+			{
+				max485_1_receive_data[5] = max485_1_receivebuf;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == 8)
+		{
+			uart2_package_lenth = max485_1_receivebuf + 14;
+			max485_1_receive_data[7] = max485_1_receivebuf;
+		}
+		else if(uart2_rx_cnt == uart2_package_lenth - 3)
+		{
+			if(max485_1_receivebuf == 0xF8)
+			{
+				max485_1_receive_data[uart2_rx_cnt - 1] = 0xF8;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == uart2_package_lenth - 2)
+		{
+			if(max485_1_receivebuf == 0xC6)
+			{
+				max485_1_receive_data[uart2_rx_cnt - 1] = 0xC6;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt == uart2_package_lenth - 1)
+		{
+			if(max485_1_receivebuf == 0xF8)
+			{
+				max485_1_receive_data[uart2_rx_cnt - 1] = 0xF8;
+			}
+			else
+			{
+				uart2_rx_cnt = 0;
+			}
+		}
+		/*后面加上校验位数据判断*/
+		else if(uart2_rx_cnt == uart2_package_lenth)
+		{
+			if(max485_1_receivebuf == 0xC6)
+			{
+				max485_1_receive_data[uart2_rx_cnt - 1] = 0xC6;
+//				crc = CRC16(max485_1_receive_data, uart2_package_lenth - 6);
+//				if((max485_1_receive_data[uart1_package_lenth - 6] == (crc >> 8)) && (max485_1_receive_data[uart1_package_lenth - 5] == crc))
+//				{
+					max_485_1_deal(max485_1_receive_data);
+//				}
+				uart2_rx_cnt = 0;
+			}
+		}
+		else if(uart2_rx_cnt > 50)
+		{
+			uart1_rx_cnt = 0;
+		}
+		else
+		{
+			max485_1_receive_data[uart2_rx_cnt - 1] = max485_1_receivebuf;
+		}
 	}
 }
 

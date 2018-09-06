@@ -59,20 +59,20 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define CHRG_STA_Pin GPIO_PIN_2
+#define CHRG_STA_GPIO_Port GPIOE
 #define RELAY_BAT_Pin GPIO_PIN_3
 #define RELAY_BAT_GPIO_Port GPIOE
+#define VREF1_2_Pin GPIO_PIN_0
+#define VREF1_2_GPIO_Port GPIOC
 #define AC_DETECT_Pin GPIO_PIN_2
 #define AC_DETECT_GPIO_Port GPIOC
 #define BAT_DETECT_Pin GPIO_PIN_3
 #define BAT_DETECT_GPIO_Port GPIOC
 #define ETH_RESET_Pin GPIO_PIN_0
 #define ETH_RESET_GPIO_Port GPIOA
-#define DISMANTLE_DETECT_Pin GPIO_PIN_3
+#define DISMANTLE_DETECT_Pin GPIO_PIN_4
 #define DISMANTLE_DETECT_GPIO_Port GPIOA
-#define RELAY_ALARM_Pin GPIO_PIN_12
-#define RELAY_ALARM_GPIO_Port GPIOE
-#define RELAY_SIREN_Pin GPIO_PIN_13
-#define RELAY_SIREN_GPIO_Port GPIOE
 #define BUZZ_Pin GPIO_PIN_14
 #define BUZZ_GPIO_Port GPIOE
 #define DISPLAY_E_Pin GPIO_PIN_14
@@ -119,6 +119,14 @@
 #define RS485_CNT1_GPIO_Port GPIOD
 #define DISPLAY_PWR_Pin GPIO_PIN_6
 #define DISPLAY_PWR_GPIO_Port GPIOB
+#define RELAY_ZONE2_ALARM_Pin GPIO_PIN_8
+#define RELAY_ZONE2_ALARM_GPIO_Port GPIOB
+#define RELAY_ZONE1_ALARM_Pin GPIO_PIN_9
+#define RELAY_ZONE1_ALARM_GPIO_Port GPIOB
+#define RELAY_ZONE2_SIREN_Pin GPIO_PIN_0
+#define RELAY_ZONE2_SIREN_GPIO_Port GPIOE
+#define RELAY_ZONE1_SIREN_Pin GPIO_PIN_1
+#define RELAY_ZONE1_SIREN_GPIO_Port GPIOE
 
 /* ########################## Assert Selection ############################## */
 /**

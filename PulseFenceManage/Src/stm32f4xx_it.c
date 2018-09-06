@@ -36,8 +36,9 @@
 #include "stm32f4xx_it.h"
 
 /* USER CODE BEGIN 0 */
-
+extern uint8_t uart1_rx_buff;
 extern uint8_t uart6_rx_buff;
+extern uint8_t max485_1_receivebuf;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -222,7 +223,7 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-
+	HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
   /* USER CODE END USART1_IRQn 1 */
 }
 
@@ -236,7 +237,7 @@ void USART2_IRQHandler(void)
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
-
+	HAL_UART_Receive_IT(&huart2, &max485_1_receivebuf, 1);
   /* USER CODE END USART2_IRQn 1 */
 }
 

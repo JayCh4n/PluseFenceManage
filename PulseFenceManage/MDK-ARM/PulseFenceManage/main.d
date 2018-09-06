@@ -80,8 +80,10 @@ pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/i
 pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
 pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\main.o: ..\Bsp\display.h
-pulsefencemanage\main.o: ..\Bsp\keyboard.h
+pulsefencemanage\main.o: ..\Bsp\master_manage.h
+pulsefencemanage\main.o: ..\Bsp\display.h
 pulsefencemanage\main.o: ..\Bsp\alarm.h
+pulsefencemanage\main.o: ..\Bsp\keyboard.h
 pulsefencemanage\main.o: ..\Bsp\battery.h
 pulsefencemanage\main.o: ..\Bsp\max485.h
 pulsefencemanage\main.o: ..\Bsp\sim800c.h
