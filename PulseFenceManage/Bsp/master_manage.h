@@ -13,6 +13,7 @@ typedef enum{
 	ZONE1_SENSITIVITY,				//防区1灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
 	ZONE2_SENSITIVITY,				//防区2灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
 	TOUCH_NET_MODE,						//触网功能开关				数据:	0x00 关闭   0x01开启
+	AUTO_DETECT,							//自动检测命令				数据:	0x01 开始自动检测  0x02:自动检测完成
 	ZONE1_STA = 0x11,					//防区1状态返回命令		数据: 0x01 断线 0x02短路 0x03触网
 	ZONE2_STA									//防区2状态返回命令		数据: 0x01 断线 0x02短路 0x03触网
 }zone_ctrl_cmd_def;

@@ -81,6 +81,27 @@ void uart1_deal(uint8_t *data_package)
 				zone_struct_set_buff.zone2_sta = (zone_status_def)sta;
 			}
 			break;
+		case AUTO_DETECT:
+			if(sta == 0x01)
+			{
+				lcd_show_chs_16x16(9, 8, in_progress_gnk_code, 4);				//正在进行
+				lcd_show_chs_16x16(9, 72, self_test_calibration_gbk_code, 4);	//自检校准
+				lcd_show_str_8x16(9, 136, ",");
+				lcd_show_chs_16x16(9, 144, please_wait_gbk_code, 3);	//请稍后
+				lcd_show_str_8x16(9, 192, "...");
+				auto_detect_page_cursor_sta = AT_AUTO_DETECTING;
+			}
+			else if(sta == 0x02)
+			{
+				lcd_show_chs_16x16(12, 8, self_test_calibration_gbk_code, 4);	//自检校准
+				lcd_show_chs_16x16(12, 72, completed_gbk_code, 3);				//已完成
+				lcd_show_str_8x16(12, 120, ",");
+				lcd_show_chs_16x16(12, 128, please_wait_gbk_code, 1);			//请
+				lcd_show_chs_16x16(12, 144, back_gbk_code, 2);					//返回
+				lcd_show_str_8x16(12, 176, "...");
+				auto_detect_page_cursor_sta = AT_AUTO_DETECT_COMPLATED;
+			}
+			break;
 		default: break;
 	}
 }

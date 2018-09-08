@@ -36,6 +36,16 @@ static void short_press_key1_action(void)
 		lcd_show_main_page();
 		page_sta = IN_MAIN_PAGE;
 	}
+	else if(page_sta == IN_AUTO_DETECT_PAGE)
+	{
+		if((auto_detect_page_cursor_sta == AT_COMFIRM) || (auto_detect_page_cursor_sta == AT_AUTO_DETECT_COMPLATED))
+		{
+			lcd_show_menu_page();				//显示菜单页
+			lcd_show_solid_circle(5,1);	//画实心圆
+			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
+			page_sta = IN_MENU_PAGE;	//页面状态切换为菜单页
+		}
+	}
 }
 
 static void short_press_key2_action(void)
@@ -63,18 +73,24 @@ static void short_press_key2_action(void)
 		if(menu_page_coursor_sta == AT_MASTER_TYPE_SET)	//如果光标指向主机类型/ID
 		{
 			clear_screen(5,1,2,16);	//清除实心圆
-			lcd_show_solid_circle(11,1); //重画实心圆
-			menu_page_coursor_sta = AT_REMOTE_IP_SET;	//光标状态指向确定
+			lcd_show_solid_circle(14,1); //重画实心圆
+			menu_page_coursor_sta = AT_AUTO_DETECT;	//光标状态指向确定
+		}
+		else if(menu_page_coursor_sta == AT_AUTO_DETECT)	//如果光标指向确定
+		{
+			clear_screen(14,1,2,16); //清除实心圆
+			lcd_show_solid_circle(11, 1); //绘制实心圆
+			menu_page_coursor_sta = AT_REMOTE_IP_SET;	//光标状态指向返回
 		}
 		else if(menu_page_coursor_sta == AT_REMOTE_IP_SET)	//如果光标指向确定
 		{
-			clear_screen(11,1,2,16); //绘制空心圆
+			clear_screen(11,1,2,16); //清除实心圆
 			lcd_show_solid_circle(8, 1); //绘制实心圆
 			menu_page_coursor_sta = AT_LOCAL_IP_SET;	//光标状态指向返回
 		}
 		else if(menu_page_coursor_sta == AT_LOCAL_IP_SET)	//如果光标指向确定
 		{
-			clear_screen(8,1,2,16); //绘制空心圆
+			clear_screen(8,1,2,16); //清除实心圆
 			lcd_show_solid_circle(5, 1); //绘制实心圆
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET;	//光标状态指向返回
 		}
@@ -403,9 +419,15 @@ static void short_press_key4_action(void)
 		else if(menu_page_coursor_sta == AT_REMOTE_IP_SET)	//如果光标指向IP设定
 		{
 			clear_screen(11,1,2,16);	//清除实心圆
+			lcd_show_solid_circle(14, 1); //绘制实心圆
+			menu_page_coursor_sta = AT_AUTO_DETECT;	//光标状态指向返回
+		}
+		else if(menu_page_coursor_sta == AT_AUTO_DETECT)	//如果光标指向IP设定
+		{
+			clear_screen(14,1,2,16);	//清除实心圆
 			lcd_show_solid_circle(5, 1); //绘制实心圆
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET;	//光标状态指向返回
-		}
+		}		
 	}
 	else if(page_sta == IN_MASTER_TYPE_SET_PAGE)	//如果在主机类型界面
 	{
@@ -715,6 +737,12 @@ static void short_press_key5_action(void)
 			remote_ip_set_page_cursor_sta = AT_REMOTE_PORT;
 			page_sta = IN_REMOTE_IP_SET_PAGE;
 		}
+		else if(menu_page_coursor_sta == AT_AUTO_DETECT)
+		{
+			page_sta = IN_AUTO_DETECT_PAGE;
+			auto_detect_page_cursor_sta = AT_COMFIRM;
+			lcd_show_auto_detect_comfirm_page();
+		}
 	}
 	else if(page_sta == IN_MASTER_TYPE_SET_PAGE)
 	{
@@ -964,7 +992,22 @@ static void short_press_key5_action(void)
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
 			page_sta = IN_MENU_PAGE;	//页面状态切换为菜单页			
 		}		
-	}	
+	}
+	else if(page_sta == IN_AUTO_DETECT_PAGE)
+	{
+		if(auto_detect_page_cursor_sta == AT_COMFIRM)
+		{
+			set_ctrl_unit(AUTO_DETECT, 0x01);
+		}
+		else if(auto_detect_page_cursor_sta == AT_AUTO_DETECTING)
+		{
+			
+		}
+		else if(auto_detect_page_cursor_sta == AT_AUTO_DETECT_COMPLATED)
+		{
+
+		}
+	}
 }
 
 static void key_action(uint8_t key_num)
