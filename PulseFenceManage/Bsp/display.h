@@ -196,6 +196,9 @@ extern uint8_t in_progress_gnk_code[4];
 extern uint8_t please_wait_gbk_code[3];
 extern uint8_t completed_gbk_code[3];
 
+extern uint8_t value_continuous_add_flag;
+extern uint8_t value_continuous_sub_flag;
+
 void led_arming(uint8_t cmd);
 void led_zone1_alarm(uint8_t cmd);
 void led_zone2_alarm(uint8_t cmd);

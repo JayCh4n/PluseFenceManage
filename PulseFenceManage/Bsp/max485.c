@@ -53,9 +53,9 @@ void max485_send_str(uint8_t device, uint8_t *str, uint16_t lenth)
 	}
 	else if(device == MAX485_2)
 	{
-		HAL_GPIO_WritePin(RS485_CNT2_GPIO_Port, RS485_CNT2_Pin, GPIO_PIN_SET);
-		HAL_UART_Transmit(&huart4,str,lenth,50);
-		HAL_GPIO_WritePin(RS485_CNT2_GPIO_Port, RS485_CNT2_Pin, GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(RS485_CNT2_GPIO_Port, RS485_CNT2_Pin, GPIO_PIN_SET);
+//		HAL_UART_Transmit(&huart4,str,lenth,50);
+//		HAL_GPIO_WritePin(RS485_CNT2_GPIO_Port, RS485_CNT2_Pin, GPIO_PIN_RESET);
 	}
 }
 

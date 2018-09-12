@@ -60,6 +60,7 @@
 #include "max485.h"
 #include "sim800c.h"
 #include "master_manage.h"
+#include "flash.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -150,7 +151,7 @@ int main(void)
 //	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
 //	__HAL_RCC_PWR_CLK_ENABLE();
-  
+	
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
@@ -159,7 +160,6 @@ int main(void)
 	lcd_show_main_page();
 //	HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port,RELAY_BAT_Pin, GPIO_PIN_RESET);      
 //  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);   
-
 //	get_battery_voltage();
   /* USER CODE END 2 */
 
@@ -167,6 +167,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	
 //		max485_send_str(MAX485_1, "NIHAO!", 6);
 //		
 //		HAL_Delay(500);
@@ -209,9 +210,8 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 4;
@@ -238,7 +238,7 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_HSE_DIV8;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -317,6 +317,14 @@ static void MX_ADC1_Init(void)
 static void MX_RTC_Init(void)
 {
 
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+
     /**Initialize RTC Only 
     */
   hrtc.Instance = RTC;
@@ -330,6 +338,9 @@ static void MX_RTC_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
+  /* USER CODE BEGIN RTC_Init 2 */
+
+  /* USER CODE END RTC_Init 2 */
 
 }
 
@@ -456,67 +467,64 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, ETH_RESET_Pin|DISPLAY_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOE, BETTERY_EN_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE1_ALARM_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOE, BUZZ_Pin|RELAY_ZONE2_SIREN_Pin|RELAY_ZONE1_SIREN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DISPLAY_E_Pin|DISPLAY_WR_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE1_ALARM_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, ETH_RESET_Pin|DISPLAY_RS_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, DISPLAY_WR_Pin|DISPLAY_E_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, DISPLAY_D0_Pin|DISPLAY_D1_Pin|DISPLAY_D2_Pin|DISPLAY_D3_Pin 
                           |DISPLAY_D4_Pin|DISPLAY_D5_Pin|DISPLAY_D6_Pin|DISPLAY_D7_Pin 
-                          |DISPLAY_RS_Pin|LED_DISMANTLE_Pin|LED_ZONE2_ALARM_Pin|LED_ZONE1_ALARM_Pin 
-                          |LED_ARMING_Pin, GPIO_PIN_SET);
+                          |LED_DISMANTLE_Pin|LED_ZONE2_ALARM_Pin|LED_ZONE1_ALARM_Pin|LED_ARMING_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, SIM800_PWR_Pin|RS485_CNT2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SIM800_PWR_GPIO_Port, SIM800_PWR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(DISPLAY_RES_GPIO_Port, DISPLAY_RES_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RS485_CNT1_GPIO_Port, RS485_CNT1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(DISPLAY_CS_GPIO_Port, DISPLAY_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DISPLAY_PWR_GPIO_Port, DISPLAY_PWR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, DISPLAY_PWR_Pin|RS485_CNT1_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : CHRG_STA_Pin */
-  GPIO_InitStruct.Pin = CHRG_STA_Pin;
+  /*Configure GPIO pins : CHRG_STA_Pin KEY5_Pin KEY4_Pin KEY3_Pin 
+                           KEY2_Pin */
+  GPIO_InitStruct.Pin = CHRG_STA_Pin|KEY5_Pin|KEY4_Pin|KEY3_Pin 
+                          |KEY2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(CHRG_STA_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : RELAY_BAT_Pin BUZZ_Pin RELAY_ZONE2_SIREN_Pin RELAY_ZONE1_SIREN_Pin */
-  GPIO_InitStruct.Pin = RELAY_BAT_Pin|BUZZ_Pin|RELAY_ZONE2_SIREN_Pin|RELAY_ZONE1_SIREN_Pin;
+  /*Configure GPIO pins : BETTERY_EN_Pin BUZZ_Pin RELAY_ZONE2_ALARM_Pin RELAY_ZONE2_SIREN_Pin 
+                           RELAY_ZONE1_ALARM_Pin RELAY_ZONE1_SIREN_Pin */
+  GPIO_InitStruct.Pin = BETTERY_EN_Pin|BUZZ_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE2_SIREN_Pin 
+                          |RELAY_ZONE1_ALARM_Pin|RELAY_ZONE1_SIREN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : AC_DETECT_Pin SIM800_STATUS_Pin */
-  GPIO_InitStruct.Pin = AC_DETECT_Pin|SIM800_STATUS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : ETH_RESET_Pin */
-  GPIO_InitStruct.Pin = ETH_RESET_Pin;
+  /*Configure GPIO pins : ETH_RESET_Pin SIM800_PWR_Pin */
+  GPIO_InitStruct.Pin = ETH_RESET_Pin|SIM800_PWR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(ETH_RESET_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : DISMANTLE_DETECT_Pin */
   GPIO_InitStruct.Pin = DISMANTLE_DETECT_Pin;
@@ -524,38 +532,33 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(DISMANTLE_DETECT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PE7 PE8 PE9 PE10 
-                           PE11 */
-  GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10 
-                          |GPIO_PIN_11;
+  /*Configure GPIO pin : KEY1_Pin */
+  GPIO_InitStruct.Pin = KEY1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  HAL_GPIO_Init(KEY1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DISPLAY_E_Pin DISPLAY_WR_Pin */
-  GPIO_InitStruct.Pin = DISPLAY_E_Pin|DISPLAY_WR_Pin;
+  /*Configure GPIO pins : DISPLAY_WR_Pin DISPLAY_E_Pin */
+  GPIO_InitStruct.Pin = DISPLAY_WR_Pin|DISPLAY_E_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : DISPLAY_D0_Pin DISPLAY_D1_Pin DISPLAY_D2_Pin DISPLAY_D3_Pin 
-                           DISPLAY_D4_Pin DISPLAY_D5_Pin DISPLAY_D6_Pin DISPLAY_D7_Pin 
-                           DISPLAY_RS_Pin */
+                           DISPLAY_D4_Pin DISPLAY_D5_Pin DISPLAY_D6_Pin DISPLAY_D7_Pin */
   GPIO_InitStruct.Pin = DISPLAY_D0_Pin|DISPLAY_D1_Pin|DISPLAY_D2_Pin|DISPLAY_D3_Pin 
-                          |DISPLAY_D4_Pin|DISPLAY_D5_Pin|DISPLAY_D6_Pin|DISPLAY_D7_Pin 
-                          |DISPLAY_RS_Pin;
+                          |DISPLAY_D4_Pin|DISPLAY_D5_Pin|DISPLAY_D6_Pin|DISPLAY_D7_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SIM800_PWR_Pin RS485_CNT2_Pin */
-  GPIO_InitStruct.Pin = SIM800_PWR_Pin|RS485_CNT2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pin : SIM800_STATUS_Pin */
+  GPIO_InitStruct.Pin = SIM800_STATUS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(SIM800_STATUS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : DISPLAY_RES_Pin DISPLAY_CS_Pin */
   GPIO_InitStruct.Pin = DISPLAY_RES_Pin|DISPLAY_CS_Pin;
@@ -564,21 +567,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED_DISMANTLE_Pin LED_ZONE2_ALARM_Pin LED_ZONE1_ALARM_Pin LED_ARMING_Pin 
-                           RS485_CNT1_Pin */
-  GPIO_InitStruct.Pin = LED_DISMANTLE_Pin|LED_ZONE2_ALARM_Pin|LED_ZONE1_ALARM_Pin|LED_ARMING_Pin 
-                          |RS485_CNT1_Pin;
+  /*Configure GPIO pin : DISPLAY_RS_Pin */
+  GPIO_InitStruct.Pin = DISPLAY_RS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(DISPLAY_RS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DISPLAY_PWR_Pin LED_DISMANTLE_Pin LED_ZONE2_ALARM_Pin LED_ZONE1_ALARM_Pin 
+                           LED_ARMING_Pin RS485_CNT1_Pin */
+  GPIO_InitStruct.Pin = DISPLAY_PWR_Pin|LED_DISMANTLE_Pin|LED_ZONE2_ALARM_Pin|LED_ZONE1_ALARM_Pin 
+                          |LED_ARMING_Pin|RS485_CNT1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : DISPLAY_PWR_Pin RELAY_ZONE2_ALARM_Pin RELAY_ZONE1_ALARM_Pin */
-  GPIO_InitStruct.Pin = DISPLAY_PWR_Pin|RELAY_ZONE2_ALARM_Pin|RELAY_ZONE1_ALARM_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
@@ -604,7 +607,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			connect_to_server_mask = 1;
 		}
 		
-		if(++dynamic_lcd_cnt >= 1000)
+		if(++dynamic_lcd_cnt >= 600)
 		{			
 			dynamic_lcd_cnt = 0;
 			dynamic_lcd_mask = 1;

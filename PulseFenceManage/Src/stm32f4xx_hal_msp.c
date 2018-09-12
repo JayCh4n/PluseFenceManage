@@ -62,6 +62,9 @@ void HAL_MspInit(void)
 
   /* USER CODE END MspInit 0 */
 
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
+
   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   /* System interrupt init*/
@@ -99,12 +102,18 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   
     /**ADC1 GPIO Configuration    
     PC0     ------> ADC1_IN10
-    PC3     ------> ADC1_IN13 
+    PC3     ------> ADC1_IN13
+    PA0-WKUP     ------> ADC1_IN0 
     */
     GPIO_InitStruct.Pin = VREF1_2_Pin|BAT_DETECT_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = AC_DETECT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(AC_DETECT_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
@@ -126,9 +135,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   
     /**ADC1 GPIO Configuration    
     PC0     ------> ADC1_IN10
-    PC3     ------> ADC1_IN13 
+    PC3     ------> ADC1_IN13
+    PA0-WKUP     ------> ADC1_IN0 
     */
     HAL_GPIO_DeInit(GPIOC, VREF1_2_Pin|BAT_DETECT_Pin);
+
+    HAL_GPIO_DeInit(AC_DETECT_GPIO_Port, AC_DETECT_Pin);
 
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 

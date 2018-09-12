@@ -8,6 +8,9 @@ lcd_local_ip_set_page_cursor_state local_ip_set_page_cursor_sta = AT_LOCAL_ADDRE
 lcd_remote_ip_set_page_cursor_state remote_ip_set_page_cursor_sta = AT_REMOTE_PORT;
 lcd_auto_detect_page_cursor_state auto_detect_page_cursor_sta = AT_COMFIRM;
 
+uint8_t value_continuous_add_flag = 0;
+uint8_t value_continuous_sub_flag = 0;
+
 uint8_t logo_256x160[5120] = {
 	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -1371,6 +1374,22 @@ void port_to_string(uint8_t *string, uint16_t port_num)
 	string[4] = '0';
 }
 
+void clear_digit(uint8_t *p_numeral)
+{
+	uint8_t digit;
+	
+	digit = (*p_numeral)%10;
+	*p_numeral -= digit;
+}
+
+void clear_digit_word(uint16_t *p_numeral)
+{
+	uint8_t digit;
+	
+	digit = (*p_numeral)%10;
+	*p_numeral -= digit;
+}
+
 void dynamic_lcd_process(void)
 {
 	static uint8_t toogle_mask = 0;
@@ -1405,6 +1424,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&zone_struct_set_buff.zone1_id);
+					zone_struct_set_buff.zone1_id += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((zone_struct_set_buff.zone1_id % 10) != 0)
+					{
+						clear_digit(&zone_struct_set_buff.zone1_id);
+					}
+					else
+					{
+						zone_struct_set_buff.zone1_id -= 10;
+					}
+				}
 				num_to_string(num_string, zone_struct_set_buff.zone1_id);
 				lcd_show_str_8x16(7, 105, num_string);
 			}
@@ -1417,6 +1452,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&zone_struct_set_buff.zone2_id);
+					zone_struct_set_buff.zone2_id += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((zone_struct_set_buff.zone2_id % 10) != 0)
+					{
+						clear_digit(&zone_struct_set_buff.zone2_id);
+					}
+					else
+					{
+						zone_struct_set_buff.zone2_id -= 10;
+					}
+				}				
 				num_to_string(num_string, zone_struct_set_buff.zone2_id);
 				lcd_show_str_8x16(10, 105, num_string);
 			}
@@ -1433,6 +1484,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&local_address_set_buff[0]);
+					local_address_set_buff[0] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((local_address_set_buff[0] % 10) != 0)
+					{
+						clear_digit(&local_address_set_buff[0]);
+					}
+					else
+					{
+						local_address_set_buff[0] -= 10;
+					}
+				}				
 				num_to_string(num_string, local_address_set_buff[0]);
 				lcd_show_str_8x16(5, 89, num_string);
 			}
@@ -1445,6 +1512,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&local_address_set_buff[1]);
+					local_address_set_buff[1] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((local_address_set_buff[1] % 10) != 0)
+					{
+						clear_digit(&local_address_set_buff[1]);
+					}
+					else
+					{
+						local_address_set_buff[1] -= 10;
+					}
+				}
 				num_to_string(num_string, local_address_set_buff[1]);
 				lcd_show_str_8x16(5, 121, num_string);
 			}
@@ -1457,6 +1540,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&local_address_set_buff[2]);
+					local_address_set_buff[2] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((local_address_set_buff[2] % 10) != 0)
+					{
+						clear_digit(&local_address_set_buff[1]);
+					}
+					else
+					{
+						local_address_set_buff[2] -= 10;
+					}
+				}
 				num_to_string(num_string, local_address_set_buff[2]);
 				lcd_show_str_8x16(5, 153, num_string);
 			}
@@ -1469,6 +1568,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&local_address_set_buff[3]);
+					local_address_set_buff[3] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((local_address_set_buff[3] % 10) != 0)
+					{
+						clear_digit(&local_address_set_buff[3]);
+					}
+					else
+					{
+						local_address_set_buff[3] -= 10;
+					}
+				}
 				num_to_string(num_string, local_address_set_buff[3]);
 				lcd_show_str_8x16(5, 185, num_string);
 			}
@@ -1481,6 +1596,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&subnet_mask_set_buff[0]);
+					subnet_mask_set_buff[0] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((subnet_mask_set_buff[0] % 10) != 0)
+					{
+						clear_digit(&subnet_mask_set_buff[0]);
+					}
+					else
+					{
+						subnet_mask_set_buff[0] -= 10;
+					}
+				}
 				num_to_string(num_string, subnet_mask_set_buff[0]);
 				lcd_show_str_8x16(8, 89, num_string);
 			}
@@ -1493,6 +1624,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&subnet_mask_set_buff[1]);
+					subnet_mask_set_buff[1] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((subnet_mask_set_buff[1] % 10) != 0)
+					{
+						clear_digit(&subnet_mask_set_buff[1]);
+					}
+					else
+					{
+						subnet_mask_set_buff[1] -= 10;
+					}
+				}
 				num_to_string(num_string, subnet_mask_set_buff[1]);
 				lcd_show_str_8x16(8, 121, num_string);
 			}
@@ -1505,6 +1652,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&subnet_mask_set_buff[2]);
+					subnet_mask_set_buff[2] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((subnet_mask_set_buff[2] % 10) != 0)
+					{
+						clear_digit(&subnet_mask_set_buff[2]);
+					}
+					else
+					{
+						subnet_mask_set_buff[2] -= 10;
+					}
+				}
 				num_to_string(num_string, subnet_mask_set_buff[2]);
 				lcd_show_str_8x16(8, 153, num_string);
 			}
@@ -1517,6 +1680,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&subnet_mask_set_buff[3]);
+					subnet_mask_set_buff[3] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((subnet_mask_set_buff[3] % 10) != 0)
+					{
+						clear_digit(&subnet_mask_set_buff[3]);
+					}
+					else
+					{
+						subnet_mask_set_buff[3] -= 10;
+					}
+				}
 				num_to_string(num_string, subnet_mask_set_buff[3]);
 				lcd_show_str_8x16(8, 185, num_string);
 			}
@@ -1529,6 +1708,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&gateway_address_set_buff[0]);
+					gateway_address_set_buff[0] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((gateway_address_set_buff[0] % 10) != 0)
+					{
+						clear_digit(&gateway_address_set_buff[0]);
+					}
+					else
+					{
+						gateway_address_set_buff[0] -= 10;
+					}
+				}
 				num_to_string(num_string, gateway_address_set_buff[0]);
 				lcd_show_str_8x16(11, 89, num_string);
 			}
@@ -1541,6 +1736,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&gateway_address_set_buff[1]);
+					gateway_address_set_buff[1] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((gateway_address_set_buff[1] % 10) != 0)
+					{
+						clear_digit(&gateway_address_set_buff[1]);
+					}
+					else
+					{
+						gateway_address_set_buff[1] -= 10;
+					}
+				}
 				num_to_string(num_string, gateway_address_set_buff[1]);
 				lcd_show_str_8x16(11, 121, num_string);
 			}
@@ -1553,6 +1764,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&gateway_address_set_buff[2]);
+					gateway_address_set_buff[2] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((gateway_address_set_buff[2] % 10) != 0)
+					{
+						clear_digit(&gateway_address_set_buff[2]);
+					}
+					else
+					{
+						gateway_address_set_buff[2] -= 10;
+					}
+				}
 				num_to_string(num_string, gateway_address_set_buff[2]);
 				lcd_show_str_8x16(11, 153, num_string);
 			}
@@ -1565,6 +1792,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&gateway_address_set_buff[3]);
+					gateway_address_set_buff[3] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((gateway_address_set_buff[3] % 10) != 0)
+					{
+						clear_digit(&gateway_address_set_buff[3]);
+					}
+					else
+					{
+						gateway_address_set_buff[3] -= 10;
+					}
+				}
 				num_to_string(num_string, gateway_address_set_buff[3]);
 				lcd_show_str_8x16(11, 185, num_string);
 			}
@@ -1581,6 +1824,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit_word(&remote_port_set_buff);
+					remote_port_set_buff += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((remote_port_set_buff % 10) != 0)
+					{
+						clear_digit_word(&remote_port_set_buff);
+					}
+					else
+					{
+						remote_port_set_buff -= 10;
+					}
+				}
 				port_to_string(port_string, remote_port_set_buff);
 				lcd_show_str_8x16(7, 89, port_string);
 			}
@@ -1593,6 +1852,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&remote_address_set_buff[0]);
+					remote_address_set_buff[0] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((remote_address_set_buff[0] % 10) != 0)
+					{
+						clear_digit(&remote_address_set_buff[0]);
+					}
+					else
+					{
+						remote_address_set_buff[0] -= 10;
+					}
+				}
 				num_to_string(num_string, remote_address_set_buff[0]);
 				lcd_show_str_8x16(10, 89, num_string);
 			}
@@ -1605,6 +1880,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&remote_address_set_buff[1]);
+					remote_address_set_buff[1] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((remote_address_set_buff[1] % 10) != 0)
+					{
+						clear_digit(&remote_address_set_buff[1]);
+					}
+					else
+					{
+						remote_address_set_buff[1] -= 10;
+					}
+				}
 				num_to_string(num_string, remote_address_set_buff[1]);
 				lcd_show_str_8x16(10, 121, num_string);
 			}
@@ -1617,6 +1908,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&remote_address_set_buff[2]);
+					remote_address_set_buff[2] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((remote_address_set_buff[2] % 10) != 0)
+					{
+						clear_digit(&remote_address_set_buff[2]);
+					}
+					else
+					{
+						remote_address_set_buff[2] -= 10;
+					}
+				}
 				num_to_string(num_string, remote_address_set_buff[2]);
 				lcd_show_str_8x16(10, 153, num_string);
 			}
@@ -1629,6 +1936,22 @@ void dynamic_lcd_process(void)
 		{
 			if(toogle_mask)
 			{
+				if(value_continuous_add_flag)
+				{
+					clear_digit(&remote_address_set_buff[3]);
+					remote_address_set_buff[3] += 10;
+				}
+				else if(value_continuous_sub_flag)
+				{
+					if((remote_address_set_buff[3] % 10) != 0)
+					{
+						clear_digit(&remote_address_set_buff[3]);
+					}
+					else
+					{
+						remote_address_set_buff[3] -= 10;
+					}
+				}				
 				num_to_string(num_string, remote_address_set_buff[3]);
 				lcd_show_str_8x16(10, 185, num_string);
 			}

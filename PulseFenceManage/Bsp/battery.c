@@ -24,17 +24,17 @@ uint8_t charged_flag = 1;		//ÿ��һ�ε�  �ı�������1  �
 //*******����:cmd��RELAY_ON :����̵���  RELAY_OFF:�رռ̵���
 //*******����ֵ:��
 /***********************************************************************/
-void relay_battery(uint8_t cmd)
-{
-	if(cmd == RELAY_ON)
-	{
-		HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_SET);
-	}
-	else if(cmd == RELAY_OFF)
-	{
-		HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_RESET);
-	}
-}
+//void relay_battery(uint8_t cmd)
+//{
+//	if(cmd == RELAY_ON)
+//	{
+//		HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_SET);
+//	}
+//	else if(cmd == RELAY_OFF)
+//	{
+//		HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port, RELAY_BAT_Pin, GPIO_PIN_RESET);
+//	}
+//}
 
 /***********************************************************************/
 //*******������:uint8_t ac_detect(void)
@@ -45,7 +45,42 @@ void relay_battery(uint8_t cmd)
 /***********************************************************************/
 uint8_t ac_detect(void)
 {
-	return (uint8_t)HAL_GPIO_ReadPin(AC_DETECT_GPIO_Port, AC_DETECT_Pin);
+	ADC_ChannelConfTypeDef sConfig;
+	float reference_voltage = 1.24f;		//�ο���ѹ
+//	uint16_t max_value = 4096;
+	uint16_t get_value;
+	uint16_t vref_value;
+	float get_voltage;
+	
+	sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+	sConfig.Offset = 0;
+	
+  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, 10);
+	get_value = (uint16_t)HAL_ADC_GetValue(&hadc1);
+	
+	sConfig.Channel = ADC_CHANNEL_10;
+	
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, 10);
+	vref_value = (uint16_t)HAL_ADC_GetValue(&hadc1);
+	
+	get_voltage = (float)(reference_voltage*get_value/vref_value);
+	
+	if(get_voltage >= 2.5f)
+	{
+		return AC_CONNECTED;
+	}
+	else
+	{
+		return AC_DISCONNECTED;
+	}
+	
+//	return (uint8_t)HAL_GPIO_ReadPin(AC_DETECT_GPIO_Port, AC_DETECT_Pin);
 }
 
 /***********************************************************************/
@@ -86,7 +121,7 @@ float get_battery_voltage(void)
 	
 //	get_voltage = (float)(reference_voltage / max_value * get_value);
 	
-	battery_voltage = get_voltage * 5.0f;
+	battery_voltage = get_voltage * 4.66666666f;
 	
 	return battery_voltage;
 }

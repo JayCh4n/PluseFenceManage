@@ -16,7 +16,7 @@
 
 extern uint8_t bettery_manage_mask;
 
-void relay_battery(uint8_t cmd);
+//void relay_battery(uint8_t cmd);
 uint8_t ac_detect(void);
 float get_battery_voltage(void);
 void bettery_manage_process(void);

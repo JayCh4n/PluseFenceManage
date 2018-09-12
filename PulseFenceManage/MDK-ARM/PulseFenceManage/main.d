@@ -87,3 +87,4 @@ pulsefencemanage\main.o: ..\Bsp\keyboard.h
 pulsefencemanage\main.o: ..\Bsp\battery.h
 pulsefencemanage\main.o: ..\Bsp\max485.h
 pulsefencemanage\main.o: ..\Bsp\sim800c.h
+pulsefencemanage\main.o: ../Inc/flash.h

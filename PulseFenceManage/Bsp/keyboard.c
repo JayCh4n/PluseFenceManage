@@ -4,13 +4,24 @@ uint8_t key_sta[5] = {1, 1, 1, 1, 1};					//按键状态 1：抬起 0：按下
 uint8_t long_press_sta[5] = {0, 0, 0, 0, 0};	//按键长按状态	0：未长按 1：长按
 uint8_t pre_long_press_sta[5] = {0, 0, 0, 0, 0};
 
+static void long_press_key2_action(void)
+{
+	value_continuous_add_flag = 1; //数据连加标志位  dynamic_lcd_process(void)，每次屏闪时加10
+}
+
+static void long_press_key4_action(void)
+{
+	value_continuous_sub_flag = 1; //数据连减标志位  dynamic_lcd_process(void)，每次屏闪时减10
+}
+
 /***********************************************************************/
-//*******函数名:long_press_key1_action()
-//*******用途:长按按键1动作
+//*******函数名:long_press_key5_action()
+//*******用途:长按按键5动作
 //*******说明:
 //*******参数:
 //*******返回值:无
 /***********************************************************************/
+
 static void long_press_key5_action(void)
 {
 	if(page_sta == IN_MAIN_PAGE)	/*如果是在主界面并且在撤防状态下长按按键5，则进入菜单*/
@@ -135,18 +146,18 @@ static void short_press_key2_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE1_ID)
 		{
-			if(++zone_struct_set_buff.zone1_id > 999)
+			if(++zone_struct_set_buff.zone1_id == 0)
 			{
-				zone_struct_set_buff.zone1_id = 999;			//按上键防区id加一  最大可设999
+				zone_struct_set_buff.zone1_id = 1;			//按上键防区id加一  最大可设999
 			}
 			num_to_string(num_string, zone_struct_set_buff.zone1_id);
 			lcd_show_str_8x16(7, 105, num_string);
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE2_ID)
 		{
-			if(++zone_struct_set_buff.zone2_id > 999)
+			if(++zone_struct_set_buff.zone2_id == 0)
 			{
-				zone_struct_set_buff.zone2_id = 999;			//按上键防区id加一  最大可设999
+				zone_struct_set_buff.zone2_id = 1;			//按上键防区id加一  最大可设999
 			}
 			num_to_string(num_string, zone_struct_set_buff.zone2_id);
 			lcd_show_str_8x16(10, 105, num_string);
@@ -1028,9 +1039,9 @@ static void long_press_action(uint8_t key_num)
 	switch(key_num)
 	{
 		case 0:		break;
-		case 1:	 	break;
+		case 1:	long_press_key2_action(); break;
 		case 2:		break;
-		case 3:		break;
+		case 3:	long_press_key4_action();	break;
 		case 4:	long_press_key5_action(); break;
 		default:  break;
 	}
@@ -1059,7 +1070,9 @@ void key_drive(void)
 				{
 					if(pre_long_press_sta[i])				//防止长按抬起时触发短按功能
 					{
-						pre_long_press_sta[i] = 0;		
+						pre_long_press_sta[i] = 0;
+						value_continuous_add_flag = 0;
+						value_continuous_sub_flag = 0;
 					}
 					else
 					{
@@ -1079,8 +1092,15 @@ void key_scan(void)
 
 	for(i=0; i<5; i++)
 	{
-		key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (i+7)) & 0x01);	//读取io状态
-		
+		if(i == 0)
+		{
+			key_buff[i] = (key_buff[i] << 1) | HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10);	//KEY1
+		}
+		else
+		{
+			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (16-i)) & 0x01);	//读取io状态	KEY 2 - 5
+		}
+
 		if(key_buff[i] == 0xFF)				//如果8次检测都为高电平 则认为抬起	定时器定时每1ms扫描一次
 		{
 			key_sta[i] = 1;

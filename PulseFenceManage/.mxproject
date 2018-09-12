@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/123/Desktop/PulseFenceManageV1R1/Inc
+HeaderPath=E:/周界报警/程序/PluseFenceManage/PulseFenceManage/Inc
 HeaderFiles=stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;lwip.h;lwipopts.h;ethernetif.h;
-SourcePath=C:/Users/123/Desktop/PulseFenceManageV1R1/Src
+SourcePath=E:/周界报警/程序/PluseFenceManage/PulseFenceManage/Src
 SourceFiles=stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;lwip.c;ethernetif.c;
 
 [PreviousLibFiles]

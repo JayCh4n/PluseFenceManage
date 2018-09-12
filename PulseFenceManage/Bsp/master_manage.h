@@ -51,8 +51,8 @@ typedef enum{
 typedef struct
 {
 	zone_type_def zone_type;
-	uint16_t zone1_id;
-	uint16_t zone2_id;
+	uint8_t zone1_id;
+	uint8_t zone2_id;
 	zone_mode_def zone_mode;
 	zone_voltage_level_def zone_voltage_level;
 	zone_status_def zone1_sta;
