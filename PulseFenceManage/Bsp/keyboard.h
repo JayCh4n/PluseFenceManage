@@ -6,6 +6,7 @@
 #include "display.h"
 #include "master_manage.h"
 #include "lwip.h"
+#include "flash.h"
 
 void key_action(uint8_t key_num);
 void key_drive(void);

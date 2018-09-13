@@ -84,3 +84,4 @@ pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lw
 pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\master_manage.o: ..\Bsp\alarm.h
 pulsefencemanage\master_manage.o: ..\Bsp\display.h
+pulsefencemanage\master_manage.o: ../Inc/flash.h

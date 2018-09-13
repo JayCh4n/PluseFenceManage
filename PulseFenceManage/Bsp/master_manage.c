@@ -45,21 +45,31 @@ void uart1_deal(uint8_t *data_package)
 			zone_struct.arm_sta = sta;
 			led_arming(sta);
 			break;
-		case SINGLE_DOUBLE_ZONE: 
+		case SINGLE_DOUBLE_ZONE:
 			zone_struct.zone_type = (zone_type_def)sta;
 			zone_struct_set_buff.zone2_sta = (zone_status_def)(zone_struct.arm_sta+5);	//防止在不同状态下切换单双防区 造成下次开启双防区时 主界面显示防区2状态不正确
+//			flash_data_struct.flash_zone_type = (uint8_t)zone_struct.zone_type;
+//			write_flash_flag = 1;
 			break;
 		case HIGH_LOW_VOLTAGE: 
 			zone_struct_set_buff.zone_voltage_level = (zone_voltage_level_def)sta;
+			flash_data_struct.flash_voltage_level = (uint8_t)zone_struct_set_buff.zone_voltage_level;
+			write_flash_flag = 1;
 			break;
 		case ZONE1_SENSITIVITY:
 			zone_struct_set_buff.zone1_sensitivity = (zone_sensitivity_def)sta;
+			flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct_set_buff.zone1_sensitivity;
+			write_flash_flag = 1;
 			break;
 		case ZONE2_SENSITIVITY:
 			zone_struct_set_buff.zone2_sensitivity = (zone_sensitivity_def)sta;
+			flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct_set_buff.zone2_sensitivity;
+			write_flash_flag = 1;
 			break;
 		case TOUCH_NET_MODE:
 			zone_struct_set_buff.zone_mode = (zone_mode_def)sta;
+			flash_data_struct.flash_zone_mode = (uint8_t)zone_struct_set_buff.zone_mode;
+			write_flash_flag = 1;
 			break;
 		case ZONE1_STA:
 			if(!sta)

@@ -39,9 +39,8 @@ pulsefencemanage\keyboard.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_u
 pulsefencemanage\keyboard.o: ..\Bsp\display.h
 pulsefencemanage\keyboard.o: ..\Bsp\master_manage.h
 pulsefencemanage\keyboard.o: ..\Bsp\display.h
-pulsefencemanage\keyboard.o: ../Inc/tcp_client.h
-pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pulsefencemanage\keyboard.o: ../Inc/flash.h
+pulsefencemanage\keyboard.o: ..\Bsp\master_manage.h
 pulsefencemanage\keyboard.o: ../Inc/lwip.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h
 pulsefencemanage\keyboard.o: ../Inc/lwipopts.h
@@ -49,6 +48,7 @@ pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/de
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/system/arch/cc.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/system/arch/cpu.h
+pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
@@ -77,6 +77,8 @@ pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/netif/e
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\keyboard.o: ../Inc/ethernetif.h
+pulsefencemanage\keyboard.o: ../Inc/tcp_client.h
+pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h

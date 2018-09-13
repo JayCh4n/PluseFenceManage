@@ -139,7 +139,6 @@ int main(void)
   MX_UART4_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  MX_LWIP_Init();
   MX_USART6_UART_Init();
 
   /* Initialize interrupts */
@@ -152,6 +151,8 @@ int main(void)
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
 //	__HAL_RCC_PWR_CLK_ENABLE();
 	
+	read_data_from_flash();
+	MX_LWIP_Init();
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
@@ -186,6 +187,7 @@ int main(void)
 		key_drive();
 		demolition_detect_process();
 		bettery_manage_process();
+		write_flash_process(10);
   }
   /* USER CODE END 3 */
 

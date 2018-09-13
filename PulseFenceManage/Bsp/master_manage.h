@@ -4,6 +4,7 @@
 #include "main.h"
 #include "stm32f4xx_hal.h"
 #include "display.h"
+#include "flash.h"
 
 /*·ÀÇø¿ØÖÆÃüÁî*/
 typedef enum{

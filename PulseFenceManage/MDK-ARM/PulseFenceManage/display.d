@@ -38,9 +38,8 @@ pulsefencemanage\display.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ti
 pulsefencemanage\display.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 pulsefencemanage\display.o: ..\Bsp\master_manage.h
 pulsefencemanage\display.o: ..\Bsp\display.h
-pulsefencemanage\display.o: ../Inc/tcp_client.h
-pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pulsefencemanage\display.o: ../Inc/flash.h
+pulsefencemanage\display.o: ..\Bsp\master_manage.h
 pulsefencemanage\display.o: ../Inc/lwip.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h
 pulsefencemanage\display.o: ../Inc/lwipopts.h
@@ -48,6 +47,7 @@ pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/deb
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/system/arch/cc.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/system/arch/cpu.h
+pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
@@ -76,6 +76,8 @@ pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/netif/et
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\display.o: ../Inc/ethernetif.h
+pulsefencemanage\display.o: ../Inc/tcp_client.h
+pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h

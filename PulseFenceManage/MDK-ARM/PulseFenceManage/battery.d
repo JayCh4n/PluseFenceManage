@@ -39,9 +39,8 @@ pulsefencemanage\battery.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ua
 pulsefencemanage\battery.o: ..\Bsp\display.h
 pulsefencemanage\battery.o: ..\Bsp\master_manage.h
 pulsefencemanage\battery.o: ..\Bsp\display.h
-pulsefencemanage\battery.o: ../Inc/tcp_client.h
-pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pulsefencemanage\battery.o: ../Inc/flash.h
+pulsefencemanage\battery.o: ..\Bsp\master_manage.h
 pulsefencemanage\battery.o: ../Inc/lwip.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h
 pulsefencemanage\battery.o: ../Inc/lwipopts.h
@@ -49,6 +48,7 @@ pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/deb
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/system/arch/cc.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/system/arch/cpu.h
+pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
@@ -77,6 +77,8 @@ pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/netif/et
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\battery.o: ../Inc/ethernetif.h
+pulsefencemanage\battery.o: ../Inc/tcp_client.h
+pulsefencemanage\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
