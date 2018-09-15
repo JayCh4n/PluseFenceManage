@@ -7,6 +7,7 @@
 #include "lwip.h"
 #include "alarm.h"
 #include "display.h"
+#include "flash.h"
 
 #define MAX485_1		1
 #define MAX485_2		2
@@ -27,7 +28,8 @@ typedef enum
 	MODIFY_ZONE_SENSITIVITY,		//23 防区灵敏度修改命令 -- 防区（0：双防区，1：1防区，2：2防区  1byte）、灵敏度（1）
 	MODIFY_ALARM_DELAY,					//24 告警延时修改命令	-- 延时时间/秒（1）
 	MODIFY_TRIGGER_DELAY,				//25 触发延时修改命令	-- 延时时间/秒 (1)
-	MODIFY_ARM_DISARM						//26 布防/撤防命令 -- 布防/撤防（1）
+	MODIFY_ARM_DISARM,					//26 布防/撤防命令 -- 布防/撤防（1）
+	TMING_CMD										//27
 }MAX485_1_cmd_def;
 
 void max485_send_str(uint8_t device, uint8_t *str, uint16_t lenth);

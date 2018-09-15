@@ -804,13 +804,9 @@ static void short_press_key5_action(void)
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
 			page_sta = IN_MENU_PAGE;	//页面状态切换为菜单页
 			
-//			zone_struct.zone_type = zone_struct_set_buff.zone_type;
 			set_ctrl_unit(SINGLE_DOUBLE_ZONE, (uint8_t)zone_struct_set_buff.zone_type);
 			zone_struct.zone1_id = zone_struct_set_buff.zone1_id;
 			zone_struct.zone2_id = zone_struct_set_buff.zone2_id;			//返回不保存设定数据
-			flash_data_struct.flash_zone1_id = zone_struct_set_buff.zone1_id;
-			flash_data_struct.flash_zone2_id = zone_struct_set_buff.zone2_id;
-			write_flash_flag = 1;
 		}
 	}
 	
@@ -928,6 +924,7 @@ static void short_press_key5_action(void)
 				
 			}			
 			local_network_set(IP_ADDRESS, NETMASK_ADDRESS, GATEWAY_ADDRESS);
+			write_flash_time_cnt = 0;
 			write_flash_flag = 1;
 			
 			lcd_show_menu_page();				//显示菜单页
@@ -1004,6 +1001,7 @@ static void short_press_key5_action(void)
 				flash_data_struct.flash_remote_ip[i] = tcp_remoteip[i] = remote_address_set_buff[i];
 			}
 			remote_network_set(tcp_remoteip, tcp_port_num);
+			write_flash_time_cnt = 0;
 			write_flash_flag = 1;
 			
 			lcd_show_menu_page();				//显示菜单页

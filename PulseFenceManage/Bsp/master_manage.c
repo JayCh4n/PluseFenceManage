@@ -26,6 +26,8 @@ uint8_t remote_address_set_buff[4] = {192,168,19,110};
 
 uint16_t remote_port_set_buff = 8999;
 
+uint8_t init_ctrl_unit_flag = 0;
+
 void uart1_deal(uint8_t *data_package)
 {
 //	uint8_t package_lenth;
@@ -46,30 +48,72 @@ void uart1_deal(uint8_t *data_package)
 			led_arming(sta);
 			break;
 		case SINGLE_DOUBLE_ZONE:
-			zone_struct.zone_type = (zone_type_def)sta;
-			zone_struct_set_buff.zone2_sta = (zone_status_def)(zone_struct.arm_sta+5);	//防止在不同状态下切换单双防区 造成下次开启双防区时 主界面显示防区2状态不正确
-//			flash_data_struct.flash_zone_type = (uint8_t)zone_struct.zone_type;
-//			write_flash_flag = 1;
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				zone_struct.zone_type = (zone_type_def)sta;
+				zone_struct_set_buff.zone2_sta = (zone_status_def)(zone_struct.arm_sta+5);	//防止在不同状态下切换单双防区 造成下次开启双防区时 主界面显示防区2状态不
+				flash_data_struct.flash_zone1_id = zone_struct_set_buff.zone1_id;
+				flash_data_struct.flash_zone2_id = zone_struct_set_buff.zone2_id;
+				flash_data_struct.flash_zone_type = (uint8_t)zone_struct.zone_type;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;
+			}
 			break;
-		case HIGH_LOW_VOLTAGE: 
-			zone_struct_set_buff.zone_voltage_level = (zone_voltage_level_def)sta;
-			flash_data_struct.flash_voltage_level = (uint8_t)zone_struct_set_buff.zone_voltage_level;
-			write_flash_flag = 1;
+		case HIGH_LOW_VOLTAGE:
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				zone_struct_set_buff.zone_voltage_level = (zone_voltage_level_def)sta;
+				flash_data_struct.flash_voltage_level = (uint8_t)zone_struct_set_buff.zone_voltage_level;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;				
+			}
 			break;
 		case ZONE1_SENSITIVITY:
-			zone_struct_set_buff.zone1_sensitivity = (zone_sensitivity_def)sta;
-			flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct_set_buff.zone1_sensitivity;
-			write_flash_flag = 1;
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				zone_struct_set_buff.zone1_sensitivity = (zone_sensitivity_def)sta;
+				flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct_set_buff.zone1_sensitivity;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;	
+			}
 			break;
 		case ZONE2_SENSITIVITY:
-			zone_struct_set_buff.zone2_sensitivity = (zone_sensitivity_def)sta;
-			flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct_set_buff.zone2_sensitivity;
-			write_flash_flag = 1;
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				zone_struct_set_buff.zone2_sensitivity = (zone_sensitivity_def)sta;
+				flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct_set_buff.zone2_sensitivity;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;				
+			}
 			break;
 		case TOUCH_NET_MODE:
-			zone_struct_set_buff.zone_mode = (zone_mode_def)sta;
-			flash_data_struct.flash_zone_mode = (uint8_t)zone_struct_set_buff.zone_mode;
-			write_flash_flag = 1;
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				zone_struct_set_buff.zone_mode = (zone_mode_def)sta;
+				flash_data_struct.flash_zone_mode = (uint8_t)zone_struct_set_buff.zone_mode;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;
+			}
 			break;
 		case ZONE1_STA:
 			if(!sta)
@@ -128,7 +172,100 @@ void set_ctrl_unit(zone_ctrl_cmd_def cmd, uint8_t data)
 	HAL_UART_Transmit(&huart1,uart1_tx_data,7,1000);
 }
 
+/*开机从flash读取到数据后  发送给控制单元*/
+void init_control_uint(void)
+{
+	uint32_t i = 0;
+	uint8_t set_cnt; //设定计数  尝试发送5次没返回  break;
 
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(SINGLE_DOUBLE_ZONE, (uint8_t)zone_struct.zone_type);
+		init_ctrl_unit_flag = 1;
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}
+	}while(init_ctrl_unit_flag);
+	
+	set_cnt = 0;
+	
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(TOUCH_NET_MODE, (uint8_t)zone_struct.zone_mode);
+		init_ctrl_unit_flag = 1;		
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}		
+	}while(init_ctrl_unit_flag);
+
+	set_cnt = 0;
+	
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(HIGH_LOW_VOLTAGE, (uint8_t)zone_struct.zone_voltage_level);
+		init_ctrl_unit_flag = 1;		
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}		
+	}while(init_ctrl_unit_flag);
+
+	set_cnt = 0;
+	
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(ZONE1_SENSITIVITY, (uint8_t)zone_struct.zone1_sensitivity);
+		init_ctrl_unit_flag = 1;		
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}		
+	}while(init_ctrl_unit_flag);
+	
+	set_cnt = 0;
+	
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(ZONE2_SENSITIVITY, (uint8_t)zone_struct.zone2_sensitivity);
+		init_ctrl_unit_flag = 1;	
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}
+	}while(init_ctrl_unit_flag);
+}
 
 
 

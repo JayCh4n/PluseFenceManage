@@ -3,6 +3,10 @@
 uint8_t demolition_detect_mask = 0; //定时器计时防拆检测标志 
 uint8_t demolition_sta = DISDEMOLITED;
 
+uint8_t zone1_alarm_reset_flag = 0;
+uint8_t zone2_alarm_reset_flag = 0;
+uint8_t demolition_alarm_reset_flag = 0;
+
 void relay_alarm(uint8_t zone_num, uint8_t cmd)
 {
 	if(cmd == RELAY_ON)
@@ -100,7 +104,7 @@ static uint8_t demolition_detect(void)
 {
 	uint8_t sta;	//拆除状态
 	
-	sta = (uint8_t)HAL_GPIO_ReadPin(DISMANTLE_DETECT_GPIO_Port, DISMANTLE_DETECT_Pin);
+	sta = (uint8_t)!HAL_GPIO_ReadPin(DISMANTLE_DETECT_GPIO_Port, DISMANTLE_DETECT_Pin);
 	
 	return sta;
 }
@@ -128,7 +132,6 @@ void demolition_detect_process(void)
 	if((demolition_sta = demolition_detect()) != pre_demolition_sta)
 	{
 		pre_demolition_sta = demolition_sta;
-		
 		if(demolition_sta == DEMOLITED)
 		{
 			//当防区1没有其他告警时，开启（断开）防区1告警继电器
@@ -141,11 +144,7 @@ void demolition_detect_process(void)
 		else if(demolition_sta == DISDEMOLITED)
 		{
 			//当防区1没有其他告警时，关闭（闭合）防区1告警继电器
-			if(zone_struct.zone1_sta == DISARMING || zone_struct.zone1_sta == ARMING)
-			{
-				relay_alarm(ZONE1, RELAY_ON);
-			}
-			led_dismantle(LED_OFF);
+			demolition_alarm_reset_flag = 1;
 		}
 	}
 }

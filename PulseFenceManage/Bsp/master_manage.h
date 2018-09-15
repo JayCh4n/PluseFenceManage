@@ -77,6 +77,6 @@ extern uint16_t remote_port_set_buff;
 
 void uart1_deal(uint8_t *data_package);
 void set_ctrl_unit(uint8_t cmd, uint8_t data);
-
+void init_control_uint(void);
 #endif /*__MASTER_MANAGE_H*/
 

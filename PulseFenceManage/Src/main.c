@@ -147,9 +147,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim1);
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
-//	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
+	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
-//	__HAL_RCC_PWR_CLK_ENABLE();
 	
 	read_data_from_flash();
 	MX_LWIP_Init();
@@ -158,26 +157,14 @@ int main(void)
 	HAL_Delay(500);
 	sim800c_init(5,5);
 	HAL_Delay(2000);
+	init_control_uint();
 	lcd_show_main_page();
-//	HAL_GPIO_WritePin(RELAY_BAT_GPIO_Port,RELAY_BAT_Pin, GPIO_PIN_RESET);      
-//  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);   
-//	get_battery_voltage();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	
-//		max485_send_str(MAX485_1, "NIHAO!", 6);
-//		
-//		HAL_Delay(500);
-//		
-//		max485_send_str(MAX485_2, "HELLO WORLD!", 12);
-//		
-//		HAL_Delay(500);
-//		
-//		HAL_UART_Transmit(&huart6, "AT+CPIN?\n", 10, 1000);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -187,7 +174,7 @@ int main(void)
 		key_drive();
 		demolition_detect_process();
 		bettery_manage_process();
-		write_flash_process(10);
+		write_flash_process();
   }
   /* USER CODE END 3 */
 
@@ -594,6 +581,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t dynamic_lcd_cnt = 0;
 	static uint16_t demolition_detect_cnt = 0;
 	static uint16_t bettery_manage_cnt = 0;
+	static uint16_t zone1_alarm_delay_cnt = 0;
+	static uint16_t zone2_alarm_delay_cnt = 0;
+	static uint16_t demolition_alarm_delay_cnt = 0;
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
   /* NOTE : This function Should not be modified, when the callback is needed,
@@ -625,6 +615,46 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			bettery_manage_cnt = 0;
 			bettery_manage_mask = 1;
+		}
+		
+		if(++write_flash_time_cnt >= 2000)
+		{
+			write_flash_time_cnt = 0;
+			write_flash_time_mask = 1;
+		}
+		
+		if(zone1_alarm_reset_flag)
+		{
+			if(++zone1_alarm_delay_cnt >= 5000)
+			{
+				zone1_alarm_delay_cnt = 0;
+				zone1_alarm_reset_flag = 0;
+				alarm_output(ZONE1, RESET_ALARM);
+			}
+		}
+		
+		if(zone2_alarm_reset_flag)
+		{
+			if(++zone2_alarm_delay_cnt >= 5000)
+			{
+				zone2_alarm_delay_cnt = 0;
+				zone2_alarm_reset_flag = 0;
+				alarm_output(ZONE2, RESET_ALARM);
+			}			
+		}
+		
+		if(demolition_alarm_reset_flag)
+		{
+			if(++demolition_alarm_delay_cnt >= 5000)
+			{
+				demolition_alarm_delay_cnt = 0;
+				demolition_alarm_reset_flag = 0;
+				if(zone_struct.zone1_sta == DISARMING || zone_struct.zone1_sta == ARMING)
+				{
+						relay_alarm(ZONE1, RELAY_ON);
+				}
+				led_dismantle(LED_OFF);
+			}
 		}
 	}
 }
