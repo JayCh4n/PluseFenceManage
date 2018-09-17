@@ -45,6 +45,7 @@ void uart1_deal(uint8_t *data_package)
 				zone_struct_set_buff.zone2_sta = (zone_status_def)(sta+5);
 			}
 			zone_struct.arm_sta = sta;
+			write_flash_time_cnt = 0;
 			led_arming(sta);
 			break;
 		case SINGLE_DOUBLE_ZONE:

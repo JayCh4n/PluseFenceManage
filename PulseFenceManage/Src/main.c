@@ -581,8 +581,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t dynamic_lcd_cnt = 0;
 	static uint16_t demolition_detect_cnt = 0;
 	static uint16_t bettery_manage_cnt = 0;
-	static uint16_t zone1_alarm_delay_cnt = 0;
-	static uint16_t zone2_alarm_delay_cnt = 0;
 	static uint16_t demolition_alarm_delay_cnt = 0;
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
@@ -591,6 +589,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
    */
 	if(htim->Instance == htim1.Instance)
 	{
+		HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		HAL_UART_Receive_IT(&huart2, &max485_1_receivebuf, 1);
+		HAL_UART_Receive_IT(&huart6, &uart6_rx_buff, 1);
+		
 		key_scan();
 		
 		if(++connect_to_server_cnt >= 2000)
@@ -617,7 +619,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			bettery_manage_mask = 1;
 		}
 		
-		if(++write_flash_time_cnt >= 2000)
+		if(++write_flash_time_cnt >= 6000)
 		{
 			write_flash_time_cnt = 0;
 			write_flash_time_mask = 1;

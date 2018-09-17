@@ -2051,9 +2051,12 @@ void lcd_update_main_page_process(void)
 		if((zone_struct.zone2_sta != DISARMING) && (zone_struct.zone2_sta != ARMING))
 		{
 			alarm_output(ZONE2, SET_ALARM);
+			zone2_alarm_reset_flag = 0;
+			zone2_alarm_delay_cnt = 0;
 		}
 		else
 		{
+			zone2_alarm_delay_cnt = 0;
 			zone2_alarm_reset_flag = 1;
 		}
 		

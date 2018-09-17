@@ -7,6 +7,9 @@ uint8_t zone1_alarm_reset_flag = 0;
 uint8_t zone2_alarm_reset_flag = 0;
 uint8_t demolition_alarm_reset_flag = 0;
 
+uint16_t zone1_alarm_delay_cnt = 0;
+uint16_t zone2_alarm_delay_cnt = 0;
+
 void relay_alarm(uint8_t zone_num, uint8_t cmd)
 {
 	if(cmd == RELAY_ON)
@@ -135,6 +138,7 @@ void demolition_detect_process(void)
 		if(demolition_sta == DEMOLITED)
 		{
 			//当防区1没有其他告警时，开启（断开）防区1告警继电器
+			demolition_alarm_reset_flag = 0;
 			if(zone_struct.zone1_sta == DISARMING || zone_struct.zone1_sta == ARMING)
 			{
 				relay_alarm(ZONE1, RELAY_OFF);

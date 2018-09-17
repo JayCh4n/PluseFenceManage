@@ -288,30 +288,34 @@ void max_485_1_deal(uint8_t *data_pakge)
 			max_485_1_return_set_ok((uint8_t)cmd);
 			break;
 		case TMING_CMD:
-			set_ctrl_unit(ZONE1_SENSITIVITY, data_pakge[9]);
-			if(zone_struct.zone_type == DOUBLE_ZONE)		//全防区设定
-			{						
-				while(++i <= 750000)
-				{
-					HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-				}
-				set_ctrl_unit(ZONE2_SENSITIVITY, data_pakge[9]);
-			}
-			
-			while(++i <= 750000)
-			{
-				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-			}
-			
-			set_ctrl_unit(HIGH_LOW_VOLTAGE, data_pakge[10]);
-
-			while(++i <= 750000)
-			{
-				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-			}
-			
-			set_ctrl_unit(AMING_DISARM, data_pakge[8]);
-			max_485_1_return_set_ok((uint8_t)cmd);
+//			set_ctrl_unit(ZONE1_SENSITIVITY, data_pakge[9]);
+//			if(zone_struct.zone_type == DOUBLE_ZONE)		//全防区设定
+//			{						
+//				while(++i <= 750000)
+//				{
+//					HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+//				}
+//				set_ctrl_unit(ZONE2_SENSITIVITY, data_pakge[9]);
+//			}
+//			
+//			i = 0;
+//			
+//			while(++i <= 750000)
+//			{
+//				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+//			}
+//			
+//			set_ctrl_unit(HIGH_LOW_VOLTAGE, data_pakge[10]);
+//			
+//			i = 0;
+//			while(++i <= 750000)
+//			{
+//				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+//			}
+//			
+//			set_ctrl_unit(AMING_DISARM, data_pakge[8]);
+//			
+//			max_485_1_return_set_ok((uint8_t)cmd);
 			break;
 		default:	break;
 	}
