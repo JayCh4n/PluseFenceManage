@@ -1000,7 +1000,7 @@ static void short_press_key5_action(void)
 			{
 				flash_data_struct.flash_remote_ip[i] = tcp_remoteip[i] = remote_address_set_buff[i];
 			}
-//			remote_network_set(tcp_remoteip, tcp_port_num);
+//			tcp_remote_network_set(tcp_remoteip, tcp_port_num);
 			write_flash_time_cnt = 0;
 			write_flash_flag = 1;
 			

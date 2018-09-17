@@ -72,6 +72,7 @@ pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/tcp.h
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/raw.h
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/snmp.h
 pulsefencemanage\netif.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/igmp.h

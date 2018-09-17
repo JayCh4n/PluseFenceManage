@@ -89,3 +89,6 @@ pulsefencemanage\main.o: ..\Bsp\keyboard.h
 pulsefencemanage\main.o: ..\Bsp\battery.h
 pulsefencemanage\main.o: ..\Bsp\max485.h
 pulsefencemanage\main.o: ..\Bsp\sim800c.h
+pulsefencemanage\main.o: ../Inc/udp_client.h
+pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h

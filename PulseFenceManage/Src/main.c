@@ -61,6 +61,7 @@
 #include "sim800c.h"
 #include "master_manage.h"
 #include "flash.h"
+#include "udp_client.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -139,7 +140,6 @@ int main(void)
   MX_UART4_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  MX_LWIP_Init();
   MX_USART6_UART_Init();
 
   /* Initialize interrupts */
@@ -153,6 +153,7 @@ int main(void)
 	
 	read_data_from_flash();
 	MX_LWIP_Init();
+	udp_monitor_conf(udp_remote_ip, udp_port_num);
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
@@ -599,7 +600,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(++connect_to_server_cnt >= 2000)
 		{
 			connect_to_server_cnt = 0;
-			connect_to_server_mask = 1;
+			detect_net_sta_mask = 1;
 		}
 		
 		if(++dynamic_lcd_cnt >= 600)

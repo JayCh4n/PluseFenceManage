@@ -70,6 +70,7 @@ pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/raw.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/priv/tcp_priv.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
 pulsefencemanage\init.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h

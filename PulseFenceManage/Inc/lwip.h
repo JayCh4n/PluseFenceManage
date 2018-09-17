@@ -73,6 +73,7 @@
 extern uint8_t IP_ADDRESS[4];
 extern uint8_t NETMASK_ADDRESS[4];
 extern uint8_t GATEWAY_ADDRESS[4];
+extern uint8_t detect_net_sta_mask;
 /* USER CODE END 0 */
 
 /* Global Variables ----------------------------------------------------------*/

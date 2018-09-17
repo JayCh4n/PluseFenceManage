@@ -69,7 +69,7 @@ void _Error_Handler(char * file, int line);
 uint8_t IP_ADDRESS[4] = {192, 168, 19, 10};
 uint8_t NETMASK_ADDRESS[4] = {255, 255, 255, 0};
 uint8_t GATEWAY_ADDRESS[4] = {192, 168, 19, 1};
-
+uint8_t detect_net_sta_mask = 0;					//轮询连接服务器标志 2S
 /* USER CODE END 1 */
 
 /* Variables Initialization */
@@ -220,11 +220,11 @@ void MX_LWIP_Process(void)
 
 /* USER CODE BEGIN 4_3 */
 	
-//	tcp_rx_processing();
+	tcp_rx_processing();
 	
-	if(connect_to_server_mask)															//2s判断一次网线状态 和tcp服务器连接状态	并做相应处理
+	if(detect_net_sta_mask)															//2s判断一次网线状态 和tcp服务器连接状态	并做相应处理
 	{
-		connect_to_server_mask = 0;
+		detect_net_sta_mask = 0;
 		
 		HAL_ETH_ReadPHYRegister(&heth, PHY_BSR, &regvalue);
 		link_sta = (uint8_t)(regvalue >> 2) & 0x01;						//读取phy BSR状态寄存器并获取网线接连状态

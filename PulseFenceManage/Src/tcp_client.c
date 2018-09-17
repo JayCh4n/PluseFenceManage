@@ -2,10 +2,8 @@
 
 uint8_t tcp_remoteip[4] = {192, 168, 19, 110};	//默认远端ip
 uint16_t tcp_port_num = 8999;									//默认连接tcp服务器端口号
-uint8_t connect_to_server_mask = 0;					//轮询连接服务器标志 2S
-
-#if 0
 struct tcp_pcb *tcppcb_temp;
+//struct tcp_client_struct *es_temp;
 
 //tcp接收数据长度
 uint32_t TcpRX_Len=0;		
@@ -26,13 +24,13 @@ const uint8_t *tcp_client_sendbuf = tcp_txd_buff;
 uint8_t tcp_client_flag; //测试全局状态标记变量标志
 
 /***********************************************************************/
-//*******函数名:void remote_network_set()
+//*******函数名:void tcp_remote_network_set()
 //*******用途:远端IP和端口号设定
 //*******说明:
 //*******参数:ipaddr：远端ip地址 port_num: 端口号
 //*******返回值:
 /***********************************************************************/
-void remote_network_set(uint8_t *ipaddr, uint16_t port_num)
+void tcp_remote_network_set(uint8_t *ipaddr, uint16_t port_num)
 {
 	tcp_remoteip[0] = ipaddr[0];
 	tcp_remoteip[1] = ipaddr[1];
@@ -307,7 +305,9 @@ void tcp_rx_processing(void)
 		{
 			switch(tcp_client_recvbuf[2])
 			{
-//				case 0x01:	remote_network_set(tcp_client_recvbuf+3, (*(tcp_client_recvbuf+7)<<8) | (*(tcp_client_recvbuf+8))); break;
+				case 0x01:
+//					tcp_remote_network_set(tcp_client_recvbuf+3, (*(tcp_client_recvbuf+7)<<8) | (*(tcp_client_recvbuf+8))); 
+				break;
 				case 0x02: 	local_network_set(tcp_client_recvbuf+3, tcp_client_recvbuf+7, tcp_client_recvbuf+11);								break;
 				case 0x03:	break;
 				case 0x04:	break;
@@ -325,8 +325,4 @@ void tcp_send_data(uint8_t *data, uint16_t lenth)
 {
 	tcp_write(tcppcb_temp, data, lenth, 1);
 }
-
-#endif /* 屏蔽tcp client程序*/
-
-
 
