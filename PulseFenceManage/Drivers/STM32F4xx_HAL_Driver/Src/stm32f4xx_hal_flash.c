@@ -687,7 +687,7 @@ static void FLASH_Program_HalfWord(uint32_t Address, uint16_t Data)
   CLEAR_BIT(FLASH->CR, FLASH_CR_PSIZE);
   FLASH->CR |= FLASH_PSIZE_HALF_WORD;
   FLASH->CR |= FLASH_CR_PG;
-	
+
   *(__IO uint16_t*)Address = Data;
 }
 

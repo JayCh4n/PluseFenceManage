@@ -76,8 +76,3 @@ pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/sio.h
 pulsefencemanage\lwip.o: ../Inc/tcp_client.h
 pulsefencemanage\lwip.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
-pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
-pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
-pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
-pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
-pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h

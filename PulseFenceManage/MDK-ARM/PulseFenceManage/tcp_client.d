@@ -74,8 +74,3 @@ pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/
 pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\tcp_client.o: ../Inc/ethernetif.h
 pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
-pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
-pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
-pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
-pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
-pulsefencemanage\tcp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h

@@ -80,9 +80,4 @@ pulsefencemanage\alarm.o: ../Inc/ethernetif.h
 pulsefencemanage\alarm.o: ../Inc/tcp_client.h
 pulsefencemanage\alarm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
-pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
-pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
-pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
-pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
-pulsefencemanage\alarm.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\alarm.o: ..\Bsp\alarm.h
