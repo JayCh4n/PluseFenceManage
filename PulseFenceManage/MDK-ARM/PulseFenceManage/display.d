@@ -79,4 +79,9 @@ pulsefencemanage\display.o: ../Inc/ethernetif.h
 pulsefencemanage\display.o: ../Inc/tcp_client.h
 pulsefencemanage\display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
+pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
+pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
+pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
+pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
+pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\display.o: ..\Bsp\alarm.h

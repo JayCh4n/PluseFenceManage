@@ -78,6 +78,11 @@ pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/dhcp
 pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\max485.o: ../Inc/ethernetif.h
 pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
+pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
+pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
+pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
+pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
+pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\max485.o: ..\Bsp\alarm.h
 pulsefencemanage\max485.o: ..\Bsp\display.h
 pulsefencemanage\max485.o: ../Inc/flash.h

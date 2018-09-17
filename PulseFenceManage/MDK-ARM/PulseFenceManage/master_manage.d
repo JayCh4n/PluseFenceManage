@@ -77,6 +77,11 @@ pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lw
 pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h
 pulsefencemanage\master_manage.o: ../Inc/ethernetif.h
 pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
+pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
+pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
+pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
+pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
+pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\master_manage.o: ..\Bsp\alarm.h
 pulsefencemanage\master_manage.o: ..\Bsp\display.h
 pulsefencemanage\master_manage.o: ../Inc/flash.h

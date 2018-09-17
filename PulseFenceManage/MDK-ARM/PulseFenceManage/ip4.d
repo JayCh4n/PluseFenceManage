@@ -72,8 +72,9 @@ pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ic
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/igmp.h
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/raw.h
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
-pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/priv/tcp_priv.h
+pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
+pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/tcp.h
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/autoip.h
 pulsefencemanage\ip4.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/dhcp.h
 pulsefencemanage\ip4.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

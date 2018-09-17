@@ -80,4 +80,9 @@ pulsefencemanage\keyboard.o: ../Inc/ethernetif.h
 pulsefencemanage\keyboard.o: ../Inc/tcp_client.h
 pulsefencemanage\keyboard.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\keyboard.o: ..\Bsp\alarm.h

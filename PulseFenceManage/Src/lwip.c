@@ -77,9 +77,9 @@ struct netif gnetif;
 ip4_addr_t ipaddr;
 ip4_addr_t netmask;
 ip4_addr_t gw;
-uint8_t IP_ADDRESS[4];
-uint8_t NETMASK_ADDRESS[4];
-uint8_t GATEWAY_ADDRESS[4];
+//uint8_t IP_ADDRESS[4];
+//uint8_t NETMASK_ADDRESS[4];
+//uint8_t GATEWAY_ADDRESS[4];
 
 /* USER CODE BEGIN 2 */
 
@@ -139,18 +139,18 @@ void network_cable_reconnect_handle(void)
 void MX_LWIP_Init(void)
 {
   /* IP addresses initialization */
-  IP_ADDRESS[0] = 192;
-  IP_ADDRESS[1] = 168;
-  IP_ADDRESS[2] = 19;
-  IP_ADDRESS[3] = 10;
-  NETMASK_ADDRESS[0] = 255;
-  NETMASK_ADDRESS[1] = 255;
-  NETMASK_ADDRESS[2] = 255;
-  NETMASK_ADDRESS[3] = 0;
-  GATEWAY_ADDRESS[0] = 192;
-  GATEWAY_ADDRESS[1] = 168;
-  GATEWAY_ADDRESS[2] = 19;
-  GATEWAY_ADDRESS[3] = 1;
+//  IP_ADDRESS[0] = 192;
+//  IP_ADDRESS[1] = 168;
+//  IP_ADDRESS[2] = 19;
+//  IP_ADDRESS[3] = 10;
+//  NETMASK_ADDRESS[0] = 255;
+//  NETMASK_ADDRESS[1] = 255;
+//  NETMASK_ADDRESS[2] = 255;
+//  NETMASK_ADDRESS[3] = 0;
+//  GATEWAY_ADDRESS[0] = 192;
+//  GATEWAY_ADDRESS[1] = 168;
+//  GATEWAY_ADDRESS[2] = 19;
+//  GATEWAY_ADDRESS[3] = 1;
   
   /* Initilialize the LwIP stack without RTOS */
   lwip_init();
@@ -243,7 +243,7 @@ void MX_LWIP_Process(void)
 			pre_link_sta = link_sta;									//记录当前网络状态  用于判断下次网络变化
 			if(link_sta)
 			{
-//				network_cable_reconnect_handle();				//如果网线插上 做网线插入处理
+				network_cable_reconnect_handle();				//如果网线插上 做网线插入处理
 			}
 			else
 			{
