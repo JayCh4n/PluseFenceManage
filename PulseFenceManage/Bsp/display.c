@@ -1055,8 +1055,12 @@ void lcd_show_main_page(void)
 	lcd_show_64x16(1, 2, logo_64x16);				//主页面左上角公司标志图标
 //	lcd_show_100x24(1,1, logo_100x24);
 //lcd_show_32x16(1,209,battery_icon_32x16[5]); //电池图标
-	lcd_show_16x16(1,241, communication_icon_16x16);	//通讯图标
-	
+
+	if(communication_sta == COMMUNICATING)
+	{
+		lcd_show_16x16(1,241, communication_icon_16x16);	//通讯图标
+	}
+
 	/*第二行  防区 正线电压 负线电压 状态 模式*/
 	lcd_show_chs_16x16(4, 1, zone_gbk_code, 2);											//防区
 	lcd_show_chs_16x16(4, 41, positive_line_voltage_gbk_code, 4); 	//正线电压
@@ -2128,6 +2132,24 @@ void lcd_update_main_page_process(void)
 			}
 		}
 	}
+	
+	if(page_sta == IN_MAIN_PAGE)
+	{
+		if(pre_communication_sta != communication_sta)
+		{
+			pre_communication_sta = communication_sta;
+			
+			if(communication_sta == COMMUNICATING)
+			{
+				lcd_show_16x16(1, 241, communication_icon_16x16);	//通讯图标
+			}
+			else if(communication_sta == DISCOMMUNICAT)
+			{
+				clear_screen(1, 241, 2, 16);
+			}
+		}	
+	}
+
 }
 
 //void lcd_update_zone_sta(uint8_t zone_num, zone_status_def sta)

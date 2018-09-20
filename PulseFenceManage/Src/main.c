@@ -151,7 +151,7 @@ int main(void)
 	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
 	
-	read_data_from_flash();
+//	read_data_from_flash();
 	MX_LWIP_Init();
 	udp_monitor_conf(udp_remote_ip, udp_port_num);
 	lcd_init();
@@ -176,7 +176,7 @@ int main(void)
 		key_drive();
 		demolition_detect_process();
 		bettery_manage_process();
-		write_flash_process();
+//		write_flash_process();
   }
   /* USER CODE END 3 */
 
@@ -584,6 +584,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t demolition_detect_cnt = 0;
 	static uint16_t bettery_manage_cnt = 0;
 	static uint16_t demolition_alarm_delay_cnt = 0;
+	static uint16_t communication_sta_cnt = 0;
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
   /* NOTE : This function Should not be modified, when the callback is needed,
@@ -659,6 +660,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				}
 				led_dismantle(LED_OFF);
 			}
+		}
+		
+		if(++communication_sta_cnt >= 3000)
+		{
+			communication_sta_cnt = 0;
+			if(!communication_cnt)
+			{
+				communication_sta = DISCOMMUNICAT;
+			}
+			communication_cnt = 0;
 		}
 	}
 }

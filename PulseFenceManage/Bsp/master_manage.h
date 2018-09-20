@@ -6,6 +6,9 @@
 #include "display.h"
 #include "flash.h"
 
+#define COMMUNICATING	1	//通讯
+#define DISCOMMUNICAT	0	//不通讯
+
 /*防区控制命令*/
 typedef enum{
 	AMING_DISARM = 1,					//布防/撤防命令   		数据：0x00 撤防   0x01布防
@@ -74,6 +77,10 @@ extern uint8_t subnet_mask_set_buff[4];
 extern uint8_t gateway_address_set_buff[4];
 extern uint8_t remote_address_set_buff[4];
 extern uint16_t remote_port_set_buff;
+
+extern uint8_t pre_communication_sta;	//上次通讯状态
+extern uint8_t communication_sta;			//当前通讯状态
+extern uint16_t communication_cnt;
 
 void uart1_deal(uint8_t *data_package);
 void set_ctrl_unit(uint8_t cmd, uint8_t data);

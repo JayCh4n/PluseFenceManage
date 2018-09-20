@@ -194,10 +194,12 @@ void max_485_1_deal(uint8_t *data_pakge)
 {
 	uint32_t i;
 	
-	MAX485_1_cmd_def cmd;
+	master_ctrl_cmd_def cmd;
 	uint8_t zone_num; 	// 0:Ë«·ÀÇø 1£º1·ÀÇø  2£º2·ÀÇø
 	
-	cmd = (MAX485_1_cmd_def)data_pakge[6];
+	communication_cnt++;
+	communication_sta = COMMUNICATING;
+	cmd = (master_ctrl_cmd_def)data_pakge[6];
 		
 	switch(cmd)
 	{

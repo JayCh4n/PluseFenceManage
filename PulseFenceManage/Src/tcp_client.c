@@ -1,6 +1,6 @@
 #include "tcp_client.h"
 
-uint8_t tcp_remoteip[4] = {192, 168, 19, 110};	//默认远端ip
+uint8_t tcp_remoteip[4] = {192, 168, 0, 110};	//默认远端ip
 uint16_t tcp_port_num = 8999;									//默认连接tcp服务器端口号
 struct tcp_pcb *tcppcb_temp;
 //struct tcp_client_struct *es_temp;
@@ -305,10 +305,8 @@ void tcp_rx_processing(void)
 		{
 			switch(tcp_client_recvbuf[2])
 			{
-				case 0x01:
-//					tcp_remote_network_set(tcp_client_recvbuf+3, (*(tcp_client_recvbuf+7)<<8) | (*(tcp_client_recvbuf+8))); 
-				break;
-				case 0x02: 	local_network_set(tcp_client_recvbuf+3, tcp_client_recvbuf+7, tcp_client_recvbuf+11);								break;
+				case 0x01:	break;
+				case 0x02: 	break;
 				case 0x03:	break;
 				case 0x04:	break;
 				case 0x05:	break;

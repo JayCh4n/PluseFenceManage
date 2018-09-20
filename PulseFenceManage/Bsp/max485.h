@@ -18,7 +18,7 @@ extern uint8_t max485_1_receivebuf;
 extern uint8_t max485_wait_usart1_flag;
 extern uint8_t max485_wait_usart1_finish;
 
-/*485通讯命令定义（功能码）*/
+/*键盘主机通讯控制命令定义（功能码）*/
 typedef enum
 {
 	INQUIRE_MSTAER_MAG = 1,
@@ -30,7 +30,7 @@ typedef enum
 	MODIFY_TRIGGER_DELAY,				//25 触发延时修改命令	-- 延时时间/秒 (1)
 	MODIFY_ARM_DISARM,					//26 布防/撤防命令 -- 布防/撤防（1）
 	TMING_CMD										//27
-}MAX485_1_cmd_def;
+}master_ctrl_cmd_def;
 
 void max485_send_str(uint8_t device, uint8_t *str, uint16_t lenth);
 void max_485_1_deal(uint8_t *data_pakge);

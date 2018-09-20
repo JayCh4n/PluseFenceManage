@@ -81,3 +81,13 @@ pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h
 pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
 pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
 pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
+pulsefencemanage\lwip.o: ../Inc/udp_client.h
+pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\lwip.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
+pulsefencemanage\lwip.o: ..\Bsp\master_manage.h
+pulsefencemanage\lwip.o: ..\Bsp\display.h
+pulsefencemanage\lwip.o: ..\Bsp\master_manage.h
+pulsefencemanage\lwip.o: ..\Bsp\alarm.h
+pulsefencemanage\lwip.o: ..\Bsp\display.h
+pulsefencemanage\lwip.o: ../Inc/flash.h
+pulsefencemanage\lwip.o: ..\Bsp\max485.h

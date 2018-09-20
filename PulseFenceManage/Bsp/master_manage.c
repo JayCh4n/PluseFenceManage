@@ -28,6 +28,10 @@ uint16_t remote_port_set_buff = 8999;
 
 uint8_t init_ctrl_unit_flag = 0;
 
+uint8_t pre_communication_sta = DISCOMMUNICAT;	//上次通讯状态
+uint8_t communication_sta = DISCOMMUNICAT;			//当前通讯状态
+uint16_t communication_cnt = 0;									//通讯次数计数
+
 void uart1_deal(uint8_t *data_package)
 {
 //	uint8_t package_lenth;

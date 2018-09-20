@@ -10,6 +10,10 @@
 //#include "malloc.h"
 #include "stdio.h"
 #include "string.h"
+#include "master_manage.h"
+#include "max485.h"
+#include "display.h"
+#include "flash.h"
 
 #define UDP_MAX_RX_DATA 100
 #define UDP_MAX_TX_DATA 100
@@ -22,6 +26,7 @@ void udp_monitor_conf(uint8_t *remote_ipaddr, uint16_t port_num);
 void udp_recevice_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, uint16_t port);
 void udp_send_data(struct udp_pcb *upcb, uint8_t *p, uint16_t len);
 void udp_connection_close(struct udp_pcb *upcb);
+void udp_rx_processing(void);
 // void udp_txd_group_data(uint8_t *p, uint16_t len);
 
 #endif /* __UDP_CLIENT_H */

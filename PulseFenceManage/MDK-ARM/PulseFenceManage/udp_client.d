@@ -81,3 +81,11 @@ pulsefencemanage\udp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/
 pulsefencemanage\udp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
 pulsefencemanage\udp_client.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\udp_client.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+pulsefencemanage\udp_client.o: ..\Bsp\master_manage.h
+pulsefencemanage\udp_client.o: ..\Bsp\display.h
+pulsefencemanage\udp_client.o: ..\Bsp\master_manage.h
+pulsefencemanage\udp_client.o: ../Inc/tcp_client.h
+pulsefencemanage\udp_client.o: ..\Bsp\alarm.h
+pulsefencemanage\udp_client.o: ..\Bsp\display.h
+pulsefencemanage\udp_client.o: ../Inc/flash.h
+pulsefencemanage\udp_client.o: ..\Bsp\max485.h

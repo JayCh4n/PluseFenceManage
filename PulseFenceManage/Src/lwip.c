@@ -58,6 +58,7 @@
 /* USER CODE BEGIN 0 */
 
 #include "tcp_client.h"
+#include "udp_client.h"
 
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
@@ -66,9 +67,9 @@ void _Error_Handler(char * file, int line);
 
 /* USER CODE BEGIN 1 */
 
-uint8_t IP_ADDRESS[4] = {192, 168, 19, 10};
+uint8_t IP_ADDRESS[4] = {192, 168, 0, 10};
 uint8_t NETMASK_ADDRESS[4] = {255, 255, 255, 0};
-uint8_t GATEWAY_ADDRESS[4] = {192, 168, 19, 1};
+uint8_t GATEWAY_ADDRESS[4] = {192, 168, 0, 1};
 uint8_t detect_net_sta_mask = 0;					//轮询连接服务器标志 2S
 /* USER CODE END 1 */
 
@@ -221,6 +222,7 @@ void MX_LWIP_Process(void)
 /* USER CODE BEGIN 4_3 */
 	
 	tcp_rx_processing();
+	udp_rx_processing();
 	
 	if(detect_net_sta_mask)															//2s判断一次网线状态 和tcp服务器连接状态	并做相应处理
 	{
