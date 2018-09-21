@@ -1050,9 +1050,9 @@ void lcd_show_main_page(void)
 	uint8_t num_string[4];
 	
 	/*第一行 状态图标*/
-	clear_screen(1, 1, 20, 256);						//清屏
-//	lcd_show_str_8x16(1,1,"ZKSERVE");				//主页面左上角公司标志图标  （因为现实不下图标  用字符串代替）
-	lcd_show_64x16(1, 2, logo_64x16);				//主页面左上角公司标志图标
+	clear_screen(1, 1, 20, 256);							//清屏
+	lcd_show_str_8x16(1, 2, "ZKSERVE");				//主页面左上角公司标志图标  （因为现实不下图标  用字符串代替）
+//	lcd_show_64x16(1, 2, logo_64x16);				//主页面左上角公司标志图标
 //	lcd_show_100x24(1,1, logo_100x24);
 //lcd_show_32x16(1,209,battery_icon_32x16[5]); //电池图标
 
@@ -1273,14 +1273,16 @@ void lcd_show_remote_ip_set_page(void)
 	/*第一行 端口号码:8399*/
 	lcd_show_chs_16x16(7, 17, remote_gbk_code, 2);//远端
 	lcd_show_chs_16x16(7, 49, port_gbk_code, 2);	//端口
-  	lcd_show_str_8x16(7, 81,":");
-	port_to_string(port_string, tcp_port_num);
-	lcd_show_str_8x16(7, 89, port_string);
+  lcd_show_str_8x16(7, 81,":");
 	
 	/*第二行 远端地址:192.168.019.110*/
 	lcd_show_chs_16x16(10, 17, remote_gbk_code, 2);	//网关
 	lcd_show_chs_16x16(10, 49, address_gbk_code, 2); //地址
 	lcd_show_str_8x16(10, 81,":");
+	
+#if	USE_TCP
+	port_to_string(port_string, tcp_port_num);
+	lcd_show_str_8x16(7, 89, port_string);
 	
 	num_to_string(num_string, tcp_remoteip[0]);
 	lcd_show_str_8x16(10, 89, num_string);
@@ -1296,7 +1298,28 @@ void lcd_show_remote_ip_set_page(void)
 	
 	num_to_string(num_string, tcp_remoteip[3]);
 	lcd_show_str_8x16(10, 185, num_string);
+#endif	/* USE_TCP */
+
+#if	USE_UDP
+	port_to_string(port_string, udp_port_num);
+	lcd_show_str_8x16(7, 89, port_string);
 	
+	num_to_string(num_string, udp_remote_ip[0]);
+	lcd_show_str_8x16(10, 89, num_string);
+	lcd_show_str_8x16(10, 113, ".");
+	
+	num_to_string(num_string, udp_remote_ip[1]);
+	lcd_show_str_8x16(10, 121, num_string);
+	lcd_show_str_8x16(10, 145, ".");
+	
+	num_to_string(num_string, udp_remote_ip[2]);
+	lcd_show_str_8x16(10, 153, num_string);
+	lcd_show_str_8x16(10, 177, ".");
+	
+	num_to_string(num_string, udp_remote_ip[3]);
+	lcd_show_str_8x16(10, 185, num_string);
+#endif	/* USE_UDP */
+
 	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, back_gbk_code, 2); 			 //  O返回
 	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, determine_gbk_code, 2); //  O确定
 }

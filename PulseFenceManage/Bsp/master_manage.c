@@ -7,7 +7,6 @@
   *
   ******************************************************************************
 **/
-
 #include "master_manage.h"
 
 extern UART_HandleTypeDef huart1;
@@ -19,12 +18,11 @@ uint8_t uart1_rx_buff;
 zone_typedef zone_struct = {DOUBLE_ZONE, 1,2, PULSE_MODE, HIGH_VOLTAGE, DISARMING, DISARMING, SENSITIVITY_3, SENSITIVITY_3, 0};
 zone_typedef zone_struct_set_buff = {DOUBLE_ZONE, 1,2, PULSE_MODE, HIGH_VOLTAGE, DISARMING, DISARMING, SENSITIVITY_3, SENSITIVITY_3, 0};
 
-uint8_t local_address_set_buff[4] = {192,168,19,10};
-uint8_t subnet_mask_set_buff[4] = {255,255,255,0};
-uint8_t gateway_address_set_buff[4] = {192,168,19,1};
-uint8_t remote_address_set_buff[4] = {192,168,19,110};
-
-uint16_t remote_port_set_buff = 8999;
+uint8_t local_address_set_buff[4] = LOCAL_IPADDR;
+uint8_t subnet_mask_set_buff[4] = NETMASK_ADDR;
+uint8_t gateway_address_set_buff[4] = GATEWAY_ADDR;
+uint8_t remote_address_set_buff[4] = REMOTE_IPADDR;
+uint16_t remote_port_set_buff = REMOTE_PORT;
 
 uint8_t init_ctrl_unit_flag = 0;
 

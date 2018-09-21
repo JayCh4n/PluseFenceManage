@@ -113,7 +113,7 @@ static void MX_NVIC_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-//  float voltage_bat;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -157,7 +157,7 @@ int main(void)
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
-	sim800c_init(5,5);
+	sim800c_init(5, 5);
 	HAL_Delay(2000);
 	init_control_uint();
 	lcd_show_main_page();

@@ -1,7 +1,7 @@
 #include "tcp_client.h"
 
-uint8_t tcp_remoteip[4] = {192, 168, 0, 110};	//默认远端ip
-uint16_t tcp_port_num = 8999;									//默认连接tcp服务器端口号
+uint8_t tcp_remoteip[4] = REMOTE_IPADDR;	//默认远端ip
+uint16_t tcp_port_num = REMOTE_PORT;			//默认连接tcp服务器端口号
 struct tcp_pcb *tcppcb_temp;
 //struct tcp_client_struct *es_temp;
 

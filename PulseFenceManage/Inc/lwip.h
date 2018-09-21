@@ -74,6 +74,19 @@ extern uint8_t IP_ADDRESS[4];
 extern uint8_t NETMASK_ADDRESS[4];
 extern uint8_t GATEWAY_ADDRESS[4];
 extern uint8_t detect_net_sta_mask;
+
+#define USE_TCP	0
+#define	USE_UDP	1
+
+#if USE_UDP&USE_TCP
+#error	You cannot use tcp and udp in this project at the same time. 
+#endif  /* USE_UDP&USE_TCP */
+
+#define LOCAL_IPADDR	{192, 168, 0, 10}
+#define	NETMASK_ADDR	{255, 255, 255, 0}
+#define	GATEWAY_ADDR	{192, 168, 0, 1}
+#define	REMOTE_IPADDR	{192, 168, 0, 19}
+#define	REMOTE_PORT		8089
 /* USER CODE END 0 */
 
 /* Global Variables ----------------------------------------------------------*/

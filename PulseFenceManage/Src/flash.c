@@ -33,14 +33,25 @@ void read_data_from_flash(void)
 		flash_data_struct.flash_voltage_level = (uint8_t)zone_struct.zone_voltage_level;
 		flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct.zone1_sensitivity;
 		flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct.zone2_sensitivity;
+
+#if	USE_TCP
 		flash_data_struct.flash_remote_port = tcp_port_num;
+#endif	/* USE_TCP */
+#if	USE_UDP
+		flash_data_struct.flash_remote_port = udp_port_num;
+#endif	/* USE_UDP */
 		
 		for(i=0; i<4; i++)
 		{
 			flash_data_struct.flash_local_ip[i] = IP_ADDRESS[i];
 			flash_data_struct.flash_netmask[i] = NETMASK_ADDRESS[i];
 			flash_data_struct.flash_gate_way[i] = GATEWAY_ADDRESS[i];
+#if	USE_TCP
 			flash_data_struct.flash_remote_ip[i] = tcp_remoteip[i];
+#endif	/* USE_TCP */
+#if	USE_UDP
+			flash_data_struct.flash_remote_ip[i] = udp_remote_ip[i];
+#endif	/* USE_UDP */
 		}
 		HAL_Delay(200);
 //		flash_write(FLASH_SECTOR_11, (uint8_t *)&flash_data_struct, sizeof(flash_data_struct));
@@ -73,14 +84,25 @@ void read_data_from_flash(void)
 			IP_ADDRESS[i] = flash_data_struct.flash_local_ip[i];
 			NETMASK_ADDRESS[i] = flash_data_struct.flash_netmask[i];
 			GATEWAY_ADDRESS[i] = flash_data_struct.flash_gate_way[i];
-			tcp_remoteip[i] = flash_data_struct.flash_remote_ip[i];	
 			local_address_set_buff[i] = IP_ADDRESS[i];
 			subnet_mask_set_buff[i] = NETMASK_ADDRESS[i];
 			gateway_address_set_buff[i] = GATEWAY_ADDRESS[i];
+#if	USE_TCP
+			tcp_remoteip[i] = flash_data_struct.flash_remote_ip[i];	
 			remote_address_set_buff[i] = tcp_remoteip[i];
+#endif	/* USE_TCP */
+#if	USE_UDP
+			udp_remote_ip[i] = flash_data_struct.flash_remote_ip[i];	
+			remote_address_set_buff[i] = udp_remote_ip[i];
+#endif	/* USE_UDP */			
 		}
 		
+#if	USE_TCP		
 		remote_port_set_buff = tcp_port_num;
+#endif	/* USE_TCP */	
+#if	USE_UDP		
+		remote_port_set_buff = udp_port_num;
+#endif	/* USE_UDP */			
 	}
 }
 

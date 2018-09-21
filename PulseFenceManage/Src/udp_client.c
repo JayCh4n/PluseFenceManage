@@ -9,8 +9,8 @@
 extern uint8_t uart1_rx_buff;
 extern UART_HandleTypeDef huart1;
 
-uint8_t udp_remote_ip[4] = {192, 168, 0, 19};
-uint16_t udp_port_num = 8089;
+uint8_t udp_remote_ip[4] = REMOTE_IPADDR;
+uint16_t udp_port_num = REMOTE_PORT;
 uint8_t udp_demo_flag = 0;
 
 
@@ -21,6 +21,29 @@ uint16_t udp_rx_lenth = 0;                  //UDP接收数据长度
 ip_addr_t udp_remote_addr;
 
 struct udp_pcb *udppcb; //定义一个TCP服务器控制块
+
+//UDP重新修改监听端口
+void udp_monitor_reconf(uint8_t *remote_ipaddr, uint16_t port_num)
+{
+	err_t err;
+	
+	udp_connection_close(udppcb);
+	
+	IP4_ADDR(&udp_remote_addr, udp_remote_ip[0], udp_remote_ip[1], udp_remote_ip[2], udp_remote_ip[3]);
+	
+	udppcb = udp_new();
+	if(udppcb)
+	{
+		err = udp_bind(udppcb, IP_ADDR_ANY, port_num);
+	}
+	
+	if(err == ERR_OK)
+	{
+		udp_recv(udppcb, udp_recevice_callback, NULL);
+	}
+	
+	udp_connect(udppcb, &udp_remote_addr, port_num);	
+}
 
 //UDP监听
 void udp_monitor_conf(uint8_t *remote_ipaddr, uint16_t port_num)
@@ -129,7 +152,6 @@ void udp_connection_close(struct udp_pcb *upcb)
     udp_disconnect(upcb);
     udp_remove(upcb); //断开UDP连接
 }
-
 
 static void udp_return_master_msg(void)
 {
@@ -331,10 +353,10 @@ void udp_rx_processing(void)
 			}
 			break;
 		case MODIFY_ZONE_SENSITIVITY:
-			if(zone_struct.arm_sta) //如果在布防状态下
+			if(zone_struct.arm_sta) 		//如果在布防状态下
 			{
 				zone_num = udp_recvbuf[8];
-				if(zone_num == 0)		//全防区设定
+				if(zone_num == 0)					//全防区设定
 				{	
 					if(udp_recvbuf[9] == 0 || udp_recvbuf[9] >= 4)
 					{

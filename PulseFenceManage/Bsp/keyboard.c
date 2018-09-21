@@ -982,11 +982,20 @@ static void short_press_key5_action(void)
 		
 		else if(remote_ip_set_page_cursor_sta == AT_BACK_REMOTE_IP_SET_PAGE)
 		{
+#if USE_TCP
 			remote_port_set_buff = tcp_port_num;
 			for(i=0; i<4; i++)
 			{
 				remote_address_set_buff[i] = tcp_remoteip[i];
 			}
+#endif	/* USE_TCP */
+#if	USE_UDP
+			remote_port_set_buff = udp_port_num;
+			for(i=0; i<4; i++)
+			{
+				remote_address_set_buff[i] = udp_remote_ip[i];
+			}			
+#endif	/* USE_UDP */	
 			lcd_show_menu_page();				//显示菜单页
 			lcd_show_solid_circle(5,1);	//画实心圆
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
@@ -994,13 +1003,24 @@ static void short_press_key5_action(void)
 		}
 		else if(remote_ip_set_page_cursor_sta == AT_OK_REMOTE_IP_SET_PAGE)
 		{
+#if USE_TCP
 			tcp_port_num = remote_port_set_buff;
 			flash_data_struct.flash_remote_port = tcp_port_num;
 			for(i=0; i<4; i++)
 			{
 				flash_data_struct.flash_remote_ip[i] = tcp_remoteip[i] = remote_address_set_buff[i];
 			}
-//			tcp_remote_network_set(tcp_remoteip, tcp_port_num);
+			tcp_remote_network_set(tcp_remoteip, tcp_port_num);
+#endif	/* USE_TCP */
+#if	USE_UDP
+			udp_port_num = remote_port_set_buff;
+			flash_data_struct.flash_remote_port = udp_port_num;
+			for(i=0; i<4; i++)
+			{
+				flash_data_struct.flash_remote_ip[i] = udp_remote_ip[i] = remote_address_set_buff[i];
+			}
+			udp_monitor_reconf(udp_remote_ip, udp_port_num);
+#endif	/* USE_UDP */
 			write_flash_time_cnt = 0;
 			write_flash_flag = 1;
 			

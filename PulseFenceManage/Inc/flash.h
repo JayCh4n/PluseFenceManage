@@ -6,6 +6,7 @@
 #include "master_manage.h"
 #include "lwip.h"
 #include "tcp_client.h"
+#include "udp_client.h"
 #include "display.h"
 
 typedef struct{

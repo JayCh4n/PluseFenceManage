@@ -7,6 +7,7 @@
 #include "master_manage.h"
 #include "lwip.h"
 #include "flash.h"
+#include "udp_client.h"
 
 void key_action(uint8_t key_num);
 void key_drive(void);

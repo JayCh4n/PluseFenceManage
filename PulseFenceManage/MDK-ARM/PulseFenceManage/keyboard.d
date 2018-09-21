@@ -85,4 +85,9 @@ pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
 pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
+pulsefencemanage\keyboard.o: ../Inc/udp_client.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
+pulsefencemanage\keyboard.o: ..\Bsp\max485.h
 pulsefencemanage\keyboard.o: ..\Bsp\alarm.h
+pulsefencemanage\keyboard.o: ../Inc/flash.h

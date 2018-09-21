@@ -67,10 +67,12 @@ void _Error_Handler(char * file, int line);
 
 /* USER CODE BEGIN 1 */
 
-uint8_t IP_ADDRESS[4] = {192, 168, 0, 10};
-uint8_t NETMASK_ADDRESS[4] = {255, 255, 255, 0};
-uint8_t GATEWAY_ADDRESS[4] = {192, 168, 0, 1};
+uint8_t IP_ADDRESS[4] = LOCAL_IPADDR;
+uint8_t NETMASK_ADDRESS[4] = NETMASK_ADDR;
+uint8_t GATEWAY_ADDRESS[4] = GATEWAY_ADDR;
 uint8_t detect_net_sta_mask = 0;					//轮询连接服务器标志 2S
+uint8_t first_cnonect_flag = 1;						//第一次连接标志  		 0: 
+uint8_t tcp_connflag = 0;									//tcp连接状态标志位
 /* USER CODE END 1 */
 
 /* Variables Initialization */
@@ -204,9 +206,7 @@ void MX_LWIP_Init(void)
 void MX_LWIP_Process(void)
 {
 /* USER CODE BEGIN 4_1 */
-	static uint8_t pre_link_sta = 2;				//保存上次网线连接状态 0：断开 1：连接 2：上电不知道连接还是未连接
-//	static uint8_t first_cnonect_flag = 1;	//第一次连接标志  		 0: 
-//	static uint8_t tcp_connflag = 0;		//tcp连接状态标志位
+	static uint8_t pre_link_sta = 2;		//保存上次网线连接状态 0：断开 1：连接 2：上电不知道连接还是未连接
 	uint8_t link_sta = 0;								//网线连接状态
 	uint32_t regvalue = 0;							//读取phy芯片寄存器值
 
@@ -220,9 +220,13 @@ void MX_LWIP_Process(void)
   sys_check_timeouts();
 
 /* USER CODE BEGIN 4_3 */
-	
+#if	USE_TCP	
 	tcp_rx_processing();
+#endif	/* USE_TCP */
+
+#if	USE_UDP
 	udp_rx_processing();
+#endif	/* USE_UDP */
 	
 	if(detect_net_sta_mask)															//2s判断一次网线状态 和tcp服务器连接状态	并做相应处理
 	{
@@ -249,36 +253,39 @@ void MX_LWIP_Process(void)
 			}
 			else
 			{
-//				tcp_client_connection_close(tcppcb_temp, 0);
+#if	USE_TCP
+				tcp_client_connection_close(tcppcb_temp, 0);
+#endif	/* USE_TCP */
 				network_cable_disconnect_handle();			//如果网线断开	做网线断开处理
 			}
 		}
 		
 		if(link_sta)
 		{
+#if USE_TCP			
+			if(tcp_client_flag & 1<<5)
+			{
+				tcp_connflag = 1;
+			}
+			else if(tcp_connflag)
+			{
+				tcp_connflag = 0;
+			}
 			
-//			if(tcp_client_flag & 1<<5)
-//			{
-//				tcp_connflag = 1;
-//			}
-//			else if(tcp_connflag)
-//			{
-//				tcp_connflag = 0;
-//			}
-//			
-//			if(tcp_connflag==0 && (tcp_client_flag & 1<<5)==0)		//如果未连接到tcp服务器
-//			{
-//				if(first_cnonect_flag)															//如果是第一次连接tcp服务器
-//				{
-//					first_cnonect_flag = 0;		
-//					tcp_client_connect(tcp_remoteip, tcp_port_num);		
-//				}
-//				else																								//如果不是第一次连接
-//				{
-//					tcp_client_connection_close(tcppcb_temp, 0);
-//					tcp_client_connect(tcp_remoteip, tcp_port_num);
-//				}
-//			}
+			if(tcp_connflag==0 && (tcp_client_flag & 1<<5)==0)		//如果未连接到tcp服务器
+			{
+				if(first_cnonect_flag)															//如果是第一次连接tcp服务器
+				{
+					first_cnonect_flag = 0;		
+					tcp_client_connect(tcp_remoteip, tcp_port_num);		
+				}
+				else																								//如果不是第一次连接
+				{
+					tcp_client_connection_close(tcppcb_temp, 0);
+					tcp_client_connect(tcp_remoteip, tcp_port_num);
+				}
+			}
+#endif	/* USE_TCP */
 		}
 	}		
 

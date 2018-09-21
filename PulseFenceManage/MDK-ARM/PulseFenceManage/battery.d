@@ -85,4 +85,9 @@ pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h
 pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
+pulsefencemanage\battery.o: ../Inc/udp_client.h
+pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h
+pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
+pulsefencemanage\battery.o: ..\Bsp\max485.h
 pulsefencemanage\battery.o: ..\Bsp\alarm.h
+pulsefencemanage\battery.o: ../Inc/flash.h
