@@ -500,33 +500,33 @@ static void short_press_key4_action(void)
 	{
 		if(local_ip_set_page_cursor_sta == AT_LOCAL_ADDRESS)	//如果光标指向本地地址
 		{
-			clear_screen(5,1,2,16);	//清除实心圆
-			lcd_show_solid_circle(8,1); //重画实心圆
-			local_ip_set_page_cursor_sta = AT_SUBNET_MASK;	//光标指向子网掩码
+			clear_screen(5,1,2,16);				//清除实心圆
+			lcd_show_solid_circle(8,1); 	//重画实心圆
+			local_ip_set_page_cursor_sta = AT_SUBNET_MASK;						//光标指向子网掩码
 		}
-		else if(local_ip_set_page_cursor_sta == AT_SUBNET_MASK)	//如果光标指向子网掩码
+		else if(local_ip_set_page_cursor_sta == AT_SUBNET_MASK)			//如果光标指向子网掩码
 		{
-			clear_screen(8,1,2,16);	 //清除实心圆
-			lcd_show_solid_circle(11, 1); //绘制实心圆
-			local_ip_set_page_cursor_sta = AT_GATEWAY_ADDRESS;	//光标状态指向网关地址
+			clear_screen(8,1,2,16);					//清除实心圆
+			lcd_show_solid_circle(11, 1); 	//绘制实心圆
+			local_ip_set_page_cursor_sta = AT_GATEWAY_ADDRESS;				//光标状态指向网关地址
 		}
 		else if(local_ip_set_page_cursor_sta == AT_GATEWAY_ADDRESS)	//如果光标指向网关地址
 		{
-			clear_screen(11,1,2,16);	 //清除实心圆
-			lcd_show_solid_circle(17, 49); //绘制实心圆
+			clear_screen(11,1,2,16);	 			//清除实心圆
+			lcd_show_solid_circle(17, 49); 	//绘制实心圆
 			local_ip_set_page_cursor_sta = AT_BACK_LOCAL_IP_SET_PAGE;	//光标指向远端地址
 		}
 		else if(local_ip_set_page_cursor_sta == AT_BACK_LOCAL_IP_SET_PAGE)
 		{
 			lcd_show_hollow_circle(17, 49);	//绘制空心圆
-			lcd_show_solid_circle(17, 129);//绘制实心圆
-			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;	//光标指向OK
+			lcd_show_solid_circle(17, 129);	//绘制实心圆
+			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;		//光标指向OK
 		}		
 		else if(local_ip_set_page_cursor_sta == AT_OK_LOCAL_IP_SET_PAGE)
 		{
 			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(5, 1);//绘制实心圆
-			local_ip_set_page_cursor_sta = AT_LOCAL_ADDRESS;	//光标指向OK
+			lcd_show_solid_circle(5, 1);			//绘制实心圆
+			local_ip_set_page_cursor_sta = AT_LOCAL_ADDRESS;					//光标指向OK
 		}
 		else if(local_ip_set_page_cursor_sta == TOOGLE_LOCAL_ADDRESS1)
 		{
@@ -1118,13 +1118,13 @@ void key_scan(void)
 
 	for(i=0; i<5; i++)
 	{
-		if(i == 0)
+		if(i == 4)
 		{
 			key_buff[i] = (key_buff[i] << 1) | HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10);	//KEY1
 		}
 		else
 		{
-			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (16-i)) & 0x01);	//读取io状态	KEY 2 - 5
+			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (12+i)) & 0x01);	//读取io状态	KEY 2 - 5
 		}
 
 		if(key_buff[i] == 0xFF)				//如果8次检测都为高电平 则认为抬起	定时器定时每1ms扫描一次

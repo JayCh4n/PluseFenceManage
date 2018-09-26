@@ -382,14 +382,14 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
-              <FileName>tcp_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\tcp_client.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\flash.c</FilePath>
             </File>
             <File>
               <FileName>lwip.c</FileName>
@@ -402,6 +402,16 @@
               <FilePath>../Src/ethernetif.c</FilePath>
             </File>
             <File>
+              <FileName>tcp_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\tcp_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>udp_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\udp_client.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_it.c</FilePath>
@@ -410,16 +420,6 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>udp_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\udp_client.c</FilePath>
             </File>
           </Files>
         </Group>

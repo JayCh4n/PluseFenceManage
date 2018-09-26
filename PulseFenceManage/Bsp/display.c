@@ -2029,17 +2029,29 @@ void lcd_update_main_page_process(void)
 	
 	if(zone_struct_set_buff.zone1_sta != zone_struct.zone1_sta)
 	{
-		zone_struct.zone1_sta = zone_struct_set_buff.zone1_sta;
-		
 		/*¸æ¾¯Êä³ö ¼ÌµçÆ÷ LED ·äÃùÆ÷*/
-		if((zone_struct.zone1_sta != DISARMING) && (zone_struct.zone1_sta != ARMING))
+		if((zone_struct_set_buff.zone1_sta != DISARMING) && (zone_struct_set_buff.zone1_sta != ARMING))
 		{
 			alarm_output(ZONE1, SET_ALARM);
+			zone1_alarm_reset_flag = 0;
+			zone1_alarm_delay_cnt = 0;
 		}
-		else
+		else if((zone_struct.zone1_sta != DISARMING) && (zone_struct.zone1_sta != ARMING))
 		{
-			zone1_alarm_reset_flag = 1;
+			if(zone_struct_set_buff.zone1_sta == DISARMING)
+			{
+				alarm_output(ZONE1, RESET_ALARM);
+				zone1_alarm_reset_flag = 0;
+				zone1_alarm_delay_cnt = 0;
+			}
+			else
+			{
+				zone1_alarm_reset_flag = 1;
+				zone1_alarm_delay_cnt = 0;
+			}
 		}
+		
+		zone_struct.zone1_sta = zone_struct_set_buff.zone1_sta;
 		
 		/*¸üÐÂÆÁÄ»*/
 		switch(zone_struct.zone1_sta)
@@ -2072,20 +2084,29 @@ void lcd_update_main_page_process(void)
 	
 	if(zone_struct_set_buff.zone2_sta != zone_struct.zone2_sta)
 	{
-		zone_struct.zone2_sta = zone_struct_set_buff.zone2_sta;
-		
 		/*¸æ¾¯Êä³ö ¼ÌµçÆ÷ LED ·äÃùÆ÷*/
-		if((zone_struct.zone2_sta != DISARMING) && (zone_struct.zone2_sta != ARMING))
+		if((zone_struct_set_buff.zone2_sta != DISARMING) && (zone_struct_set_buff.zone2_sta != ARMING))
 		{
 			alarm_output(ZONE2, SET_ALARM);
 			zone2_alarm_reset_flag = 0;
 			zone2_alarm_delay_cnt = 0;
 		}
-		else
+		else if((zone_struct.zone2_sta != DISARMING) && (zone_struct.zone2_sta != ARMING))
 		{
-			zone2_alarm_delay_cnt = 0;
-			zone2_alarm_reset_flag = 1;
+			if(zone_struct_set_buff.zone2_sta == DISARMING)
+			{
+				alarm_output(ZONE2, RESET_ALARM);
+				zone2_alarm_delay_cnt = 0;
+				zone2_alarm_reset_flag = 0;
+			}
+			else
+			{
+				zone2_alarm_delay_cnt = 0;
+				zone2_alarm_reset_flag = 1;
+			}
 		}
+		
+		zone_struct.zone2_sta = zone_struct_set_buff.zone2_sta;
 		
 		/*¸üÐÂÆÁÄ»*/
 		switch(zone_struct.zone2_sta)

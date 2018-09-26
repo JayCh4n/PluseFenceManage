@@ -66,11 +66,11 @@ static void max_485_1_return_master_msg(void)
 	max485_1_sendbuf[0] = 0xE7;
 	max485_1_sendbuf[1] = 0xD9;
 	max485_1_sendbuf[2] = 0xE7;
-	max485_1_sendbuf[3] = 0xD9;	//数据头
-	max485_1_sendbuf[4] = 0x02;	//设备类型
-	max485_1_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	max485_1_sendbuf[6] = 0x01; //功能码
-	max485_1_sendbuf[7] = 0x17;	//数据长度
+	max485_1_sendbuf[3] = 0xD9;										//数据头
+	max485_1_sendbuf[4] = 0x02;										//设备类型
+	max485_1_sendbuf[5] = zone_struct.zone1_id;		//设备ID（防区1ID）
+	max485_1_sendbuf[6] = 0x01; 									//功能码
+	max485_1_sendbuf[7] = 0x17;										//数据长度
 	
 	max485_1_sendbuf[8] = zone_struct.zone_type;	//
 	max485_1_sendbuf[9] = zone_struct.zone1_id;
@@ -81,7 +81,7 @@ static void max_485_1_return_master_msg(void)
 	max485_1_sendbuf[14] = zone_struct.zone_voltage_level;
 	max485_1_sendbuf[15] = zone_struct.zone1_sensitivity;
 	max485_1_sendbuf[16] = zone_struct.zone2_sensitivity;
-	max485_1_sendbuf[17] = 0;//防区属性
+	max485_1_sendbuf[17] = 4;											//防区属性（非延时防区）
 	max485_1_sendbuf[18] = zone_struct.zone_mode;
 	
 	max485_1_sendbuf[19] = IP_ADDRESS[0];
@@ -132,11 +132,11 @@ static void max_485_1_return_set_ok(uint8_t cmd)
 	max485_1_sendbuf[0] = 0xE7;
 	max485_1_sendbuf[1] = 0xD9;
 	max485_1_sendbuf[2] = 0xE7;
-	max485_1_sendbuf[3] = 0xD9;	//数据头
-	max485_1_sendbuf[4] = 0x02;	//设备类型
+	max485_1_sendbuf[3] = 0xD9;									//数据头
+	max485_1_sendbuf[4] = 0x02;									//设备类型
 	max485_1_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	max485_1_sendbuf[6] = cmd; //功能码
-	max485_1_sendbuf[7] = 1;	//数据长度
+	max485_1_sendbuf[6] = cmd; 									//功能码
+	max485_1_sendbuf[7] = 1;										//数据长度
 	
 	max485_1_sendbuf[8] = 0xA9;	//
 	
@@ -158,8 +158,6 @@ static void max_485_1_return_set_ok(uint8_t cmd)
 	
 	max485_wait_usart1_finish = 0;
 }
-//	max485_wait_usart1_finish = 0;
-//}
 
 /*返回设置IP成功*/
 static void max_485_1_return_ip_set_ok(void)
@@ -169,11 +167,11 @@ static void max_485_1_return_ip_set_ok(void)
 	max485_1_sendbuf[0] = 0xE7;
 	max485_1_sendbuf[1] = 0xD9;
 	max485_1_sendbuf[2] = 0xE7;
-	max485_1_sendbuf[3] = 0xD9;	//数据头
-	max485_1_sendbuf[4] = 0x02;	//设备类型
+	max485_1_sendbuf[3] = 0xD9;									//数据头
+	max485_1_sendbuf[4] = 0x02;									//设备类型
 	max485_1_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	max485_1_sendbuf[6] = 21; //功能码
-	max485_1_sendbuf[7] = 1;	//数据长度
+	max485_1_sendbuf[6] = 21; 									//功能码
+	max485_1_sendbuf[7] = 1;										//数据长度
 	
 	max485_1_sendbuf[8] = 0xA9;	//
 	
@@ -195,7 +193,7 @@ void max_485_1_deal(uint8_t *data_pakge)
 	uint32_t i;
 	
 	master_ctrl_cmd_def cmd;
-	uint8_t zone_num; 	// 0:双防区 1：1防区  2：2防区
+	uint8_t zone_num; 													// 0:双防区 1：1防区  2：2防区
 	
 	communication_cnt++;
 	communication_sta = COMMUNICATING;
@@ -242,7 +240,7 @@ void max_485_1_deal(uint8_t *data_pakge)
 			max_485_1_return_ip_set_ok();
 			break;
 		case MODIFY_VOLTAGE_LAVEL:
-			if(zone_struct.arm_sta) //如果在布防状态下
+			if(zone_struct.arm_sta) 						//如果在布防状态下
 			{
 				//低压：0  高压：1
 				set_ctrl_unit(HIGH_LOW_VOLTAGE, data_pakge[8]);
@@ -250,10 +248,10 @@ void max_485_1_deal(uint8_t *data_pakge)
 			}
 			break;
 		case MODIFY_ZONE_SENSITIVITY:
-			if(zone_struct.arm_sta) //如果在布防状态下
+			if(zone_struct.arm_sta)						 	//如果在布防状态下
 			{
 				zone_num = data_pakge[8];
-				if(zone_num == 0)		//全防区设定
+				if(zone_num == 0)									//全防区设定
 				{	
 					if(data_pakge[9] == 0 || data_pakge[9] >= 4)
 					{

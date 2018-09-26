@@ -1,10 +1,10 @@
 #include "udp_client.h"
 
-//UDP 测试全局状态标记变量
-//bit7:没有用到
-//bit6:0,没有收到数据;1,收到数据了.
-//bit5:0,没有连接上;1,连接上了.
-//bit4~0:保留
+//UDP 		测试全局状态标记变量
+//bit7:		没有用到
+//bit6:0,	没有收到数据;1,收到数据了.
+//bit5:0,	没有连接上;1,连接上了.
+//bit4~0:	保留
 
 extern uint8_t uart1_rx_buff;
 extern UART_HandleTypeDef huart1;
@@ -20,7 +20,7 @@ uint16_t udp_rx_lenth = 0;                  //UDP接收数据长度
 
 ip_addr_t udp_remote_addr;
 
-struct udp_pcb *udppcb; //定义一个TCP服务器控制块
+struct udp_pcb *udppcb; 										//定义一个TCP服务器控制块
 
 //UDP重新修改监听端口
 void udp_monitor_reconf(uint8_t *remote_ipaddr, uint16_t port_num)
@@ -53,6 +53,7 @@ void udp_monitor_conf(uint8_t *remote_ipaddr, uint16_t port_num)
 	IP4_ADDR(&udp_remote_addr, udp_remote_ip[0], udp_remote_ip[1], udp_remote_ip[2], udp_remote_ip[3]);
 	
 	udppcb = udp_new();
+	
 	if(udppcb)
 	{
 		err = udp_bind(udppcb, IP_ADDR_ANY, port_num);
@@ -105,12 +106,6 @@ void udp_recevice_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,const
                 break; //超出TCP客户端接收数组,跳出
         }
         udp_rx_lenth = data_len;                                   //记录接收数据长度
-        // upcb->remote_ip = *addr;                                   //记录远程主机的IP地址
-        // upcb->remote_port = port;                                  //记录远程主机的端口号
-        // lwipdev.remoteip[0] = upcb->remote_ip.addr & 0xff;         //IADDR4
-        // lwipdev.remoteip[1] = (upcb->remote_ip.addr >> 8) & 0xff;  //IADDR3
-        // lwipdev.remoteip[2] = (upcb->remote_ip.addr >> 16) & 0xff; //IADDR2
-        // lwipdev.remoteip[3] = (upcb->remote_ip.addr >> 24) & 0xff; //IADDR1
         udp_demo_flag |= 1 << 6;                                   //标记接收到数据了
         pbuf_free(p);                                              //释放内存
     }
@@ -137,7 +132,8 @@ void udp_recevice_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,const
 void udp_send_data(struct udp_pcb *upcb, uint8_t *p, uint16_t len)
 {
 	struct pbuf *ptr;
-	ptr = pbuf_alloc(PBUF_TRANSPORT, len, PBUF_POOL); //申请内存
+	ptr = pbuf_alloc(PBUF_TRANSPORT, len, PBUF_POOL); 				//申请内存
+	
 	if(ptr)
 	{
 		pbuf_take(ptr, p, len); 																//将sendbuf中的数据打包进pbuf结构中
@@ -150,7 +146,7 @@ void udp_send_data(struct udp_pcb *upcb, uint8_t *p, uint16_t len)
 void udp_connection_close(struct udp_pcb *upcb)
 {
     udp_disconnect(upcb);
-    udp_remove(upcb); //断开UDP连接
+    udp_remove(upcb); 		//断开UDP连接
 }
 
 static void udp_return_master_msg(void)
@@ -163,7 +159,7 @@ static void udp_return_master_msg(void)
 	udp_sendbuf[3] = 0xD9;	//数据头
 	udp_sendbuf[4] = 0x02;	//设备类型
 	udp_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	udp_sendbuf[6] = 0x01; //功能码
+	udp_sendbuf[6] = 0x01; 	//功能码
 	udp_sendbuf[7] = 0x17;	//数据长度
 	
 	udp_sendbuf[8] = zone_struct.zone_type;	//
@@ -175,7 +171,7 @@ static void udp_return_master_msg(void)
 	udp_sendbuf[14] = zone_struct.zone_voltage_level;
 	udp_sendbuf[15] = zone_struct.zone1_sensitivity;
 	udp_sendbuf[16] = zone_struct.zone2_sensitivity;
-	udp_sendbuf[17] = 0;//防区属性
+	udp_sendbuf[17] = 4;										//防区属性
 	udp_sendbuf[18] = zone_struct.zone_mode;
 	
 	udp_sendbuf[19] = IP_ADDRESS[0];
@@ -216,8 +212,8 @@ static void udp_return_set_ok(uint8_t cmd)
 	udp_sendbuf[3] = 0xD9;	//数据头
 	udp_sendbuf[4] = 0x02;	//设备类型
 	udp_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	udp_sendbuf[6] = cmd; //功能码
-	udp_sendbuf[7] = 1;	//数据长度
+	udp_sendbuf[6] = cmd; 	//功能码
+	udp_sendbuf[7] = 1;			//数据长度
 	
 	udp_sendbuf[8] = 0xA9;	//
 	
@@ -247,7 +243,7 @@ void udp_rx_processing(void)
 	uint16_t crc;
 	
 	master_ctrl_cmd_def cmd;
-	uint8_t zone_num; 	// 0:双防区 1：1防区  2：2防区
+	uint8_t zone_num; 								// 0:双防区 1：1防区  2：2防区
 	
 	if(udp_demo_flag >> 6 & 0x01)
 	{

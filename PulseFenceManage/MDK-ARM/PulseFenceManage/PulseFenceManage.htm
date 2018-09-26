@@ -3,7 +3,7 @@
 <title>Static Call Graph - [PulseFenceManage\PulseFenceManage.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image PulseFenceManage\PulseFenceManage.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Sep 21 17:22:06 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Sep 25 18:24:23 2018
 <BR><P>
 <H3>Maximum Stack Usage =        584 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -406,8 +406,8 @@ Global Symbols
 <P><STRONG><a name="[113]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_output
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_input
-<LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_recevice_callback
+<LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
 <LI><a href="#[165]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_reass_free_complete_datagram
@@ -963,7 +963,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a9]"></a>HAL_TIM_IRQHandler</STRONG> (Thumb, 358 bytes, Stack size 16 bytes, stm32f4xx_hal_tim.o(i.HAL_TIM_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; key_scan
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; key_scan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_OC_DelayElapsedCallback
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
@@ -985,7 +985,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ad]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 312 bytes, Stack size 16 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_TIM_PeriodElapsedCallback &rArr; key_scan
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = HAL_TIM_PeriodElapsedCallback &rArr; key_scan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_alarm
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_dismantle
@@ -1158,7 +1158,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(.text)
 </UL>
 <P><STRONG><a name="[23]"></a>TIM1_UP_TIM10_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.TIM1_UP_TIM10_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = TIM1_UP_TIM10_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; key_scan
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = TIM1_UP_TIM10_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; key_scan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
@@ -1217,15 +1217,15 @@ Global Symbols
 <P><STRONG><a name="[f0]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output
+<BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_add
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernetif_init
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recved
 <LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 <LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_malloc
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_free
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
@@ -1407,9 +1407,9 @@ Global Symbols
 <P><STRONG><a name="[103]"></a>etharp_query</STRONG> (Thumb, 300 bytes, Stack size 48 bytes, etharp.o(i.etharp_query))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = etharp_query &rArr; etharp_request &rArr; etharp_request_dst &rArr; etharp_raw &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
@@ -1477,8 +1477,8 @@ Global Symbols
 <P><STRONG><a name="[cf]"></a>ethernetif_input</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, ethernetif.o(i.ethernetif_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = ethernetif_input &rArr; low_level_input &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_input
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_input
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_LWIP_Process
 </UL>
@@ -1569,9 +1569,9 @@ Global Symbols
 <P><STRONG><a name="[119]"></a>ip4_frag</STRONG> (Thumb, 390 bytes, Stack size 72 bytes, ip4_frag.o(i.ip4_frag))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_cat
@@ -1648,8 +1648,8 @@ Global Symbols
 <P><STRONG><a name="[115]"></a>ip4_route</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, ip4.o(i.ip4_route))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ip4_route
 </UL>
-<BR>[Called By]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
-<LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto
+<BR>[Called By]<UL><LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto
+<LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
 <LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
 <LI><a href="#[16f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst
@@ -1675,8 +1675,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b2]"></a>key_scan</STRONG> (Thumb, 150 bytes, Stack size 40 bytes, keyboard.o(i.key_scan))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = key_scan
+<P><STRONG><a name="[b2]"></a>key_scan</STRONG> (Thumb, 146 bytes, Stack size 32 bytes, keyboard.o(i.key_scan))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = key_scan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 </UL>
@@ -1921,7 +1921,7 @@ Global Symbols
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_screen
 </UL>
 
-<P><STRONG><a name="[140]"></a>lcd_update_main_page_process</STRONG> (Thumb, 678 bytes, Stack size 32 bytes, display.o(i.lcd_update_main_page_process))
+<P><STRONG><a name="[140]"></a>lcd_update_main_page_process</STRONG> (Thumb, 734 bytes, Stack size 32 bytes, display.o(i.lcd_update_main_page_process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = lcd_update_main_page_process &rArr; lcd_show_sensitivity_icon &rArr; clear_screen &rArr; lcd_address &rArr; lcd_transfer_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm_output
@@ -2119,8 +2119,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;do_memp_free_pool
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_check_timeouts
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_check_timeouts
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_remove
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 <LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input_delayed_close
@@ -2356,9 +2356,9 @@ Global Symbols
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernetif_input
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernetif_input
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_input
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_send_data
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_recevice_callback
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
@@ -2625,9 +2625,9 @@ Global Symbols
 <P><STRONG><a name="[121]"></a>tcp_input</STRONG> (Thumb, 1488 bytes, Stack size 40 bytes, tcp_in.o(i.tcp_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 496<LI>Call Chain = tcp_input &rArr; tcp_listen_input &rArr; tcp_alloc &rArr; tcp_kill_state &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 <LI><a href="#[170]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abort
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
@@ -2731,8 +2731,8 @@ Global Symbols
 <P><STRONG><a name="[66]"></a>tcp_recv_null</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, tcp.o(i.tcp_recv_null))
 <BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = tcp_recv_null &rArr; tcp_recved &rArr; tcp_output &rArr; tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recved
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recved
 <LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close
 </UL>
 <BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
@@ -3058,10 +3058,10 @@ Global Symbols
 <P><STRONG><a name="[1a1]"></a>udp_send_data</STRONG> (Thumb, 62 bytes, Stack size 24 bytes, udp_client.o(i.udp_send_data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = udp_send_data &rArr; udp_sendto &rArr; udp_sendto_if &rArr; udp_sendto_if_src &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto
+<LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_return_set_ok
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_return_master_msg
@@ -3144,8 +3144,8 @@ Local Symbols
 <P><STRONG><a name="[10e]"></a>low_level_input</STRONG> (Thumb, 182 bytes, Stack size 40 bytes, ethernetif.o(i.low_level_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = low_level_input &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_GetReceivedFrame
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_GetReceivedFrame
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernetif_input

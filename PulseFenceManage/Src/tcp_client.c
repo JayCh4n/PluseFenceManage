@@ -99,7 +99,7 @@ err_t tcp_client_connected(void *arg, struct tcp_pcb *tpcb, err_t err)
 			tcp_err(tpcb,tcp_client_error); 		//初始化tcp_err()回调函数
 			tcp_sent(tpcb,tcp_client_sent);			//初始化LwIP的tcp_sent回调功能
 			tcp_poll(tpcb,tcp_client_poll,10); 	//初始化LwIP的tcp_poll回调功能 
- 			tcp_client_flag |= 1<<5; 							//标记连接到服务器了
+ 			tcp_client_flag |= 1<<5; 						//标记连接到服务器了
 			err=ERR_OK;
 			tcp_write(tpcb, "Connected!\n", strlen("Connected!\n"), 1);		//发送连接成功消息
 		}
