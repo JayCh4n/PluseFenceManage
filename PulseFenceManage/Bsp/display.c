@@ -1196,9 +1196,9 @@ void lcd_show_master_type_set_page(void)
 	num_to_string(num_string, zone_struct.zone2_id);
 	lcd_show_chs_16x16(10, 49, zone_gbk_code, 2); lcd_show_str_8x16(10, 81,"ID:"); lcd_show_str_8x16(10, 105, num_string);
 	
-	/*第三行    O返回  O确定*/
-	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, back_gbk_code, 2); //O返回
-	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, determine_gbk_code, 2); //  O确定
+	/*第三行    O确定  O返回*/
+	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, determine_gbk_code, 2); 	//  O确定
+	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, back_gbk_code, 2); 		//	O返回
 }
 
 /*本地IP设置界面*/
@@ -1258,9 +1258,9 @@ void lcd_show_local_ip_set_page(void)
 	lcd_show_str_8x16(11, 185, num_string);
 
 
-	/*第五行    O返回  O确定*/
-	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, back_gbk_code, 2); 			 //  O返回
-	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, determine_gbk_code, 2); //  O确定
+	/*第五行    O确定  O返回*/
+	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, determine_gbk_code, 2);	 //  O确定
+	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, back_gbk_code, 2); 			 //  O返回
 }
 
 /*远端IP设置界面*/
@@ -1320,24 +1320,24 @@ void lcd_show_remote_ip_set_page(void)
 	lcd_show_str_8x16(10, 185, num_string);
 #endif	/* USE_UDP */
 
-	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, back_gbk_code, 2); 			 //  O返回
-	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, determine_gbk_code, 2); //  O确定
+	lcd_show_hollow_circle(17, 49); lcd_show_chs_16x16(17, 65, determine_gbk_code, 2); 	//  O确定
+	lcd_show_hollow_circle(17, 129); lcd_show_chs_16x16(17, 145, back_gbk_code, 2); 			 	//  O返回
 }
 
 void lcd_show_auto_detect_comfirm_page(void)
 {
 	clear_screen(1, 1, 20, 256);	//清屏
-	lcd_show_16x16(6, 8, chs_font_lib_16x16[GBK_C7EB]);	//请
-	lcd_show_chs_16x16(6, 23, make_sure_gbk_code, 2);	//确保
-	lcd_show_chs_16x16(6, 56, fence_gbk_code, 2);		//围栏
-	lcd_show_16x16(6, 88, chs_font_lib_16x16[GBK_CFDF]);//线
-	lcd_show_16x16(6, 104, chs_font_lib_16x16[GBK_BDD3]);//接
-	lcd_show_16x16(6, 120, chs_font_lib_16x16[GBK_BAC3]);//好
-	lcd_show_16x16(6, 136, chs_font_lib_16x16[GBK_BAF3]);//后
-	lcd_show_16x16(6, 152, chs_font_lib_16x16[GBK_B0B4]);//按
-	lcd_show_chs_16x16(6, 168, determine_gbk_code, 2);	//确定
-	lcd_show_16x16(6, 200, chs_font_lib_16x16[GBK_BCFC]);//键
-	lcd_show_chs_16x16(6, 216, continue_gbk_code, 2);	//继续
+	lcd_show_16x16(6, 8, chs_font_lib_16x16[GBK_C7EB]);		//请
+	lcd_show_chs_16x16(6, 23, make_sure_gbk_code, 2);			//确保
+	lcd_show_chs_16x16(6, 56, fence_gbk_code, 2);					//围栏
+	lcd_show_16x16(6, 88, chs_font_lib_16x16[GBK_CFDF]);	//线
+	lcd_show_16x16(6, 104, chs_font_lib_16x16[GBK_BDD3]);	//接
+	lcd_show_16x16(6, 120, chs_font_lib_16x16[GBK_BAC3]);	//好
+	lcd_show_16x16(6, 136, chs_font_lib_16x16[GBK_BAF3]);	//后
+	lcd_show_16x16(6, 152, chs_font_lib_16x16[GBK_B0B4]);	//按
+	lcd_show_chs_16x16(6, 168, determine_gbk_code, 2);		//确定
+	lcd_show_16x16(6, 200, chs_font_lib_16x16[GBK_BCFC]);	//键
+	lcd_show_chs_16x16(6, 216, continue_gbk_code, 2);			//继续
 }
 
 // void lcd_show_auto_detecting_page(void)
@@ -1379,7 +1379,6 @@ void num_to_string(uint8_t *string, uint16_t num)
 //	}
 //	
 //	string[2] = '0';		//如果为0  则显示0
-
 }
 
 void port_to_string(uint8_t *string, uint16_t port_num)
@@ -2056,9 +2055,29 @@ void lcd_update_main_page_process(void)
 		/*更新屏幕*/
 		switch(zone_struct.zone1_sta)
 		{
-			case BROKEN_LINE: lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2); break;
-			case SHORT_CIRCUIT: lcd_show_chs_16x16(7, 185, short_circuit, 2); break;
-			case TOUCH_NET:	lcd_show_chs_16x16(7, 185, touch_net_gbk_code, 2); break;
+			case BROKEN_LINE:
+				lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2);
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");
+				break;
+			case SHORT_CIRCUIT:
+				lcd_show_chs_16x16(7, 185, short_circuit, 2);
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");
+				break;
+			case TOUCH_NET:	
+				lcd_show_chs_16x16(7, 185, touch_net_gbk_code, 2);
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 10.0KV");
+					lcd_show_str_8x16(7, 113, " 10.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 00.8KV");
+					lcd_show_str_8x16(7, 113, " 00.8KV");
+				}
+				break;
 			case BYPASS: lcd_show_chs_16x16(7, 185, bypass_gbk_code, 2); break;
 			case DISARMING:
 				lcd_show_chs_16x16(7, 185, disarm_gbk_code, 2);
@@ -2111,9 +2130,29 @@ void lcd_update_main_page_process(void)
 		/*更新屏幕*/
 		switch(zone_struct.zone2_sta)
 		{
-			case BROKEN_LINE: lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2); break;
-			case SHORT_CIRCUIT: lcd_show_chs_16x16(10, 185, short_circuit, 2); break;
-			case TOUCH_NET:	lcd_show_chs_16x16(10, 185, touch_net_gbk_code, 2); break;
+			case BROKEN_LINE:
+				lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2);
+				lcd_show_str_8x16(10, 41, " 00.0KV");
+				lcd_show_str_8x16(10, 113, " 00.0KV");
+				break;
+			case SHORT_CIRCUIT:
+				lcd_show_chs_16x16(10, 185, short_circuit, 2);
+				lcd_show_str_8x16(10, 41, " 00.0KV");
+				lcd_show_str_8x16(10, 113, " 00.0KV");
+				break;
+			case TOUCH_NET:
+				lcd_show_chs_16x16(10, 185, touch_net_gbk_code, 2);
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 10.0KV");
+					lcd_show_str_8x16(10, 113, " 10.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.8KV");
+					lcd_show_str_8x16(10, 113, " 00.8KV");
+				}
+				break;
 			case BYPASS: lcd_show_chs_16x16(10, 185, bypass_gbk_code, 2); break;
 			case DISARMING: 
 				lcd_show_chs_16x16(10, 185, disarm_gbk_code, 2);
@@ -2193,7 +2232,6 @@ void lcd_update_main_page_process(void)
 			}
 		}	
 	}
-
 }
 
 //void lcd_update_zone_sta(uint8_t zone_num, zone_status_def sta)

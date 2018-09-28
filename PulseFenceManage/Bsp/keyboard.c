@@ -1,7 +1,7 @@
 #include "keyboard.h"
 
-uint8_t key_sta[5] = {1, 1, 1, 1, 1};					//按键状态 1：抬起 0：按下
-uint8_t long_press_sta[5] = {0, 0, 0, 0, 0};	//按键长按状态	0：未长按 1：长按
+uint8_t key_sta[5] = {1, 1, 1, 1, 1};							//按键状态 1：抬起 0：按下
+uint8_t long_press_sta[5] = {0, 0, 0, 0, 0};			//按键长按状态	0：未长按 1：长按
 uint8_t pre_long_press_sta[5] = {0, 0, 0, 0, 0};
 
 static void long_press_key2_action(void)
@@ -113,19 +113,19 @@ static void short_press_key2_action(void)
 		{
 			clear_screen(4,1,2,16);	//清除实心圆
 			lcd_show_solid_circle(17,129); //重画实心圆
-			master_type_set_page_cursor_sta = AT_OK_MASTER_TYPE_SET_PAGE;	//光标指向ok
-		}
-		else if(master_type_set_page_cursor_sta == AT_OK_MASTER_TYPE_SET_PAGE)	//如果光标指向ok
-		{
-			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(17, 49); //绘制实心圆
-			master_type_set_page_cursor_sta = AT_BACK_MASTER_TYPE_SET_PAGE;	//光标状态指向返回
+			master_type_set_page_cursor_sta = AT_BACK_MASTER_TYPE_SET_PAGE;	//光标指向ok
 		}
 		else if(master_type_set_page_cursor_sta == AT_BACK_MASTER_TYPE_SET_PAGE)	//如果光标指向返回
 		{
+			lcd_show_hollow_circle(17, 129);	//绘制空心圆
+			lcd_show_solid_circle(17, 49); //绘制实心圆
+			master_type_set_page_cursor_sta = AT_OK_MASTER_TYPE_SET_PAGE;	//光标指向防区2ID
+		}
+		else if(master_type_set_page_cursor_sta == AT_OK_MASTER_TYPE_SET_PAGE)	//如果光标指向ok
+		{
 			lcd_show_hollow_circle(17, 49);	//绘制空心圆
 			lcd_show_solid_circle(10, 1); //绘制实心圆
-			master_type_set_page_cursor_sta = AT_ZONG2_ID;	//光标指向防区2ID
+			master_type_set_page_cursor_sta = AT_ZONG2_ID;	//光标状态指向返回
 		}
 		else if(master_type_set_page_cursor_sta == AT_ZONG2_ID)
 		{
@@ -170,19 +170,19 @@ static void short_press_key2_action(void)
 		{
 			clear_screen(5,1,2,16);	//清除实心圆
 			lcd_show_solid_circle(17,129); //重画实心圆
-			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;	//光标指向ok
-		}
-		else if(local_ip_set_page_cursor_sta == AT_OK_LOCAL_IP_SET_PAGE)	//如果光标指向ok
-		{
-			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(17, 49); //绘制实心圆
-			local_ip_set_page_cursor_sta = AT_BACK_LOCAL_IP_SET_PAGE;	//光标状态指向返回
+			local_ip_set_page_cursor_sta = AT_BACK_LOCAL_IP_SET_PAGE;	//光标指向ok
 		}
 		else if(local_ip_set_page_cursor_sta == AT_BACK_LOCAL_IP_SET_PAGE)	//如果光标指向返回
 		{
+			lcd_show_hollow_circle(17, 129);	//绘制空心圆
+			lcd_show_solid_circle(17, 49); //绘制实心圆
+			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;	//光标指向远端IP
+		}
+		else if(local_ip_set_page_cursor_sta == AT_OK_LOCAL_IP_SET_PAGE)	//如果光标指向ok
+		{
 			lcd_show_hollow_circle(17, 49);	//绘制空心圆
 			lcd_show_solid_circle(11, 1); //绘制实心圆
-			local_ip_set_page_cursor_sta = AT_GATEWAY_ADDRESS;	//光标指向远端IP
+			local_ip_set_page_cursor_sta = AT_GATEWAY_ADDRESS;	//光标状态指向返回
 		}
 		else if(local_ip_set_page_cursor_sta == AT_GATEWAY_ADDRESS)
 		{
@@ -310,22 +310,22 @@ static void short_press_key2_action(void)
 	{
 		if(remote_ip_set_page_cursor_sta == AT_REMOTE_PORT)
 		{
-			clear_screen(7,1,2,16);	//清除实心圆
+			clear_screen(7,1,2,16);				//清除实心圆
 			lcd_show_solid_circle(17,129);//绘制实心圆
+			remote_ip_set_page_cursor_sta = AT_BACK_REMOTE_IP_SET_PAGE;
+		}
+		else if(remote_ip_set_page_cursor_sta == AT_BACK_REMOTE_IP_SET_PAGE)
+		{
+			lcd_show_hollow_circle(17, 129);	//绘制空心圆
+			lcd_show_solid_circle(17,49);			//绘制实心圆
 			remote_ip_set_page_cursor_sta = AT_OK_REMOTE_IP_SET_PAGE;
 		}
 		else if(remote_ip_set_page_cursor_sta == AT_OK_REMOTE_IP_SET_PAGE)
 		{
-			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(17,49);//绘制实心圆
-			remote_ip_set_page_cursor_sta = AT_BACK_REMOTE_IP_SET_PAGE;
-		}	
-		else if(remote_ip_set_page_cursor_sta == AT_BACK_REMOTE_IP_SET_PAGE)
-		{
 			lcd_show_hollow_circle(17, 49);	//绘制空心圆
-			lcd_show_solid_circle(10,1);//绘制实心圆
+			lcd_show_solid_circle(10, 1);//绘制实心圆
 			remote_ip_set_page_cursor_sta = AT_REMOTE_ADRESS;
-		}
+		}	
 		else if(remote_ip_set_page_cursor_sta == AT_REMOTE_ADRESS)
 		{
 			clear_screen(10,1,2,16);//清除实心圆
@@ -440,6 +440,7 @@ static void short_press_key4_action(void)
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET;	//光标状态指向返回
 		}		
 	}
+	
 	else if(page_sta == IN_MASTER_TYPE_SET_PAGE)	//如果在主机类型界面
 	{
 		if(master_type_set_page_cursor_sta == AT_ZONE_TYPE)	//如果光标指向主机类型
@@ -458,19 +459,19 @@ static void short_press_key4_action(void)
 		{
 			clear_screen(10,1,2,16);	 //清除实心圆
 			lcd_show_solid_circle(17, 49); //绘制实心圆
-			master_type_set_page_cursor_sta = AT_BACK_MASTER_TYPE_SET_PAGE;	//光标指向返回
-		}
-		else if(master_type_set_page_cursor_sta == AT_BACK_MASTER_TYPE_SET_PAGE)
-		{
-			lcd_show_hollow_circle(17, 49);	//绘制空心圆
-			lcd_show_solid_circle(17,129);//绘制实心圆
-			master_type_set_page_cursor_sta = AT_OK_MASTER_TYPE_SET_PAGE;	//光标指向OK
+			master_type_set_page_cursor_sta = AT_OK_MASTER_TYPE_SET_PAGE;	//光标指向返回
 		}
 		else if(master_type_set_page_cursor_sta == AT_OK_MASTER_TYPE_SET_PAGE)
 		{
+			lcd_show_hollow_circle(17, 49);	//绘制空心圆
+			lcd_show_solid_circle(17, 129);//绘制实心圆
+			master_type_set_page_cursor_sta = AT_BACK_MASTER_TYPE_SET_PAGE;	//光标指向防区类型
+		}
+		else if(master_type_set_page_cursor_sta == AT_BACK_MASTER_TYPE_SET_PAGE)
+		{
 			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(4,1);//绘制实心圆
-			master_type_set_page_cursor_sta = AT_ZONE_TYPE;	//光标指向防区类型
+			lcd_show_solid_circle(4, 1);//绘制实心圆
+			master_type_set_page_cursor_sta = AT_ZONE_TYPE;	//光标指向OK
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE_TYPE)
 		{
@@ -514,20 +515,20 @@ static void short_press_key4_action(void)
 		{
 			clear_screen(11,1,2,16);	 			//清除实心圆
 			lcd_show_solid_circle(17, 49); 	//绘制实心圆
-			local_ip_set_page_cursor_sta = AT_BACK_LOCAL_IP_SET_PAGE;	//光标指向远端地址
+			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;	//光标指向远端地址
+		}
+		else if(local_ip_set_page_cursor_sta == AT_OK_LOCAL_IP_SET_PAGE)
+		{
+			lcd_show_hollow_circle(17, 49);	//绘制空心圆
+			lcd_show_solid_circle(17, 129);			//绘制实心圆
+			local_ip_set_page_cursor_sta = AT_BACK_LOCAL_IP_SET_PAGE;					//光标指向OK
 		}
 		else if(local_ip_set_page_cursor_sta == AT_BACK_LOCAL_IP_SET_PAGE)
 		{
-			lcd_show_hollow_circle(17, 49);	//绘制空心圆
-			lcd_show_solid_circle(17, 129);	//绘制实心圆
-			local_ip_set_page_cursor_sta = AT_OK_LOCAL_IP_SET_PAGE;		//光标指向OK
-		}		
-		else if(local_ip_set_page_cursor_sta == AT_OK_LOCAL_IP_SET_PAGE)
-		{
 			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(5, 1);			//绘制实心圆
-			local_ip_set_page_cursor_sta = AT_LOCAL_ADDRESS;					//光标指向OK
-		}
+			lcd_show_solid_circle(5, 1);	//绘制实心圆
+			local_ip_set_page_cursor_sta = AT_LOCAL_ADDRESS;		//光标指向OK
+		}		
 		else if(local_ip_set_page_cursor_sta == TOOGLE_LOCAL_ADDRESS1)
 		{
 			if(--local_address_set_buff[0] < 1)
@@ -650,18 +651,18 @@ static void short_press_key4_action(void)
 		{
 			clear_screen(10,1,2,16);	//清除实心圆
 			lcd_show_solid_circle(17,49);//绘制实心圆
-			remote_ip_set_page_cursor_sta = AT_BACK_REMOTE_IP_SET_PAGE;
-		}	
-		else if(remote_ip_set_page_cursor_sta == AT_BACK_REMOTE_IP_SET_PAGE)
-		{
-			lcd_show_hollow_circle(17, 49);	//绘制空心圆
-			lcd_show_solid_circle(17,129);//绘制实心圆
 			remote_ip_set_page_cursor_sta = AT_OK_REMOTE_IP_SET_PAGE;
-		}
+		}	
 		else if(remote_ip_set_page_cursor_sta == AT_OK_REMOTE_IP_SET_PAGE)
 		{
+			lcd_show_hollow_circle(17, 49);	//绘制空心圆
+			lcd_show_solid_circle(17, 129);//绘制实心圆
+			remote_ip_set_page_cursor_sta = AT_BACK_REMOTE_IP_SET_PAGE;
+		}
+		else if(remote_ip_set_page_cursor_sta == AT_BACK_REMOTE_IP_SET_PAGE)
+		{
 			lcd_show_hollow_circle(17, 129);	//绘制空心圆
-			lcd_show_solid_circle(7,1);//绘制实心圆
+			lcd_show_solid_circle(7, 1);//绘制实心圆
 			remote_ip_set_page_cursor_sta = AT_REMOTE_PORT;
 		}
 		else if(remote_ip_set_page_cursor_sta == TOOGLE_REMOTE_PORT)
@@ -1118,13 +1119,14 @@ void key_scan(void)
 
 	for(i=0; i<5; i++)
 	{
-		if(i == 4)
+		if(i == 0)
 		{
 			key_buff[i] = (key_buff[i] << 1) | HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10);	//KEY1
 		}
 		else
 		{
-			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (12+i)) & 0x01);	//读取io状态	KEY 2 - 5
+			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (16-i)) & 0x01);	//读取io状态	KEY 2 - 5
+//			key_buff[i] = (key_buff[i] << 1) | ((GPIOE->IDR >> (12+i)) & 0x01);	//读取io状态	KEY 2 - 5
 		}
 
 		if(key_buff[i] == 0xFF)				//如果8次检测都为高电平 则认为抬起	定时器定时每1ms扫描一次

@@ -261,8 +261,8 @@ void tcp_client_senddata(struct tcp_pcb *tpcb, struct tcp_client_struct * es)
 			pbuf_free(ptr);				//释放ptr 
 		}else if(wr_err==ERR_MEM)es->p=ptr;
 		tcp_output(tpcb);		//将发送缓冲队列中的数据立即发送出去
-	} 
-} 
+	}
+}
 
 /***************************************************************************************************/
 //*******函数名:tcp_client_connection_close(struct tcp_pcb *tpcb, struct tcp_client_struct * es)

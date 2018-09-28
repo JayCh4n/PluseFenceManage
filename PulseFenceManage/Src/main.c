@@ -151,7 +151,7 @@ int main(void)
 	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
 	
-//	read_data_from_flash();
+	read_data_from_flash();
 	MX_LWIP_Init();
 	udp_monitor_conf(udp_remote_ip, udp_port_num);
 	lcd_init();
@@ -176,7 +176,7 @@ int main(void)
 		key_drive();
 		demolition_detect_process();
 		bettery_manage_process();
-//		write_flash_process();
+		write_flash_process();
   }
   /* USER CODE END 3 */
 

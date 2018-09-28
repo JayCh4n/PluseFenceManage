@@ -107,7 +107,7 @@ static uint8_t demolition_detect(void)
 {
 	uint8_t sta;	//²ð³ý×´Ì¬
 	
-	sta = (uint8_t)!HAL_GPIO_ReadPin(DISMANTLE_DETECT_GPIO_Port, DISMANTLE_DETECT_Pin);
+	sta = (uint8_t)HAL_GPIO_ReadPin(DISMANTLE_DETECT_GPIO_Port, DISMANTLE_DETECT_Pin);
 	
 	return sta;
 }

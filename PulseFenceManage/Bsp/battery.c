@@ -197,6 +197,11 @@ uint8_t get_battery_capacity(void)
 	return battery_capacity;
 }
 
+static void battery_disconnect(void)
+{
+	HAL_GPIO_WritePin(BETTERY_EN_GPIO_Port, BETTERY_EN_Pin, GPIO_PIN_RESET);
+}
+
 /***********************************************************************/
 //*******������:get_charge_sta(void)
 //*******��;:��ȡ���״̬  ���ͼ���������
@@ -216,7 +221,7 @@ uint8_t get_charge_sta(void)
 void bettery_manage_process(void)
 {
 	static uint8_t bettery_icon_mask = 0;
-	uint8_t battery_capacity;
+	int8_t battery_capacity;
 	
 	//��ʱδ�� ��ֹ
 	if(!bettery_manage_mask)
@@ -252,6 +257,10 @@ void bettery_manage_process(void)
 			battery_capacity = get_battery_capacity();
 			bettery_icon_mask = battery_capacity / 20;
 			lcd_show_32x16(1,209,battery_icon_32x16[bettery_icon_mask]);
+		}
+		if(battery_capacity <= 0)
+		{
+			battery_disconnect();
 		}
 	}
 }
