@@ -87,6 +87,7 @@ pulsefencemanage\udp_client.o: ..\Bsp\master_manage.h
 pulsefencemanage\udp_client.o: ../Inc/tcp_client.h
 pulsefencemanage\udp_client.o: ..\Bsp\alarm.h
 pulsefencemanage\udp_client.o: ..\Bsp\display.h
+pulsefencemanage\udp_client.o: ..\Bsp\sim800c.h
 pulsefencemanage\udp_client.o: ../Inc/flash.h
 pulsefencemanage\udp_client.o: ../Inc/udp_client.h
 pulsefencemanage\udp_client.o: ..\Bsp\max485.h

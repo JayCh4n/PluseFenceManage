@@ -157,7 +157,7 @@ int main(void)
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
 	HAL_Delay(500);
-	sim800c_init(5, 5);
+	sim800c_init_flag = sim800c_init(5, 5);
 	HAL_Delay(2000);
 	init_control_uint();
 	lcd_show_main_page();
@@ -177,6 +177,11 @@ int main(void)
 		demolition_detect_process();
 		bettery_manage_process();
 		write_flash_process();
+		
+		if(sim800c_init_flag)
+		{
+			sim800c_process();
+		}
   }
   /* USER CODE END 3 */
 
@@ -585,6 +590,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t bettery_manage_cnt = 0;
 	static uint16_t demolition_alarm_delay_cnt = 0;
 	static uint16_t communication_sta_cnt = 0;
+	static uint16_t sim800c_try_connect_cnt = 0;
+	static uint16_t sim800c_heart_cnt = 0;
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
   /* NOTE : This function Should not be modified, when the callback is needed,
@@ -671,6 +678,39 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			}
 			communication_cnt = 0;
 		}
+		
+		if(++sim800c_try_connect_cnt >= 2000)
+		{
+			sim800c_try_connect_cnt = 0;
+			sim800c_try_connect_mask = 1;
+		}
+		
+		if(wait_tcp_contect_flag)
+		{
+			if(++wait_tcp_contect_cnt >= 10000)
+			{
+				wait_tcp_contect_cnt = 0;
+				process_step = 6;
+				sim800c_link_flag = 0;
+			}
+		}
+		
+		if(++sim800c_heart_cnt >= 5000)
+		{
+			sim800c_heart_cnt = 0;
+			sim800c_heart_mask = 1;
+		}
+		
+		if(uart6_rx_start)
+		{
+			if(++uart6_rx_time_cnt >= 12)
+			{
+				uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = '\0';
+				uart6_rx_start = 0;
+				uart6_rx_struct.rx_cnt = 0;
+				transparent_data_processing();
+			}
+		}
 	}
 }
 
@@ -738,34 +778,42 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		}
 	}		
 	
-	
 	if(huart->Instance == huart6.Instance)
 	{
 		if(uart6_rx_struct.rx_enable)		//是否使能接收
-		{
-			if(!uart6_rx_struct.cmd_data_flag)						//是否为命令接收
+		{	
+			if(!sim800c_link_flag)	//如果没连接到tcp
 			{
-				uart6_rx_struct.rx_cmd[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
-				if(uart6_rx_buff == '\n')
+				if(!uart6_rx_struct.cmd_data_flag)						//是否为命令接收
 				{
-					uart6_rx_struct.cmd_data_flag = 1;
-					uart6_rx_struct.rx_cnt = 0;
+					uart6_rx_struct.rx_cmd[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
+					if(uart6_rx_buff == '\n')
+					{
+						uart6_rx_struct.cmd_data_flag = 1;
+						uart6_rx_struct.rx_cnt = 0;
+					}
+				}
+				else if(uart6_rx_struct.cmd_data_flag)						//是否为数据接收
+				{
+					uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
+					if(uart6_rx_buff == '\n')
+					{
+						uart6_rx_struct.cmd_data_flag = 0;
+						uart6_rx_struct.rx_cnt = 0;
+						uart6_rx_struct.rx_enable = 0;
+						uart6_rx_struct.rx_end = 1;
+					}					
 				}
 			}
-			else if(uart6_rx_struct.cmd_data_flag)						//是否为数据接收
+			else	//如果已经连接到tcp服务器
 			{
+				uart6_rx_start = 1;
+				uart6_rx_time_cnt = 0;
+				
 				uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = uart6_rx_buff;
-				if(uart6_rx_buff == '\n')
-				{
-					uart6_rx_struct.cmd_data_flag = 0;
-					uart6_rx_struct.rx_cnt = 0;
-					uart6_rx_struct.rx_enable = 0;
-					uart6_rx_struct.rx_end = 1;
-				}					
 			}
 		}
 	}
-	
 	if(huart->Instance == huart2.Instance)
 	{
 		uart2_rx_cnt++;

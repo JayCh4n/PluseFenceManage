@@ -7,6 +7,7 @@
 #include "tcp_client.h"
 #include "lwip.h"
 #include "alarm.h"
+#include "sim800c.h"
 
 #define LED_ON		1
 #define LED_OFF 	0

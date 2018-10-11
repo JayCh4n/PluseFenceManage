@@ -91,3 +91,4 @@ pulsefencemanage\keyboard.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/pr
 pulsefencemanage\keyboard.o: ..\Bsp\max485.h
 pulsefencemanage\keyboard.o: ..\Bsp\alarm.h
 pulsefencemanage\keyboard.o: ../Inc/flash.h
+pulsefencemanage\keyboard.o: ..\Bsp\sim800c.h

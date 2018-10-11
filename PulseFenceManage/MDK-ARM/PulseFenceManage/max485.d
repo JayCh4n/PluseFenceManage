@@ -85,6 +85,7 @@ pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp
 pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
 pulsefencemanage\max485.o: ..\Bsp\alarm.h
 pulsefencemanage\max485.o: ..\Bsp\display.h
+pulsefencemanage\max485.o: ..\Bsp\sim800c.h
 pulsefencemanage\max485.o: ../Inc/flash.h
 pulsefencemanage\max485.o: ../Inc/udp_client.h
 pulsefencemanage\max485.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/udp.h

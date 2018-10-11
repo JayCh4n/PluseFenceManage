@@ -90,6 +90,6 @@ pulsefencemanage\main.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/u
 pulsefencemanage\main.o: ..\Bsp\max485.h
 pulsefencemanage\main.o: ..\Bsp\alarm.h
 pulsefencemanage\main.o: ../Inc/flash.h
+pulsefencemanage\main.o: ..\Bsp\sim800c.h
 pulsefencemanage\main.o: ..\Bsp\keyboard.h
 pulsefencemanage\main.o: ..\Bsp\battery.h
-pulsefencemanage\main.o: ..\Bsp\sim800c.h

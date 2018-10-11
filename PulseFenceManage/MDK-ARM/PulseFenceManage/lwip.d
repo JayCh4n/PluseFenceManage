@@ -89,6 +89,7 @@ pulsefencemanage\lwip.o: ..\Bsp\display.h
 pulsefencemanage\lwip.o: ..\Bsp\master_manage.h
 pulsefencemanage\lwip.o: ..\Bsp\alarm.h
 pulsefencemanage\lwip.o: ..\Bsp\display.h
+pulsefencemanage\lwip.o: ..\Bsp\sim800c.h
 pulsefencemanage\lwip.o: ../Inc/flash.h
 pulsefencemanage\lwip.o: ../Inc/udp_client.h
 pulsefencemanage\lwip.o: ..\Bsp\max485.h

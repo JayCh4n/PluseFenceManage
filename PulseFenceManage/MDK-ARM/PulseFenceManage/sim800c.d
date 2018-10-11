@@ -36,3 +36,4 @@ pulsefencemanage\sim800c.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rt
 pulsefencemanage\sim800c.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 pulsefencemanage\sim800c.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 pulsefencemanage\sim800c.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+pulsefencemanage\sim800c.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
