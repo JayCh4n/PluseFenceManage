@@ -586,9 +586,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	static uint16_t connect_to_server_cnt = 0;
 	static uint16_t dynamic_lcd_cnt = 0;
-	static uint16_t demolition_detect_cnt = 0;
+	static uint32_t demolition_detect_cnt = 0;
 	static uint16_t bettery_manage_cnt = 0;
-	static uint16_t demolition_alarm_delay_cnt = 0;
+	static uint32_t demolition_alarm_delay_cnt = 0;
 	static uint16_t communication_sta_cnt = 0;
 	static uint16_t sim800c_try_connect_cnt = 0;
 	static uint16_t sim800c_heart_cnt = 0;
@@ -637,7 +637,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(zone1_alarm_reset_flag)
 		{
-			if(++zone1_alarm_delay_cnt >= 5000)
+			if(++zone1_alarm_delay_cnt >= zone1_alarm_reset_time)
 			{
 				zone1_alarm_delay_cnt = 0;
 				zone1_alarm_reset_flag = 0;
@@ -647,7 +647,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(zone2_alarm_reset_flag)
 		{
-			if(++zone2_alarm_delay_cnt >= 5000)
+			if(++zone2_alarm_delay_cnt >= zone2_alarm_reset_time)
 			{
 				zone2_alarm_delay_cnt = 0;
 				zone2_alarm_reset_flag = 0;
@@ -657,7 +657,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(demolition_alarm_reset_flag)
 		{
-			if(++demolition_alarm_delay_cnt >= 5000)
+			if(++demolition_alarm_delay_cnt >= demolition_alarm_reset_time)
 			{
 				demolition_alarm_delay_cnt = 0;
 				demolition_alarm_reset_flag = 0;
@@ -703,7 +703,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(uart6_rx_start)
 		{
-			if(++uart6_rx_time_cnt >= 12)
+			if(++uart6_rx_time_cnt >= 2)
 			{
 				uart6_rx_struct.rx_data[uart6_rx_struct.rx_cnt++] = '\0';
 				uart6_rx_start = 0;

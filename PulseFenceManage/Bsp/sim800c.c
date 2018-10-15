@@ -447,6 +447,26 @@ static uint8_t sim800c_connect_tcp(void)
 	return 1;
 }
 
+static uint8_t sim800c_close_tcp(void)
+{
+	do
+	{
+		HAL_UART_Transmit(&huart6, "AT+CIPCLOSE\r\n", 13, 1000);
+		uart6_rx_struct.rx_enable = 1;
+		uart6_rx_struct.rx_cnt = 0;
+		uart6_rx_struct.rx_end = 0;
+		uart6_rx_struct.cmd_data_flag = 0;
+		HAL_Delay(50);
+	}while(!uart6_rx_struct.rx_end);
+	
+//	if(!check_sim800c_cmd(uart6_rx_struct.rx_cmd, uart6_rx_struct.rx_data, "AT+CIPCLOSE\r\n", "CLOSE OK\r\n"))
+//	{
+//		return 0;
+//	}
+	
+	return 1;
+}
+
 //初始化sim800c
 uint8_t sim800c_init(int8_t pwr_wait_time, int8_t baud_wait_time)
 {
@@ -554,7 +574,7 @@ void sim800c_process(void)
 
 void transparent_data_processing(void)
 {
-	if(strcmp((char *)uart6_rx_struct.rx_data, "\r\nCLOSED\r\n") == 0)
+	if(strcmp((char *)uart6_rx_struct.rx_data, "\r\nCLOSED\r\n") == 0)				//tcp服务器关闭 导致的tcp断开连接
 	{
 		process_step = 6;
 		sim800c_link_flag = 0;
@@ -563,12 +583,28 @@ void transparent_data_processing(void)
 	if(strcmp((char *)uart6_rx_struct.rx_data, "\r\nCONNECT\r\n") == 0)
 	{
 		wait_tcp_contect_flag = 0;
+		HAL_UART_Transmit(&huart6, "Pulse: Connect!\r\n", 17, 1000);
 	}
 	
-	if(strcmp((char *)uart6_rx_struct.rx_data, "\r\n+PDP: DEACT\r\n") == 0)		//如果中途拆除sim卡  或者sim卡损坏
+	if(strcmp((char *)uart6_rx_struct.rx_data, "\r\n+PDP: DEACT\r\n") == 0)		//如果中途拆除sim卡  或者信号过低 或者其他原因断开tcp连接
 	{
-		process_step = 0;
 		sim800c_link_flag = 0;
+		
+		if(check_sim_exist())
+		{
+			if(sim800c_close_tcp())
+			{
+				process_step = 6;	//
+			}
+			else
+			{
+				process_step = 0;
+			}
+		}
+		else
+		{
+			process_step = 0;		//如果没插卡终止
+		}
 	}
 }
 

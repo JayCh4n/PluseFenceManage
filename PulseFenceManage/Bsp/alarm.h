@@ -28,6 +28,9 @@ extern uint8_t demolition_alarm_reset_flag;
 extern uint16_t zone1_alarm_delay_cnt;
 extern uint16_t zone2_alarm_delay_cnt;
 
+extern uint32_t zone1_alarm_reset_time;
+extern uint32_t zone2_alarm_reset_time;
+extern uint32_t demolition_alarm_reset_time;
 
 void relay_alarm(uint8_t zone_num, uint8_t cmd);
 void relay_siren(uint8_t zone_num, uint8_t cmd);

@@ -10,6 +10,10 @@ uint8_t demolition_alarm_reset_flag = 0;
 uint16_t zone1_alarm_delay_cnt = 0;
 uint16_t zone2_alarm_delay_cnt = 0;
 
+uint32_t zone1_alarm_reset_time = 5000;
+uint32_t zone2_alarm_reset_time = 5000;
+uint32_t demolition_alarm_reset_time = 5000;
+
 void relay_alarm(uint8_t zone_num, uint8_t cmd)
 {
 	if(cmd == RELAY_ON)

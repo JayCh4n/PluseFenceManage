@@ -41,10 +41,10 @@ void uart1_deal(uint8_t *data_package)
 	switch(command)
 	{
 		case AMING_DISARM:
-			zone_struct_set_buff.zone1_sta = (zone_status_def)(sta+5);
+			zone_struct_set_buff.zone1_sta = (zone_status_def)(sta+7);
 			if(zone_struct.zone_type == DOUBLE_ZONE)
 			{
-				zone_struct_set_buff.zone2_sta = (zone_status_def)(sta+5);
+				zone_struct_set_buff.zone2_sta = (zone_status_def)(sta+7);
 			}
 			zone_struct.arm_sta = sta;
 			write_flash_time_cnt = 0;

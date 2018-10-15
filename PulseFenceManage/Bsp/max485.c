@@ -278,10 +278,13 @@ void max_485_1_deal(uint8_t *data_pakge)
 				}
 			}
 			break;
-		case MODIFY_ALARM_DELAY: break;
-			
-		case MODIFY_TRIGGER_DELAY: break;
-		
+		case MODIFY_ALARM_DELAY: 
+			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = data_pakge[8] * 1000;
+			break;
+		case MODIFY_TRIGGER_DELAY: 
+			set_ctrl_unit(TARGE_DELAY, data_pakge[8]);
+			max_485_1_return_set_ok((uint8_t)cmd);
+			break;
 		case MODIFY_ARM_DISARM:
 			//0:³··À  1£º²¼·À
 			set_ctrl_unit(AMING_DISARM, data_pakge[8]);

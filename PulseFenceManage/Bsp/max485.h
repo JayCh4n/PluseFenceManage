@@ -29,7 +29,7 @@ typedef enum
 	MODIFY_ALARM_DELAY,					//24 告警延时修改命令	-- 延时时间/秒（1）
 	MODIFY_TRIGGER_DELAY,				//25 触发延时修改命令	-- 延时时间/秒 (1)
 	MODIFY_ARM_DISARM,					//26 布防/撤防命令 -- 布防/撤防（1）
-	TMING_CMD										//27
+	TMING_CMD										//27 定时功能
 }master_ctrl_cmd_def;
 
 void max485_send_str(uint8_t device, uint8_t *str, uint16_t lenth);

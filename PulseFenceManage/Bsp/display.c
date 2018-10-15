@@ -986,9 +986,9 @@ void lcd_show_main_page(void)
 	
 	/*第一行 状态图标*/
 	clear_screen(1, 1, 20, 256);							//清屏
-//	lcd_show_str_8x16(1, 2, "ZKSERVE");				//主页面左上角公司标志图标  （因为现实不下图标  用字符串代替）
+	lcd_show_str_8x16(1, 2, "ZKSERVE");				//主页面左上角公司标志图标  （因为现实不下图标  用字符串代替）
 //	lcd_show_64x16(1, 2, logo_64x16);				//主页面左上角公司标志图标
-	lcd_show_100x24(1,1, logo_100x24);
+//	lcd_show_100x24(1,1, logo_100x24);
 //lcd_show_32x16(1,209,battery_icon_32x16[5]); //电池图标
 
 	if(communication_sta == COMMUNICATING)
@@ -1024,7 +1024,9 @@ void lcd_show_main_page(void)
 	
 	switch(zone_struct.zone1_sta)
 	{
-		case BROKEN_LINE: lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2); break;
+		case P_BROKEN_LINE: lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2); break;
+		case N_BROKEN_LINE: lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2); break;
+		case PN_BROKEN_LINE: lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2); break;		//三种断线情况都显示断线
 		case SHORT_CIRCUIT: lcd_show_chs_16x16(7, 185, short_circuit, 2); break;
 		case TOUCH_NET:	lcd_show_chs_16x16(7, 185, touch_net_gbk_code, 2); break;
 		case DISARMING: lcd_show_chs_16x16(7, 185, disarm_gbk_code, 2); break;
@@ -1063,7 +1065,9 @@ void lcd_show_main_page(void)
 		}
 		switch(zone_struct.zone2_sta)
 		{
-			case BROKEN_LINE: lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2); break;
+			case P_BROKEN_LINE: lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2); break;
+			case N_BROKEN_LINE: lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2); break;
+			case PN_BROKEN_LINE: lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2); break;
 			case SHORT_CIRCUIT: lcd_show_chs_16x16(10, 185, short_circuit, 2); break;
 			case TOUCH_NET:	lcd_show_chs_16x16(10, 185, touch_net_gbk_code, 2); break;
 			case DISARMING: lcd_show_chs_16x16(10, 185, disarm_gbk_code, 2); break;
@@ -1941,22 +1945,76 @@ void lcd_update_main_page_process(void)
 		zone_struct.zone_voltage_level = zone_struct_set_buff.zone_voltage_level;
 		if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
 		{
-			lcd_show_str_8x16(7, 41, " 10.0KV");
-			lcd_show_str_8x16(7, 113, " 10.0KV");
+			if(zone_struct.zone1_sta == P_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 10.0KV");				
+			}
+			else if(zone_struct.zone1_sta == N_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 10.0KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");					
+			}
+			else if(zone_struct.zone1_sta == PN_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");			
+			}
+			
 			if(zone_struct.zone_type == DOUBLE_ZONE)
 			{
-				lcd_show_str_8x16(10, 41, " 10.0KV");
-				lcd_show_str_8x16(10, 113, " 10.0KV");
+				if(zone_struct.zone2_sta == P_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 10.0KV");			
+				}
+				else if(zone_struct.zone2_sta == N_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 10.0KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");					
+				}
+				else if(zone_struct.zone2_sta == PN_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");			
+				}
 			}
 		}
 		else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
 		{
-			lcd_show_str_8x16(7, 41, " 00.8KV");
-			lcd_show_str_8x16(7, 113, " 00.8KV");
+			if(zone_struct.zone1_sta == P_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 00.8KV");				
+			}
+			else if(zone_struct.zone1_sta == N_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 00.8KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");					
+			}
+			else if(zone_struct.zone1_sta == PN_BROKEN_LINE)
+			{
+				lcd_show_str_8x16(7, 41, " 00.0KV");
+				lcd_show_str_8x16(7, 113, " 00.0KV");			
+			}
+
 			if(zone_struct.zone_type == DOUBLE_ZONE)
 			{
-				lcd_show_str_8x16(10, 41, " 00.8KV");
-				lcd_show_str_8x16(10, 113, " 00.8KV");
+				if(zone_struct.zone2_sta == P_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 00.8KV");			
+				}
+				else if(zone_struct.zone2_sta == N_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.8KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");					
+				}
+				else if(zone_struct.zone2_sta == PN_BROKEN_LINE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");			
+				}
 			}
 		}
 	}
@@ -1990,10 +2048,49 @@ void lcd_update_main_page_process(void)
 		/*更新屏幕*/
 		switch(zone_struct.zone1_sta)
 		{
-			case BROKEN_LINE:
+			case P_BROKEN_LINE:
+				lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2);
+			
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 00.0KV");
+					lcd_show_str_8x16(7, 113, " 10.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 00.0KV");
+					lcd_show_str_8x16(7, 113, " 00.8KV");
+				}
+				
+				if(sim800c_link_flag && (!wait_tcp_contect_flag))
+				{
+					HAL_UART_Transmit(&huart6, "ZONE1:BROKEN_LINE\n", 18, 1000);
+				}
+				break;
+			case N_BROKEN_LINE:
+				lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2);
+			
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 10.0KV");
+					lcd_show_str_8x16(7, 113, " 00.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(7, 41, " 00.8KV");
+					lcd_show_str_8x16(7, 113, " 00.0KV");
+				}
+				
+				if(sim800c_link_flag && (!wait_tcp_contect_flag))
+				{
+					HAL_UART_Transmit(&huart6, "ZONE1:BROKEN_LINE\n", 18, 1000);
+				}
+				break;
+			case PN_BROKEN_LINE:
 				lcd_show_chs_16x16(7, 185, broken_line_gbk_code, 2);
 				lcd_show_str_8x16(7, 41, " 00.0KV");
 				lcd_show_str_8x16(7, 113, " 00.0KV");
+				
 				if(sim800c_link_flag && (!wait_tcp_contect_flag))
 				{
 					HAL_UART_Transmit(&huart6, "ZONE1:BROKEN_LINE\n", 18, 1000);
@@ -2085,7 +2182,36 @@ void lcd_update_main_page_process(void)
 		/*更新屏幕*/
 		switch(zone_struct.zone2_sta)
 		{
-			case BROKEN_LINE:
+			case P_BROKEN_LINE:
+				lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2);
+			
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 10.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.0KV");
+					lcd_show_str_8x16(10, 113, " 00.8KV");
+				}
+				
+				break;
+			case N_BROKEN_LINE:
+				lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2);
+			
+				if(zone_struct.zone_voltage_level == HIGH_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 10.0KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");
+				}
+				else if(zone_struct.zone_voltage_level == LOW_VOLTAGE)
+				{
+					lcd_show_str_8x16(10, 41, " 00.8KV");
+					lcd_show_str_8x16(10, 113, " 00.0KV");
+				}
+				break;
+			case PN_BROKEN_LINE:
 				lcd_show_chs_16x16(10, 185, broken_line_gbk_code, 2);
 				lcd_show_str_8x16(10, 41, " 00.0KV");
 				lcd_show_str_8x16(10, 113, " 00.0KV");
