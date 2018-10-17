@@ -75,8 +75,12 @@ static void max_485_1_return_master_msg(void)
 	max485_1_sendbuf[8] = zone_struct.zone_type;	//
 	max485_1_sendbuf[9] = zone_struct.zone1_id;
 	max485_1_sendbuf[10] = zone_struct.zone2_id;
-	max485_1_sendbuf[11] = zone_struct.zone1_sta;
-	max485_1_sendbuf[12] = zone_struct.zone2_sta;
+	
+	max485_1_sendbuf[11] = zone_struct.zone1_sta <= 3 ? 1:zone_struct.zone1_sta - 2;
+	max485_1_sendbuf[12] = zone_struct.zone2_sta <= 3 ? 1:zone_struct.zone2_sta - 2;
+	
+//	max485_1_sendbuf[11] = zone_struct.zone1_sta;
+//	max485_1_sendbuf[12] = zone_struct.zone2_sta;
 	max485_1_sendbuf[13] = demolition_sta;
 	max485_1_sendbuf[14] = zone_struct.zone_voltage_level;
 	max485_1_sendbuf[15] = zone_struct.zone1_sensitivity;
@@ -194,6 +198,7 @@ void max_485_1_deal(uint8_t *data_pakge)
 	
 	master_ctrl_cmd_def cmd;
 	uint8_t zone_num; 													// 0:双防区 1：1防区  2：2防区
+	uint16_t alarm_delay_s;	//报警延时 单位s
 	
 	communication_cnt++;
 	communication_sta = COMMUNICATING;
@@ -279,7 +284,10 @@ void max_485_1_deal(uint8_t *data_pakge)
 			}
 			break;
 		case MODIFY_ALARM_DELAY: 
-			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = data_pakge[8] * 1000;
+			alarm_delay_s = data_pakge[8];
+			alarm_delay_s = (alarm_delay_s << 8) | data_pakge[9];
+			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = alarm_delay_s * 1000;
+			max_485_1_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_TRIGGER_DELAY: 
 			set_ctrl_unit(TARGE_DELAY, data_pakge[8]);
@@ -319,6 +327,13 @@ void max_485_1_deal(uint8_t *data_pakge)
 //			set_ctrl_unit(AMING_DISARM, data_pakge[8]);
 //			
 //			max_485_1_return_set_ok((uint8_t)cmd);
+			break;
+		case MODIFY_TOUCH_NET:
+			if(zone_struct.arm_sta)
+			{
+				set_ctrl_unit(TOUCH_NET_MODE, data_pakge[8]);		//第九数据为防区号  暂时不做单防区触网功能设置
+				max_485_1_return_set_ok((uint8_t)cmd);
+			}
 			break;
 		default:	break;
 	}

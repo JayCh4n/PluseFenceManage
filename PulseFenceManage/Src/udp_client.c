@@ -13,7 +13,6 @@ uint8_t udp_remote_ip[4] = REMOTE_IPADDR;
 uint16_t udp_port_num = REMOTE_PORT;
 uint8_t udp_demo_flag = 0;
 
-
 uint8_t udp_recvbuf[UDP_MAX_RX_DATA] = {0}; //UDP接收数据缓冲区
 uint8_t udp_sendbuf[UDP_MAX_TX_DATA] = {0}; //UDP发送数组
 uint16_t udp_rx_lenth = 0;                  //UDP接收数据长度
@@ -149,6 +148,7 @@ void udp_connection_close(struct udp_pcb *upcb)
     udp_remove(upcb); 		//断开UDP连接
 }
 
+
 static void udp_return_master_msg(void)
 {
 	uint16_t crc;
@@ -165,8 +165,11 @@ static void udp_return_master_msg(void)
 	udp_sendbuf[8] = zone_struct.zone_type;	//
 	udp_sendbuf[9] = zone_struct.zone1_id;
 	udp_sendbuf[10] = zone_struct.zone2_id;
-	udp_sendbuf[11] = zone_struct.zone1_sta;
-	udp_sendbuf[12] = zone_struct.zone2_sta;
+	udp_sendbuf[11] = zone_struct.zone1_sta <= 3 ? 1:zone_struct.zone1_sta - 2;
+	udp_sendbuf[12] = zone_struct.zone2_sta <= 3 ? 1:zone_struct.zone2_sta - 2;
+	
+//	udp_sendbuf[11] = zone_struct.zone1_sta;
+//	udp_sendbuf[12] = zone_struct.zone2_sta;
 	udp_sendbuf[13] = demolition_sta;
 	udp_sendbuf[14] = zone_struct.zone_voltage_level;
 	udp_sendbuf[15] = zone_struct.zone1_sensitivity;
@@ -241,6 +244,7 @@ void udp_rx_processing(void)
 {
 	uint32_t i;
 	uint16_t crc;
+	uint16_t alarm_delay_s;	//报警延时 单位s
 	
 	master_ctrl_cmd_def cmd;
 	uint8_t zone_num; 								// 0:双防区 1：1防区  2：2防区
@@ -379,10 +383,16 @@ void udp_rx_processing(void)
 				}
 			}
 			break;
-		case MODIFY_ALARM_DELAY: break;
-			
-		case MODIFY_TRIGGER_DELAY: break;
-		
+		case MODIFY_ALARM_DELAY: 
+			alarm_delay_s = udp_recvbuf[8];
+			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
+			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = alarm_delay_s * 1000;
+			udp_return_set_ok((uint8_t)cmd);
+			break;
+		case MODIFY_TRIGGER_DELAY: 
+			set_ctrl_unit(TARGE_DELAY, udp_recvbuf[8]);
+			udp_return_set_ok((uint8_t)cmd);
+			break;
 		case MODIFY_ARM_DISARM:
 			//0:撤防  1：布防
 			set_ctrl_unit(AMING_DISARM, udp_recvbuf[8]);
@@ -417,6 +427,13 @@ void udp_rx_processing(void)
 //			set_ctrl_unit(AMING_DISARM, udp_recvbuf[8]);
 //			
 //			max_485_1_return_set_ok((uint8_t)cmd);
+			break;
+		case MODIFY_TOUCH_NET:
+			if(zone_struct.arm_sta)
+			{
+				set_ctrl_unit(TOUCH_NET_MODE, udp_recvbuf[8]);		//第九数据为防区号  暂时不做单防区触网功能设置
+				udp_return_set_ok((uint8_t)cmd);
+			}
 			break;
 		default:	break;
 	}	

@@ -152,50 +152,34 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>593</LineNumber>
+          <LineNumber>402</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134292642</Address>
+          <Address>134296822</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\JAYCHAN\OneDrive\宸ヤ綔\椤圭洰\鍛ㄧ晫鎶ヨ\绋嬪簭\PluseFenceManage\PulseFenceManage\Bsp\sim800c.c</Filename>
+          <Filename>C:\Users\JAYCHAN\OneDrive\宸ヤ綔\椤圭洰\鍛ㄧ晫鎶ヨ\绋嬪簭\PluseFenceManage\PulseFenceManage\Src\udp_client.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\PulseFenceManage\../Bsp/sim800c.c\593</Expression>
+          <Expression>\\PulseFenceManage\../Src/udp_client.c\402</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>595</LineNumber>
+          <LineNumber>406</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134292648</Address>
+          <Address>134296854</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\JAYCHAN\OneDrive\宸ヤ綔\椤圭洰\鍛ㄧ晫鎶ヨ\绋嬪簭\PluseFenceManage\PulseFenceManage\Bsp\sim800c.c</Filename>
+          <Filename>C:\Users\JAYCHAN\OneDrive\宸ヤ綔\椤圭洰\鍛ㄧ晫鎶ヨ\绋嬪簭\PluseFenceManage\PulseFenceManage\Src\udp_client.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\PulseFenceManage\../Bsp/sim800c.c\595</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>606</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134292670</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\JAYCHAN\OneDrive\宸ヤ綔\椤圭洰\鍛ㄧ晫鎶ヨ\绋嬪簭\PluseFenceManage\PulseFenceManage\Bsp\sim800c.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\PulseFenceManage\../Bsp/sim800c.c\606</Expression>
+          <Expression>\\PulseFenceManage\../Src/udp_client.c\406</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -283,6 +267,11 @@
           <count>16</count>
           <WinNumber>1</WinNumber>
           <ItemText>sim800c_try_connect_mask</ItemText>
+        </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>zone_struct</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

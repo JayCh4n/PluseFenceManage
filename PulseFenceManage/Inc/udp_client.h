@@ -14,6 +14,7 @@
 #include "max485.h"
 #include "display.h"
 #include "flash.h"
+#include "alarm.h"
 
 #define UDP_MAX_RX_DATA 100
 #define UDP_MAX_TX_DATA 100
