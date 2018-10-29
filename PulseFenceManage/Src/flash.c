@@ -33,7 +33,10 @@ void read_data_from_flash(void)
 		flash_data_struct.flash_voltage_level = (uint8_t)zone_struct.zone_voltage_level;
 		flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct.zone1_sensitivity;
 		flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct.zone2_sensitivity;
-
+		flash_data_struct.flash_targe_delay_time = targe_delay_time;
+		flash_data_struct.flash_zone1_alarm_reset_time = zone1_alarm_reset_time;
+		flash_data_struct.flash_zone2_alarm_reset_time = zone2_alarm_reset_time;	
+		flash_data_struct.flash_demolition_alarm_reset_time = demolition_alarm_reset_time;
 #if	USE_TCP
 		flash_data_struct.flash_remote_port = tcp_port_num;
 #endif	/* USE_TCP */
@@ -69,6 +72,10 @@ void read_data_from_flash(void)
 		zone_struct.zone_voltage_level = (zone_voltage_level_def)flash_data_struct.flash_voltage_level;
 		zone_struct.zone1_sensitivity = (zone_sensitivity_def)flash_data_struct.flash_zone1_sensitivity;
 		zone_struct.zone2_sensitivity = (zone_sensitivity_def)flash_data_struct.flash_zone2_sensitivity;
+		zone1_alarm_reset_time = flash_data_struct.flash_zone1_alarm_reset_time;
+		zone2_alarm_reset_time = flash_data_struct.flash_zone2_alarm_reset_time;
+		demolition_alarm_reset_time = flash_data_struct.flash_demolition_alarm_reset_time;
+		
 		tcp_port_num = flash_data_struct.flash_remote_port;
 
 		zone_struct_set_buff.zone_type = zone_struct.zone_type;
@@ -78,6 +85,7 @@ void read_data_from_flash(void)
 		zone_struct_set_buff.zone_voltage_level = zone_struct.zone_voltage_level;
 		zone_struct_set_buff.zone1_sensitivity = zone_struct.zone1_sensitivity;
 		zone_struct_set_buff.zone2_sensitivity = zone_struct.zone2_sensitivity;
+		targe_delay_time = flash_data_struct.flash_targe_delay_time;
 		
 		for(i=0; i<4; i++)
 		{

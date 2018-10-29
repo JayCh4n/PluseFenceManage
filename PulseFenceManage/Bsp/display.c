@@ -1955,11 +1955,17 @@ void lcd_update_main_page_process(void)
 				lcd_show_str_8x16(7, 41, " 10.0KV");
 				lcd_show_str_8x16(7, 113, " 00.0KV");					
 			}
-			else if(zone_struct.zone1_sta == PN_BROKEN_LINE)
+			else if((zone_struct.zone1_sta == PN_BROKEN_LINE) || (zone_struct.zone1_sta == SHORT_CIRCUIT))
 			{
 				lcd_show_str_8x16(7, 41, " 00.0KV");
 				lcd_show_str_8x16(7, 113, " 00.0KV");			
 			}
+			else
+			{
+				lcd_show_str_8x16(7, 41, " 10.0KV");
+				lcd_show_str_8x16(7, 113, " 10.0KV");					
+			}
+			
 			
 			if(zone_struct.zone_type == DOUBLE_ZONE)
 			{
@@ -1973,10 +1979,15 @@ void lcd_update_main_page_process(void)
 					lcd_show_str_8x16(10, 41, " 10.0KV");
 					lcd_show_str_8x16(10, 113, " 00.0KV");					
 				}
-				else if(zone_struct.zone2_sta == PN_BROKEN_LINE)
+				else if((zone_struct.zone2_sta == PN_BROKEN_LINE) || (zone_struct.zone2_sta == SHORT_CIRCUIT))
 				{
 					lcd_show_str_8x16(10, 41, " 00.0KV");
 					lcd_show_str_8x16(10, 113, " 00.0KV");			
+				}
+				else
+				{
+					lcd_show_str_8x16(10, 41, " 10.0KV");
+					lcd_show_str_8x16(10, 113, " 10.0KV");
 				}
 			}
 		}
@@ -1992,10 +2003,15 @@ void lcd_update_main_page_process(void)
 				lcd_show_str_8x16(7, 41, " 00.8KV");
 				lcd_show_str_8x16(7, 113, " 00.0KV");					
 			}
-			else if(zone_struct.zone1_sta == PN_BROKEN_LINE)
+			else if((zone_struct.zone1_sta == PN_BROKEN_LINE) || (zone_struct.zone1_sta == SHORT_CIRCUIT))
 			{
 				lcd_show_str_8x16(7, 41, " 00.0KV");
 				lcd_show_str_8x16(7, 113, " 00.0KV");			
+			}
+			else
+			{
+				lcd_show_str_8x16(7, 41, " 00.8KV");
+				lcd_show_str_8x16(7, 113, " 00.8KV");				
 			}
 
 			if(zone_struct.zone_type == DOUBLE_ZONE)
@@ -2010,10 +2026,15 @@ void lcd_update_main_page_process(void)
 					lcd_show_str_8x16(10, 41, " 00.8KV");
 					lcd_show_str_8x16(10, 113, " 00.0KV");					
 				}
-				else if(zone_struct.zone2_sta == PN_BROKEN_LINE)
+				else if((zone_struct.zone2_sta == PN_BROKEN_LINE) || ((zone_struct.zone2_sta == SHORT_CIRCUIT)))
 				{
 					lcd_show_str_8x16(10, 41, " 00.0KV");
 					lcd_show_str_8x16(10, 113, " 00.0KV");			
+				}
+				else
+				{
+					lcd_show_str_8x16(10, 41, " 00.8KV");
+					lcd_show_str_8x16(10, 113, " 00.8KV");
 				}
 			}
 		}

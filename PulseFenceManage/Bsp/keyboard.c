@@ -807,7 +807,7 @@ static void short_press_key5_action(void)
 			
 			set_ctrl_unit(SINGLE_DOUBLE_ZONE, (uint8_t)zone_struct_set_buff.zone_type);
 			zone_struct.zone1_id = zone_struct_set_buff.zone1_id;
-			zone_struct.zone2_id = zone_struct_set_buff.zone2_id;			//返回不保存设定数据
+			zone_struct.zone2_id = zone_struct_set_buff.zone2_id;	
 		}
 	}
 	

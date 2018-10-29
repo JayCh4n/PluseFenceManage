@@ -58,7 +58,7 @@ void uart1_deal(uint8_t *data_package)
 			else
 			{
 				zone_struct.zone_type = (zone_type_def)sta;
-				zone_struct_set_buff.zone2_sta = (zone_status_def)(zone_struct.arm_sta+5);	//防止在不同状态下切换单双防区 造成下次开启双防区时 主界面显示防区2状态不
+				zone_struct_set_buff.zone2_sta = (zone_status_def)(zone_struct.arm_sta+7);	//防止在不同状态下切换单双防区 造成下次开启双防区时 主界面显示防区2状态不
 				flash_data_struct.flash_zone1_id = zone_struct_set_buff.zone1_id;
 				flash_data_struct.flash_zone2_id = zone_struct_set_buff.zone2_id;
 				flash_data_struct.flash_zone_type = (uint8_t)zone_struct.zone_type;
@@ -157,6 +157,19 @@ void uart1_deal(uint8_t *data_package)
 				lcd_show_chs_16x16(12, 144, back_gbk_code, 2);								//返回
 				lcd_show_str_8x16(12, 176, "...");
 				auto_detect_page_cursor_sta = AT_AUTO_DETECT_COMPLATED;
+			}
+			break;
+		case TARGE_DELAY:
+			if(init_ctrl_unit_flag)
+			{
+				init_ctrl_unit_flag = 0;
+			}
+			else
+			{
+				targe_delay_time = sta;
+				flash_data_struct.flash_targe_delay_time = targe_delay_time;;
+				write_flash_time_cnt = 0;
+				write_flash_flag = 1;
 			}
 			break;
 		default: break;
@@ -261,6 +274,24 @@ void init_control_uint(void)
 			break;
 		}
 		set_ctrl_unit(ZONE2_SENSITIVITY, (uint8_t)zone_struct.zone2_sensitivity);
+		init_ctrl_unit_flag = 1;	
+		
+		for(i=0; i<10000000; i++)
+		{
+			HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+		}
+	}while(init_ctrl_unit_flag);
+	
+	set_cnt = 0;
+	
+	do
+	{
+		if(++set_cnt > 5)
+		{
+			init_ctrl_unit_flag = 0;
+			break;
+		}
+		set_ctrl_unit(TARGE_DELAY, targe_delay_time);
 		init_ctrl_unit_flag = 1;	
 		
 		for(i=0; i<10000000; i++)

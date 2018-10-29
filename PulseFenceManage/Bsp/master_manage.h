@@ -5,6 +5,7 @@
 #include "stm32f4xx_hal.h"
 #include "display.h"
 #include "flash.h"
+#include "alarm.h"
 
 #define COMMUNICATING	1	//通讯
 #define DISCOMMUNICAT	0	//不通讯

@@ -153,7 +153,7 @@ static void udp_return_master_msg(void)
 {
 	uint16_t crc;
 	
-	udp_sendbuf[0] = 0xE7;
+	udp_sendbuf[0] = 0xC8;
 	udp_sendbuf[1] = 0xD9;
 	udp_sendbuf[2] = 0xE7;
 	udp_sendbuf[3] = 0xD9;	//数据头
@@ -209,7 +209,7 @@ static void udp_return_set_ok(uint8_t cmd)
 {
 	uint16_t crc;
 
-	udp_sendbuf[0] = 0xE7;
+	udp_sendbuf[0] = 0xC8;
 	udp_sendbuf[1] = 0xD9;
 	udp_sendbuf[2] = 0xE7;
 	udp_sendbuf[3] = 0xD9;	//数据头
@@ -387,6 +387,11 @@ void udp_rx_processing(void)
 			alarm_delay_s = udp_recvbuf[8];
 			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
 			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = alarm_delay_s * 1000;
+			flash_data_struct.flash_zone1_alarm_reset_time = zone1_alarm_reset_time;
+			flash_data_struct.flash_zone2_alarm_reset_time = zone2_alarm_reset_time;
+			flash_data_struct.flash_demolition_alarm_reset_time = demolition_alarm_reset_time;
+			write_flash_time_cnt = 0;
+			write_flash_flag = 1;
 			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_TRIGGER_DELAY: 

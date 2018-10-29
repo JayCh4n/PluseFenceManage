@@ -156,9 +156,7 @@ int main(void)
 	udp_monitor_conf(udp_remote_ip, udp_port_num);
 	lcd_init();
 	lcd_show_256x160(logo_256x160);
-	HAL_Delay(500);
 	sim800c_init_flag = sim800c_init(5, 5);
-	HAL_Delay(2000);
 	init_control_uint();
 	lcd_show_main_page();
   /* USER CODE END 2 */

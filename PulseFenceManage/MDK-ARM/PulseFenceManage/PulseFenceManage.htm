@@ -3,7 +3,7 @@
 <title>Static Call Graph - [PulseFenceManage\PulseFenceManage.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image PulseFenceManage\PulseFenceManage.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Oct 17 15:35:06 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Oct 29 13:26:12 2018
 <BR><P>
 <H3>Maximum Stack Usage =        672 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -537,8 +537,8 @@ Global Symbols
 <P><STRONG><a name="[7f]"></a>HAL_ADC_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, stm32f4xx_hal_adc.o(i.HAL_ADC_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = HAL_ADC_Init &rArr; HAL_ADC_MspInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Init
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_MspInit
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_MspInit
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_ADC1_Init
 </UL>
@@ -580,7 +580,6 @@ Global Symbols
 <LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sim800c_init
 <LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_data_from_flash
 <LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_init
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_Init
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_MspInit
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_MACDMAConfig
@@ -637,8 +636,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = HAL_ETH_Init &rArr; ETH_MACDMAConfig &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_ReadPHYRegister
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_MspInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_WritePHYRegister
@@ -659,11 +658,11 @@ Global Symbols
 <P><STRONG><a name="[8b]"></a>HAL_ETH_MspInit</STRONG> (Thumb, 248 bytes, Stack size 32 bytes, ethernetif.o(i.HAL_ETH_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_ETH_MspInit &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_Init
 </UL>
@@ -763,18 +762,18 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[84]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_EnterInitMode
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_WaitForSynchro
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_ReadPHYRegister
+<BR><BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_ReadPHYRegister
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_Init
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_now
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_WritePHYRegister
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_EnterInitMode
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_WaitForSynchro
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
 
@@ -900,9 +899,9 @@ Global Symbols
 <P><STRONG><a name="[a7]"></a>HAL_RTC_Init</STRONG> (Thumb, 212 bytes, Stack size 8 bytes, stm32f4xx_hal_rtc.o(i.HAL_RTC_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_RTC_Init &rArr; RTC_EnterInitMode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_EnterInitMode
+<BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_MspInit
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_EnterInitMode
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_WaitForSynchro
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_MspInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_RTC_Init
 </UL>
@@ -1203,8 +1202,8 @@ Global Symbols
 <P><STRONG><a name="[eb]"></a>STMFLASH_WaitDone</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, flash.o(i.STMFLASH_WaitDone))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = STMFLASH_WaitDone &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_GetStatus
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_GetStatus
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_WriteWord
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_EraseSector
@@ -1666,7 +1665,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_reass_free_complete_datagram
 </UL>
 
-<P><STRONG><a name="[13c]"></a>init_control_uint</STRONG> (Thumb, 354 bytes, Stack size 16 bytes, master_manage.o(i.init_control_uint))
+<P><STRONG><a name="[13c]"></a>init_control_uint</STRONG> (Thumb, 424 bytes, Stack size 16 bytes, master_manage.o(i.init_control_uint))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = init_control_uint &rArr; set_ctrl_unit &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
@@ -1818,8 +1817,8 @@ Global Symbols
 <P><STRONG><a name="[15b]"></a>lcd_init</STRONG> (Thumb, 392 bytes, Stack size 8 bytes, display.o(i.lcd_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = lcd_init &rArr; clear_screen &rArr; lcd_address &rArr; lcd_transfer_data
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_transfer_data
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_transfer_command
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_screen
@@ -2040,7 +2039,7 @@ Global Symbols
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_screen
 </UL>
 
-<P><STRONG><a name="[169]"></a>lcd_update_main_page_process</STRONG> (Thumb, 2120 bytes, Stack size 8 bytes, display.o(i.lcd_update_main_page_process))
+<P><STRONG><a name="[169]"></a>lcd_update_main_page_process</STRONG> (Thumb, 2338 bytes, Stack size 8 bytes, display.o(i.lcd_update_main_page_process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = lcd_update_main_page_process &rArr; lcd_show_sensitivity_icon &rArr; clear_screen &rArr; lcd_address &rArr; lcd_transfer_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm_output
@@ -2158,7 +2157,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_LWIP_Init
 </UL>
 
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 204 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 624<LI>Call Chain = main &rArr; key_drive &rArr; key_action &rArr; short_press_key5_action &rArr; local_network_set &rArr; netif_set_addr &rArr; netif_set_ipaddr &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_flash_process
@@ -2179,7 +2178,6 @@ Global Symbols
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_LWIP_Init
 <LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART6_UART_Init
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init
@@ -2204,7 +2202,7 @@ Global Symbols
 <LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;max_485_1_return_ip_set_ok
 </UL>
 
-<P><STRONG><a name="[cf]"></a>max_485_1_deal</STRONG> (Thumb, 522 bytes, Stack size 24 bytes, max485.o(i.max_485_1_deal))
+<P><STRONG><a name="[cf]"></a>max_485_1_deal</STRONG> (Thumb, 556 bytes, Stack size 24 bytes, max485.o(i.max_485_1_deal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 608<LI>Call Chain = max_485_1_deal &rArr; local_network_set &rArr; netif_set_addr &rArr; netif_set_ipaddr &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;local_network_set
@@ -2604,13 +2602,13 @@ Global Symbols
 <LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_show_remote_ip_set_page
 </UL>
 
-<P><STRONG><a name="[17d]"></a>read_data_from_flash</STRONG> (Thumb, 336 bytes, Stack size 8 bytes, flash.o(i.read_data_from_flash))
+<P><STRONG><a name="[17d]"></a>read_data_from_flash</STRONG> (Thumb, 392 bytes, Stack size 8 bytes, flash.o(i.read_data_from_flash))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = read_data_from_flash &rArr; STMFLASH_Write &rArr; STMFLASH_WriteWord &rArr; STMFLASH_WaitDone &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_read_byte
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_read_byte
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -3101,7 +3099,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
 </UL>
 
-<P><STRONG><a name="[ce]"></a>uart1_deal</STRONG> (Thumb, 492 bytes, Stack size 16 bytes, master_manage.o(i.uart1_deal))
+<P><STRONG><a name="[ce]"></a>uart1_deal</STRONG> (Thumb, 510 bytes, Stack size 16 bytes, master_manage.o(i.uart1_deal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = uart1_deal &rArr; lcd_show_str_8x16 &rArr; lcd_show_8x16 &rArr; lcd_address &rArr; lcd_transfer_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_arming
@@ -3228,7 +3226,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_connection_close
 </UL>
 
-<P><STRONG><a name="[df]"></a>udp_rx_processing</STRONG> (Thumb, 772 bytes, Stack size 24 bytes, udp_client.o(i.udp_rx_processing))
+<P><STRONG><a name="[df]"></a>udp_rx_processing</STRONG> (Thumb, 806 bytes, Stack size 24 bytes, udp_client.o(i.udp_rx_processing))
 <BR><BR>[Stack]<UL><LI>Max Depth = 608<LI>Call Chain = udp_rx_processing &rArr; local_network_set &rArr; netif_set_addr &rArr; netif_set_ipaddr &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src &rArr; ip4_frag &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;local_network_set
@@ -3669,8 +3667,8 @@ Local Symbols
 <P><STRONG><a name="[19f]"></a>sim800c_pwr</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sim800c.o(i.sim800c_pwr))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = sim800c_pwr &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sim800c_init

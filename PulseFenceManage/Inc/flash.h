@@ -8,6 +8,7 @@
 #include "tcp_client.h"
 #include "udp_client.h"
 #include "display.h"
+#include "alarm.h"
 
 typedef struct{
 	uint8_t flash_first_start;
@@ -18,6 +19,10 @@ typedef struct{
 	uint8_t flash_voltage_level;
 	uint8_t flash_zone1_sensitivity;
 	uint8_t flash_zone2_sensitivity;
+	uint8_t flash_targe_delay_time;					//触发延时  单位s
+	uint32_t flash_zone1_alarm_reset_time; 	//防区1报警延时 单位ms
+	uint32_t flash_zone2_alarm_reset_time; 	//防区2报警延时 单位ms	
+	uint32_t flash_demolition_alarm_reset_time; //防拆报警延时 单位ms
 	uint8_t flash_local_ip[4];
 	uint8_t flash_netmask[4];
 	uint8_t flash_gate_way[4];

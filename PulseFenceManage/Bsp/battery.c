@@ -71,7 +71,7 @@ uint8_t ac_detect(void)
 	
 	get_voltage = (float)(reference_voltage*get_value/vref_value);
 	
-	if(get_voltage >= 2.5f)
+	if(get_voltage >= 2.36f)
 	{
 		return AC_CONNECTED;
 	}

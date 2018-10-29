@@ -32,6 +32,8 @@ extern uint32_t zone1_alarm_reset_time;
 extern uint32_t zone2_alarm_reset_time;
 extern uint32_t demolition_alarm_reset_time;
 
+extern uint8_t targe_delay_time;	//触发延时单位秒  最大设定99秒
+
 void relay_alarm(uint8_t zone_num, uint8_t cmd);
 void relay_siren(uint8_t zone_num, uint8_t cmd);
 void buzz(uint8_t sta);
