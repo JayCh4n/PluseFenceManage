@@ -199,6 +199,8 @@ extern uint8_t completed_gbk_code[3];
 
 extern uint8_t value_continuous_add_flag;
 extern uint8_t value_continuous_sub_flag;
+extern uint8_t update_communication_icon_flag;			//更新主页面标志
+extern uint16_t update_communication_icon_cnt;
 
 void led_arming(uint8_t cmd);
 void led_zone1_alarm(uint8_t cmd);
@@ -222,6 +224,14 @@ void delay_display(void);
 void lcd_show_sensitivity_icon(uint8_t page_start, uint16_t column_start, uint8_t level);
 void lcd_show_solid_circle(uint8_t page_start, uint16_t column_start);
 void lcd_show_hollow_circle(uint8_t page_start, uint16_t column_start);
+void lcd_show_zone1_voltage(void);
+void lcd_show_zone2_voltage(void);
+void lcd_show_zone1_sta(void);
+void lcd_show_zone2_sta(void);
+void lcd_show_zone1_mode(void);
+void lcd_show_zone2_mode(void);
+void lcd_show_zone1_sensitivity(void);
+void lcd_show_zone2_sensitivity(void);
 void lcd_show_main_page(void);
 void lcd_show_menu_page(void);
 void lcd_show_master_type_set_page(void);
@@ -232,5 +242,5 @@ void lcd_show_auto_detect_comfirm_page(void);
 void num_to_string(uint8_t *string, uint16_t num);
 void port_to_string(uint8_t *string, uint16_t port_num);
 void dynamic_lcd_process(void);
-void lcd_update_main_page_process(void);
+void communication_icon_update_process(void);
 #endif /* __DISPLAY_H */

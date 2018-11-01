@@ -13,9 +13,9 @@ uint8_t udp_remote_ip[4] = REMOTE_IPADDR;
 uint16_t udp_port_num = REMOTE_PORT;
 uint8_t udp_demo_flag = 0;
 
-uint8_t udp_recvbuf[UDP_MAX_RX_DATA] = {0}; //UDP接收数据缓冲区
-uint8_t udp_sendbuf[UDP_MAX_TX_DATA] = {0}; //UDP发送数组
-uint16_t udp_rx_lenth = 0;                  //UDP接收数据长度
+uint8_t udp_recvbuf[UDP_MAX_RX_DATA] = {0}; 	//UDP接收数据缓冲区
+uint8_t udp_sendbuf[UDP_MAX_TX_DATA] = {0}; 	//UDP发送数组
+uint16_t udp_rx_lenth = 0;                  	//UDP接收数据长度
 
 ip_addr_t udp_remote_addr;
 
@@ -160,7 +160,7 @@ static void udp_return_master_msg(void)
 	udp_sendbuf[4] = 0x02;	//设备类型
 	udp_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
 	udp_sendbuf[6] = 0x01; 	//功能码
-	udp_sendbuf[7] = 0x17;	//数据长度
+	udp_sendbuf[7] = 0x19;	//数据长度
 	
 	udp_sendbuf[8] = zone_struct.zone_type;	//
 	udp_sendbuf[9] = zone_struct.zone1_id;
@@ -168,70 +168,71 @@ static void udp_return_master_msg(void)
 	udp_sendbuf[11] = zone_struct.zone1_sta <= 3 ? 1:zone_struct.zone1_sta - 2;
 	udp_sendbuf[12] = zone_struct.zone2_sta <= 3 ? 1:zone_struct.zone2_sta - 2;
 	
-//	udp_sendbuf[11] = zone_struct.zone1_sta;
-//	udp_sendbuf[12] = zone_struct.zone2_sta;
 	udp_sendbuf[13] = demolition_sta;
-	udp_sendbuf[14] = zone_struct.zone_voltage_level;
-	udp_sendbuf[15] = zone_struct.zone1_sensitivity;
-	udp_sendbuf[16] = zone_struct.zone2_sensitivity;
-	udp_sendbuf[17] = 4;										//防区属性
-	udp_sendbuf[18] = zone_struct.zone_mode;
+	udp_sendbuf[14] = zone_struct.zone1_voltage_level;
+	udp_sendbuf[15] = zone_struct.zone2_voltage_level;
+	udp_sendbuf[16] = zone_struct.zone1_sensitivity;
+	udp_sendbuf[17] = zone_struct.zone2_sensitivity;
+	udp_sendbuf[18] = 4;										//防区属性
+	udp_sendbuf[19] = zone_struct.zone1_mode;
+	udp_sendbuf[20] = zone_struct.zone2_mode;
 	
-	udp_sendbuf[19] = IP_ADDRESS[0];
-	udp_sendbuf[20] = IP_ADDRESS[1];
-	udp_sendbuf[21] = IP_ADDRESS[2];
-	udp_sendbuf[22] = IP_ADDRESS[3];
+	udp_sendbuf[21] = IP_ADDRESS[0];
+	udp_sendbuf[22] = IP_ADDRESS[1];
+	udp_sendbuf[23] = IP_ADDRESS[2];
+	udp_sendbuf[24] = IP_ADDRESS[3];
 	
-	udp_sendbuf[23] = NETMASK_ADDRESS[0];
-	udp_sendbuf[24] = NETMASK_ADDRESS[1];
-	udp_sendbuf[25] = NETMASK_ADDRESS[2];
-	udp_sendbuf[26] = NETMASK_ADDRESS[3];
+	udp_sendbuf[25] = NETMASK_ADDRESS[0];
+	udp_sendbuf[26] = NETMASK_ADDRESS[1];
+	udp_sendbuf[27] = NETMASK_ADDRESS[2];
+	udp_sendbuf[28] = NETMASK_ADDRESS[3];
 	
-	udp_sendbuf[27] = GATEWAY_ADDRESS[0];
-	udp_sendbuf[28] = GATEWAY_ADDRESS[1];
-	udp_sendbuf[29] = GATEWAY_ADDRESS[2];
-	udp_sendbuf[30] = GATEWAY_ADDRESS[3];	
+	udp_sendbuf[29] = GATEWAY_ADDRESS[0];
+	udp_sendbuf[30] = GATEWAY_ADDRESS[1];
+	udp_sendbuf[31] = GATEWAY_ADDRESS[2];
+	udp_sendbuf[32] = GATEWAY_ADDRESS[3];	
 	
-	crc = CRC16(udp_sendbuf, 31);
+	crc = CRC16(udp_sendbuf, 33);
 	
-	udp_sendbuf[31] = crc >> 8;
-	udp_sendbuf[32] = crc;
+	udp_sendbuf[33] = crc >> 8;
+	udp_sendbuf[34] = crc;
 	
-	udp_sendbuf[33] = 0xF8;
-	udp_sendbuf[34] = 0xC6;
 	udp_sendbuf[35] = 0xF8;
 	udp_sendbuf[36] = 0xC6;
+	udp_sendbuf[37] = 0xF8;
+	udp_sendbuf[38] = 0xC6;
 	
-	udp_send_data(udppcb, udp_sendbuf, 37);
+	udp_send_data(udppcb, udp_sendbuf, 39);
 }
 
-static void udp_return_set_ok(uint8_t cmd)
-{
-	uint16_t crc;
+//static void udp_return_set_ok(uint8_t cmd)
+//{
+//	uint16_t crc;
 
-	udp_sendbuf[0] = 0xC8;
-	udp_sendbuf[1] = 0xD9;
-	udp_sendbuf[2] = 0xE7;
-	udp_sendbuf[3] = 0xD9;	//数据头
-	udp_sendbuf[4] = 0x02;	//设备类型
-	udp_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
-	udp_sendbuf[6] = cmd; 	//功能码
-	udp_sendbuf[7] = 1;			//数据长度
-	
-	udp_sendbuf[8] = 0xA9;	//
-	
-	crc = CRC16(max485_1_sendbuf, 9);
-	
-	udp_sendbuf[9] = crc >> 8;
-	udp_sendbuf[10] = crc;
-	
-	udp_sendbuf[11] = 0xF8;
-	udp_sendbuf[12] = 0xC6;
-	udp_sendbuf[13] = 0xF8;
-	udp_sendbuf[14] = 0xC6;
-	
-	udp_send_data(udppcb, udp_sendbuf, 15);
-}
+//	udp_sendbuf[0] = 0xC8;
+//	udp_sendbuf[1] = 0xD9;
+//	udp_sendbuf[2] = 0xE7;
+//	udp_sendbuf[3] = 0xD9;	//数据头
+//	udp_sendbuf[4] = 0x02;	//设备类型
+//	udp_sendbuf[5] = zone_struct.zone1_id;	//设备ID（防区1ID）
+//	udp_sendbuf[6] = cmd; 	//功能码
+//	udp_sendbuf[7] = 1;			//数据长度
+//	
+//	udp_sendbuf[8] = 0xA9;	//
+//	
+//	crc = CRC16(max485_1_sendbuf, 9);
+//	
+//	udp_sendbuf[9] = crc >> 8;
+//	udp_sendbuf[10] = crc;
+//	
+//	udp_sendbuf[11] = 0xF8;
+//	udp_sendbuf[12] = 0xC6;
+//	udp_sendbuf[13] = 0xF8;
+//	udp_sendbuf[14] = 0xC6;
+//	
+//	udp_send_data(udppcb, udp_sendbuf, 15);
+//}
+
 
 /***********************************************************************/
 //*******函数名:udp_rx_processing(void)
@@ -243,11 +244,12 @@ static void udp_return_set_ok(uint8_t cmd)
 void udp_rx_processing(void)
 {
 	uint32_t i;
-	uint16_t crc;
+//	uint16_t crc;
 	uint16_t alarm_delay_s;	//报警延时 单位s
+	uint32_t alarm_delay_ms;
 	
 	master_ctrl_cmd_def cmd;
-	uint8_t zone_num; 								// 0:双防区 1：1防区  2：2防区
+//	uint8_t zone_num; 								// 0:双防区 1：1防区  2：2防区
 	
 	if(udp_demo_flag >> 6 & 0x01)
 	{
@@ -271,7 +273,7 @@ void udp_rx_processing(void)
 	}
 	
 	//判断id
-	if(udp_recvbuf[5] != zone_struct.zone1_id)
+	if((udp_recvbuf[5] != zone_struct.zone1_id) && (udp_recvbuf[5] != 0xFF))
 	{
 		return;
 	}
@@ -287,15 +289,14 @@ void udp_rx_processing(void)
 		return;
 	}
 	
-	crc = CRC16(udp_recvbuf, udp_rx_lenth - 6);
+//	crc = CRC16(udp_recvbuf, udp_rx_lenth - 6);
+//	
+//	//判断crc
+//	if(((uint8_t)(crc>>8) != udp_recvbuf[udp_rx_lenth - 6]) || ((uint8_t)(crc) != udp_recvbuf[udp_rx_lenth - 5]))
+//	{
+//		return;
+//	}
 	
-	//判断crc
-	if(((uint8_t)(crc>>8) != udp_recvbuf[udp_rx_lenth - 6]) || ((uint8_t)(crc) != udp_recvbuf[udp_rx_lenth - 5]))
-	{
-		return;
-	}
-	
-	communication_cnt++;
 	communication_sta = COMMUNICATING;
 	cmd = (master_ctrl_cmd_def)udp_recvbuf[6];
 		
@@ -308,23 +309,19 @@ void udp_rx_processing(void)
 			}
 			break;
 		case MODIFY_ZONE_TYPE_ID:
-			zone_struct_set_buff.zone_type = (zone_type_def)udp_recvbuf[8];				//防区类型  单防区：1  双防区：2
-		
-			if(zone_struct_set_buff.zone_type == DOUBLE_ZONE)
+			if(zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta)		//必须在两个防区都撤防的情况下 才能设定
+				break;
+			if(udp_recvbuf[8] == 2)		//如果双防区
 			{
-				zone_struct.zone1_id = udp_recvbuf[9];
-				zone_struct.zone2_id = udp_recvbuf[10];				
-				zone_struct_set_buff.zone1_id = zone_struct.zone1_id;
-				zone_struct_set_buff.zone2_id = zone_struct.zone2_id;
+				temp_zone1_id = udp_recvbuf[9];
+				temp_zone2_id = udp_recvbuf[10];
 			}
-			else
+			else if(udp_recvbuf[8] == 1)	//如果单防区
 			{
-				zone_struct.zone1_id = udp_recvbuf[9];
-				zone_struct_set_buff.zone1_id = zone_struct.zone1_id;
+				temp_zone1_id = udp_recvbuf[9];
 			}
-			set_ctrl_unit(SINGLE_DOUBLE_ZONE, (uint8_t)zone_struct_set_buff.zone_type);
-			udp_return_set_ok((uint8_t)cmd);
-			lcd_show_main_page();
+			set_ctrl_unit(SINGLE_DOUBLE_ZONE, 0xFF, udp_recvbuf[8]);
+//			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_LOCAL_IP:
 			for(i=0; i<4; i++)
@@ -342,107 +339,147 @@ void udp_rx_processing(void)
 				write_flash_flag = 1;
 			}
 			local_network_set(IP_ADDRESS, NETMASK_ADDRESS, GATEWAY_ADDRESS);
-			udp_return_set_ok((uint8_t)cmd);
+//			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_VOLTAGE_LAVEL:
-			if(zone_struct.arm_sta) //如果在布防状态下
+			if(udp_recvbuf[9] == 0x01)
 			{
-				//低压：0  高压：1
-				set_ctrl_unit(HIGH_LOW_VOLTAGE, udp_recvbuf[8]);
-				udp_return_set_ok((uint8_t)cmd);
+				set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x01, udp_recvbuf[8]);
 			}
+			else if(udp_recvbuf[9] == 0x02)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x02, udp_recvbuf[8]);
+				else
+					break;
+			}
+			else if(udp_recvbuf[9] == 0xFF)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(HIGH_LOW_VOLTAGE, 0xFF,udp_recvbuf[8]);
+				else
+					set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x01, udp_recvbuf[8]);
+			}
+//				udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_ZONE_SENSITIVITY:
-			if(zone_struct.arm_sta) 		//如果在布防状态下
+			if(udp_recvbuf[8] == 0 || udp_recvbuf[8] >= 4)
 			{
-				zone_num = udp_recvbuf[8];
-				if(zone_num == 0)					//全防区设定
-				{	
-					if(udp_recvbuf[9] == 0 || udp_recvbuf[9] >= 4)
-					{
-						return;
-					}						
-					set_ctrl_unit(ZONE1_SENSITIVITY, udp_recvbuf[9]);
-					while(++i <= 750000)
-					{
-						HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-					}
-					set_ctrl_unit(ZONE2_SENSITIVITY, udp_recvbuf[9]);
-
-					udp_return_set_ok((uint8_t)cmd);
-				}
-				else if(zone_num == 1)
-				{
-					set_ctrl_unit(ZONE1_SENSITIVITY, udp_recvbuf[9]);
-					udp_return_set_ok((uint8_t)cmd);
-				}
-				else if(zone_num == 2)
-				{
-					set_ctrl_unit(ZONE2_SENSITIVITY, udp_recvbuf[9]);
-					udp_return_set_ok((uint8_t)cmd);
-				}
+				break;
 			}
+			if(udp_recvbuf[9] == 0x01)
+			{
+					set_ctrl_unit(SENSITIVITY, 0x01, udp_recvbuf[8]);
+			}
+			else if(udp_recvbuf[9] == 0x02)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(SENSITIVITY, 0x02, udp_recvbuf[8]);
+				else
+					break;
+			}
+			else if(udp_recvbuf[9] == 0xFF)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(SENSITIVITY, 0xFF, udp_recvbuf[8]);
+				else
+					set_ctrl_unit(SENSITIVITY, 0x01, udp_recvbuf[8]);
+			}
+//					udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_ALARM_DELAY: 
 			alarm_delay_s = udp_recvbuf[8];
 			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
-			zone1_alarm_reset_time = zone2_alarm_reset_time = demolition_alarm_reset_time = alarm_delay_s * 1000;
+			alarm_delay_ms = alarm_delay_s * 1000;
+		
+			if(udp_recvbuf[10] == 0x01)
+			{
+				zone1_alarm_reset_time = alarm_delay_ms;
+			}
+			else if(udp_recvbuf[10] == 0x02)
+			{
+				zone2_alarm_reset_time = alarm_delay_ms;
+			}
+			else if(udp_recvbuf[10] == 0xFF)
+			{
+				zone1_alarm_reset_time = zone2_alarm_reset_time = alarm_delay_ms;
+			}
 			flash_data_struct.flash_zone1_alarm_reset_time = zone1_alarm_reset_time;
 			flash_data_struct.flash_zone2_alarm_reset_time = zone2_alarm_reset_time;
-			flash_data_struct.flash_demolition_alarm_reset_time = demolition_alarm_reset_time;
+//			flash_data_struct.flash_demolition_alarm_reset_time = demolition_alarm_reset_time;
 			write_flash_time_cnt = 0;
 			write_flash_flag = 1;
-			udp_return_set_ok((uint8_t)cmd);
+//			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_TRIGGER_DELAY: 
-			set_ctrl_unit(TARGE_DELAY, udp_recvbuf[8]);
-			udp_return_set_ok((uint8_t)cmd);
+			alarm_delay_s = udp_recvbuf[8];
+			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
+			alarm_delay_ms = alarm_delay_s * 1000;
+		
+			if(udp_recvbuf[10] == 0x01)
+			{
+				zone1_trigger_delay_time = alarm_delay_ms;
+			}
+			else if(udp_recvbuf[10] == 0x02)
+			{
+				zone2_trigger_delay_time = alarm_delay_ms;
+			}
+			else if(udp_recvbuf[10] == 0xFF)
+			{
+				zone1_trigger_delay_time = zone2_trigger_delay_time = alarm_delay_ms;
+			}
+			
+			flash_data_struct.flash_zone1_trigger_delay_time = zone1_trigger_delay_time;
+			flash_data_struct.flash_zone2_trigger_delay_time = zone2_trigger_delay_time;
+			write_flash_time_cnt = 0;
+			write_flash_flag = 1;
 			break;
 		case MODIFY_ARM_DISARM:
 			//0:撤防  1：布防
-			set_ctrl_unit(AMING_DISARM, udp_recvbuf[8]);
-			udp_return_set_ok((uint8_t)cmd);
+			if(udp_recvbuf[9] == 0x01)
+			{
+				set_ctrl_unit(AMING_DISARM, 0x01, udp_recvbuf[8]);
+			}
+			else if(udp_recvbuf[9] == 0x02)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(AMING_DISARM, 0x02, udp_recvbuf[8]);
+				else
+					break;
+			}
+			else if(udp_recvbuf[9] == 0xFF)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(AMING_DISARM, 0xFF, udp_recvbuf[8]);
+				else
+					set_ctrl_unit(AMING_DISARM, 0x01, udp_recvbuf[8]);
+			}
+//			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case TMING_CMD:
-//			set_ctrl_unit(ZONE1_SENSITIVITY, udp_recvbuf[9]);
-//			if(zone_struct.zone_type == DOUBLE_ZONE)		//全防区设定
-//			{						
-//				while(++i <= 750000)
-//				{
-//					HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-//				}
-//				set_ctrl_unit(ZONE2_SENSITIVITY, udp_recvbuf[9]);
-//			}
-//			
-//			i = 0;
-//			
-//			while(++i <= 750000)
-//			{
-//				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-//			}
-//			
-//			set_ctrl_unit(HIGH_LOW_VOLTAGE, udp_recvbuf[10]);
-//			
-//			i = 0;
-//			while(++i <= 750000)
-//			{
-//				HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-//			}
-//			
-//			set_ctrl_unit(AMING_DISARM, udp_recvbuf[8]);
-//			
-//			max_485_1_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_TOUCH_NET:
-			if(zone_struct.arm_sta)
+			if(udp_recvbuf[9] == 0x01)
 			{
-				set_ctrl_unit(TOUCH_NET_MODE, udp_recvbuf[8]);		//第九数据为防区号  暂时不做单防区触网功能设置
-				udp_return_set_ok((uint8_t)cmd);
+				set_ctrl_unit(TOUCH_NET_MODE, 0x01, udp_recvbuf[8]);
+			}
+			else if(udp_recvbuf[9] == 0x02)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(TOUCH_NET_MODE, 0x02, udp_recvbuf[8]);
+				else
+					break;
+			}
+			else if(udp_recvbuf[9] == 0xFF)
+			{
+				if(zone_struct.zone_type == DOUBLE_ZONE)
+					set_ctrl_unit(TOUCH_NET_MODE, 0xFF, udp_recvbuf[8]);
+				else
+					set_ctrl_unit(TOUCH_NET_MODE, 0x01, udp_recvbuf[8]);
 			}
 			break;
 		default:	break;
-	}	
-	
+	}
 }
 
 

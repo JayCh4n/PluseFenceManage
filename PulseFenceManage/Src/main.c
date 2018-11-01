@@ -170,19 +170,19 @@ int main(void)
   /* USER CODE BEGIN 3 */
 		MX_LWIP_Process();
 		dynamic_lcd_process();
-		lcd_update_main_page_process();
+		communication_icon_update_process();
 		key_drive();
 		demolition_detect_process();
 		bettery_manage_process();
 		write_flash_process();
-		
+		inquire_ctrl_sta_process();
+		alarm_sta_detect_process();
 		if(sim800c_init_flag)
 		{
 			sim800c_process();
 		}
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -590,6 +590,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t communication_sta_cnt = 0;
 	static uint16_t sim800c_try_connect_cnt = 0;
 	static uint16_t sim800c_heart_cnt = 0;
+	static uint16_t inquire_ctrl_sta_cnt = 0;
+	static uint16_t zone1_sta_detect_cnt = 0;
+	static uint16_t zone2_sta_detect_cnt = 0;
+	
   /* Prevent unused argument(s) compilation warning */
   UNUSED(htim);
   /* NOTE : This function Should not be modified, when the callback is needed,
@@ -650,7 +654,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				zone2_alarm_delay_cnt = 0;
 				zone2_alarm_reset_flag = 0;
 				alarm_output(ZONE2, RESET_ALARM);
-			}			
+			}	
 		}
 		
 		if(demolition_alarm_reset_flag)
@@ -667,15 +671,34 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			}
 		}
 		
-		if(++communication_sta_cnt >= 3000)
+		if(zone1_trigger_flag)
 		{
-			communication_sta_cnt = 0;
-			if(!communication_cnt)
+			if(++zone1_trigger_delay_cnt >= zone1_trigger_delay_time)
 			{
+				zone1_trigger_delay_cnt = 0;
+				zone1_trigger_flag = 0;
+			}
+		}
+		
+		if(zone2_trigger_flag)
+		{
+			if(++zone2_trigger_delay_cnt >= zone2_trigger_delay_time)
+			{
+				zone2_trigger_delay_cnt = 0;
+				zone2_trigger_flag = 0;
+			}
+		}
+		
+		
+		if(communication_sta == COMMUNICATING)
+		{
+			if(++communication_sta_cnt >= 5000)
+			{
+				communication_sta_cnt = 0;
 				communication_sta = DISCOMMUNICAT;
 			}
-			communication_cnt = 0;
 		}
+
 		
 		if(++sim800c_try_connect_cnt >= 2000)
 		{
@@ -708,6 +731,30 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				uart6_rx_struct.rx_cnt = 0;
 				transparent_data_processing();
 			}
+		}
+		
+		if(++update_communication_icon_cnt >= 200)
+		{
+			update_communication_icon_cnt = 0;
+			update_communication_icon_flag = 1;
+		}
+		
+		if(++inquire_ctrl_sta_cnt >= 1000)
+		{
+			inquire_ctrl_sta_cnt = 0;
+			inquire_ctrl_sta_flag = 1;
+		}
+		
+		if(++zone1_sta_detect_cnt >= (zone_struct.zone1_sensitivity == SENSITIVITY_3 ? 900 : zone_struct.zone1_sensitivity == SENSITIVITY_2 ? 2500 : 5000))
+		{
+			zone1_sta_detect_cnt = 0;
+			zone1_sta_detect_flag = 1;
+		}
+		
+		if(++zone2_sta_detect_cnt >= (zone_struct.zone2_sensitivity == SENSITIVITY_3 ? 900 : zone_struct.zone2_sensitivity == SENSITIVITY_2 ? 2500 : 5000))
+		{
+			zone2_sta_detect_cnt = 0;
+			zone2_sta_detect_flag = 1;
 		}
 	}
 }
@@ -873,7 +920,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		}
 		else if(uart2_rx_cnt == 6)
 		{
-			if(max485_1_receivebuf == zone_struct.zone1_id)
+			if((max485_1_receivebuf == zone_struct.zone1_id) || (max485_1_receivebuf == 0xFF))
 			{
 				max485_1_receive_data[5] = max485_1_receivebuf;
 			}

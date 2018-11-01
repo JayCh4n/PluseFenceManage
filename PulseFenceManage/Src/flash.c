@@ -29,11 +29,14 @@ void read_data_from_flash(void)
 		flash_data_struct.flash_zone_type = (uint8_t)zone_struct.zone_type;
 		flash_data_struct.flash_zone1_id = zone_struct.zone1_id;
 		flash_data_struct.flash_zone2_id = zone_struct.zone2_id;
-		flash_data_struct.flash_zone_mode = (uint8_t)zone_struct.zone_mode;
-		flash_data_struct.flash_voltage_level = (uint8_t)zone_struct.zone_voltage_level;
+		flash_data_struct.flash_zone1_mode = (uint8_t)zone_struct.zone1_mode;
+		flash_data_struct.flash_zone2_mode = (uint8_t)zone_struct.zone2_mode;
+		flash_data_struct.flash_zone1_voltage_level = (uint8_t)zone_struct.zone1_voltage_level;
+		flash_data_struct.flash_zone2_voltage_level = (uint8_t)zone_struct.zone2_voltage_level;
 		flash_data_struct.flash_zone1_sensitivity = (uint8_t)zone_struct.zone1_sensitivity;
 		flash_data_struct.flash_zone2_sensitivity = (uint8_t)zone_struct.zone2_sensitivity;
-		flash_data_struct.flash_targe_delay_time = targe_delay_time;
+		flash_data_struct.flash_zone1_trigger_delay_time = zone1_trigger_delay_time;
+		flash_data_struct.flash_zone2_trigger_delay_time = zone2_trigger_delay_time;
 		flash_data_struct.flash_zone1_alarm_reset_time = zone1_alarm_reset_time;
 		flash_data_struct.flash_zone2_alarm_reset_time = zone2_alarm_reset_time;	
 		flash_data_struct.flash_demolition_alarm_reset_time = demolition_alarm_reset_time;
@@ -68,8 +71,10 @@ void read_data_from_flash(void)
 		zone_struct.zone_type = (zone_type_def)flash_data_struct.flash_zone_type;
 		zone_struct.zone1_id = flash_data_struct.flash_zone1_id;
 		zone_struct.zone2_id = flash_data_struct.flash_zone2_id;
-		zone_struct.zone_mode = (zone_mode_def)flash_data_struct.flash_zone_mode;
-		zone_struct.zone_voltage_level = (zone_voltage_level_def)flash_data_struct.flash_voltage_level;
+		zone_struct.zone1_mode = (zone_mode_def)flash_data_struct.flash_zone1_mode;
+		zone_struct.zone2_mode = (zone_mode_def)flash_data_struct.flash_zone2_mode;
+		zone_struct.zone1_voltage_level = (zone_voltage_level_def)flash_data_struct.flash_zone1_voltage_level;
+		zone_struct.zone2_voltage_level = (zone_voltage_level_def)flash_data_struct.flash_zone2_voltage_level;
 		zone_struct.zone1_sensitivity = (zone_sensitivity_def)flash_data_struct.flash_zone1_sensitivity;
 		zone_struct.zone2_sensitivity = (zone_sensitivity_def)flash_data_struct.flash_zone2_sensitivity;
 		zone1_alarm_reset_time = flash_data_struct.flash_zone1_alarm_reset_time;
@@ -77,15 +82,8 @@ void read_data_from_flash(void)
 		demolition_alarm_reset_time = flash_data_struct.flash_demolition_alarm_reset_time;
 		
 		tcp_port_num = flash_data_struct.flash_remote_port;
-
-		zone_struct_set_buff.zone_type = zone_struct.zone_type;
-		zone_struct_set_buff.zone1_id = zone_struct.zone1_id;
-		zone_struct_set_buff.zone2_id = zone_struct.zone2_id;
-		zone_struct_set_buff.zone_mode = zone_struct.zone_mode;
-		zone_struct_set_buff.zone_voltage_level = zone_struct.zone_voltage_level;
-		zone_struct_set_buff.zone1_sensitivity = zone_struct.zone1_sensitivity;
-		zone_struct_set_buff.zone2_sensitivity = zone_struct.zone2_sensitivity;
-		targe_delay_time = flash_data_struct.flash_targe_delay_time;
+		zone1_trigger_delay_time = flash_data_struct.flash_zone1_trigger_delay_time;
+		zone2_trigger_delay_time = flash_data_struct.flash_zone2_trigger_delay_time;
 		
 		for(i=0; i<4; i++)
 		{

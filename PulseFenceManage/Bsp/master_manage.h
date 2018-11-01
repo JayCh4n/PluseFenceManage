@@ -15,8 +15,8 @@ typedef enum{
 	AMING_DISARM = 1,					//布防/撤防命令   		数据：0x00 撤防   0x01布防
 	SINGLE_DOUBLE_ZONE,				//单/双防区命令				数据：0x01 单			0x02双
 	HIGH_LOW_VOLTAGE,					//高/低压模式命令			数据：0x00 低压   0x01高压
-	ZONE1_SENSITIVITY,				//防区1灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
-	ZONE2_SENSITIVITY,				//防区2灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
+	SENSITIVITY,				//防区1灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
+//	ZONE2_SENSITIVITY,				//防区2灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
 	TOUCH_NET_MODE,						//触网功能开关				数据:	0x00 关闭   0x01开启
 	AUTO_DETECT,							//自动检测命令				数据:	0x01 开始自动检测  0x02:自动检测完成
 	TARGE_DELAY,							//触发延时时间				数据：时间		单位：秒
@@ -61,33 +61,40 @@ typedef struct
 	zone_type_def zone_type;
 	uint8_t zone1_id;
 	uint8_t zone2_id;
-	zone_mode_def zone_mode;
-	zone_voltage_level_def zone_voltage_level;
+	zone_mode_def zone1_mode;
+	zone_mode_def zone2_mode;
+	zone_voltage_level_def zone1_voltage_level;
+	zone_voltage_level_def zone2_voltage_level;
 	zone_status_def zone1_sta;
 	zone_status_def zone2_sta;
 	zone_sensitivity_def zone1_sensitivity;
 	zone_sensitivity_def zone2_sensitivity;
-	uint8_t arm_sta;				//布防状态 0：撤防 		1：布防
-//	uint8_t dismantle_sta; 	//防拆状态 0：未拆除 	1：已拆除
+	uint8_t zone1_arm_sta;				//布防状态 0：撤防 		1：布防
+	uint8_t zone2_arm_sta;
 }zone_typedef;
 
 extern uint8_t uart1_tx_data[50];
 extern uint8_t uart1_rx_data[50];
 extern uint8_t uart6_rx_buff;
 extern zone_typedef zone_struct;
-extern zone_typedef zone_struct_set_buff;
 extern uint8_t local_address_set_buff[4];
 extern uint8_t subnet_mask_set_buff[4];
 extern uint8_t gateway_address_set_buff[4];
 extern uint8_t remote_address_set_buff[4];
 extern uint16_t remote_port_set_buff;
+extern zone_status_def pre_zone1_sta;
+extern zone_status_def pre_zone2_sta;
+extern zone_type_def temp_zone_type;
+extern uint8_t temp_zone1_id;		//防区ID设定缓存   当控制单元返回数据时  再赋与防区ID
+extern uint8_t temp_zone2_id;
 
-extern uint8_t pre_communication_sta;	//上次通讯状态
 extern uint8_t communication_sta;			//当前通讯状态
-extern uint16_t communication_cnt;
+extern uint8_t inquire_ctrl_sta_flag;
 
 void uart1_deal(uint8_t *data_package);
-void set_ctrl_unit(uint8_t cmd, uint8_t data);
+void set_ctrl_unit(zone_ctrl_cmd_def cmd, uint8_t zone_num, uint8_t data);
 void init_control_uint(void);
+void inquire_ctrl_sta(void);
+void inquire_ctrl_sta_process(void);
 #endif /*__MASTER_MANAGE_H*/
 

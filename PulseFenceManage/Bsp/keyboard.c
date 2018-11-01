@@ -26,7 +26,7 @@ static void long_press_key5_action(void)
 {
 	if(page_sta == IN_MAIN_PAGE)	/*如果是在主界面并且在撤防状态下长按按键5，则进入菜单*/
 	{
-		if(zone_struct.arm_sta == 0)
+		if(!(zone_struct.zone1_arm_sta || zone_struct.zone1_arm_sta))
 		{
 			lcd_show_menu_page();				//显示菜单页
 			lcd_show_solid_circle(5,1);	//画实心圆
@@ -40,7 +40,10 @@ static void short_press_key1_action(void)
 {
 	if(page_sta == IN_MAIN_PAGE)
 	{
-		set_ctrl_unit(AMING_DISARM, (zone_struct.arm_sta ^ 0x01));
+		if(zone_struct.zone_type == DOUBLE_ZONE)
+			set_ctrl_unit(AMING_DISARM, 0xFF, (zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta) ? 0x00:0x01);	//如果有一个防区布防 则全撤防 反之则全布防 
+		else
+			set_ctrl_unit(AMING_DISARM, 0x01, (zone_struct.zone1_arm_sta ^ 0x01));
 	}
 	else if(page_sta == IN_MENU_PAGE)
 	{
@@ -66,16 +69,13 @@ static void short_press_key2_action(void)
 	
 	if(page_sta == IN_MAIN_PAGE)
 	{
-		if(zone_struct.arm_sta == 1)
-		{	
-			if(zone_struct.zone1_sensitivity == SENSITIVITY_1)
-			{
-				set_ctrl_unit(ZONE1_SENSITIVITY, (uint8_t)(zone_struct.zone1_sensitivity ^ 0x03));
-			}
-			else
-			{
-				set_ctrl_unit(ZONE1_SENSITIVITY, (uint8_t)(zone_struct.zone1_sensitivity ^ (zone_struct.zone1_sensitivity - 1)));
-			}
+		if(zone_struct.zone1_sensitivity == SENSITIVITY_1)
+		{
+			set_ctrl_unit(SENSITIVITY, 0x01, (uint8_t)(zone_struct.zone1_sensitivity ^ 0x03));
+		}
+		else
+		{
+			set_ctrl_unit(SENSITIVITY, 0x01, (uint8_t)(zone_struct.zone1_sensitivity ^ (zone_struct.zone1_sensitivity - 1)));
 		}
 	}
 	
@@ -141,25 +141,25 @@ static void short_press_key2_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE_TYPE)
 		{
-			zone_struct_set_buff.zone_type ^= 0x03;	//单防区为0 双防区为1 异或0x01 在0和1之间变化
-			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(zone_struct_set_buff.zone_type - 1), 1);
+			temp_zone_type ^= 0x03;	//单防区为0 双防区为1 异或0x01 在0和1之间变化
+			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(temp_zone_type - 1), 1);
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE1_ID)
 		{
-			if(++zone_struct_set_buff.zone1_id == 0)
+			if(++temp_zone1_id == 0)
 			{
-				zone_struct_set_buff.zone1_id = 1;			//按上键防区id加一  最大可设999
+				temp_zone1_id = 1;			//按上键防区id加一  最大可设999
 			}
-			num_to_string(num_string, zone_struct_set_buff.zone1_id);
+			num_to_string(num_string, temp_zone1_id);
 			lcd_show_str_8x16(7, 105, num_string);
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE2_ID)
 		{
-			if(++zone_struct_set_buff.zone2_id == 0)
+			if(++temp_zone2_id == 0)
 			{
-				zone_struct_set_buff.zone2_id = 1;			//按上键防区id加一  最大可设999
+				temp_zone2_id = 1;			//按上键防区id加一  最大可设999
 			}
-			num_to_string(num_string, zone_struct_set_buff.zone2_id);
+			num_to_string(num_string, temp_zone2_id);
 			lcd_show_str_8x16(10, 105, num_string);
 		}	
 	}
@@ -384,18 +384,15 @@ static void short_press_key3_action(void)
 {
 	if(page_sta == IN_MAIN_PAGE)
 	{
-		if(zone_struct.arm_sta == 1)
+		if(zone_struct.zone_type == DOUBLE_ZONE)
 		{
-			if(zone_struct.zone_type == DOUBLE_ZONE)
+			if(zone_struct.zone2_sensitivity == SENSITIVITY_1)
 			{
-				if(zone_struct.zone2_sensitivity == SENSITIVITY_1)
-				{
-					set_ctrl_unit(ZONE2_SENSITIVITY, (uint8_t)(zone_struct.zone2_sensitivity ^ 0x03));
-				}
-				else
-				{
-					set_ctrl_unit(ZONE2_SENSITIVITY, (uint8_t)(zone_struct.zone2_sensitivity ^ (zone_struct.zone2_sensitivity - 1)));
-				}
+				set_ctrl_unit(SENSITIVITY, 0x02, (uint8_t)(zone_struct.zone2_sensitivity ^ 0x03));
+			}
+			else
+			{
+				set_ctrl_unit(SENSITIVITY, 0x02, (uint8_t)(zone_struct.zone2_sensitivity ^ (zone_struct.zone2_sensitivity - 1)));
 			}
 		}
 	}
@@ -408,10 +405,22 @@ static void short_press_key4_action(void)
 	
 	if(page_sta == IN_MAIN_PAGE)
 	{
-		if(zone_struct.arm_sta == 1)
+		if(zone_struct.zone_type == DOUBLE_ZONE)
 		{
-			set_ctrl_unit(TOUCH_NET_MODE, (uint8_t)(zone_struct.zone_mode ^ 0x01));
+			if((zone_struct.zone2_arm_sta == ARMING) && (zone_struct.zone1_arm_sta == DISARMING))		//如果防区2布防 并且防区1没有布防  则按照防区2设定防区模式
+			{
+				set_ctrl_unit(TOUCH_NET_MODE, 0xFF, (uint8_t)(zone_struct.zone2_mode ^ 0x01));
+			}
+			else
+			{
+				set_ctrl_unit(TOUCH_NET_MODE, 0xFF, (uint8_t)(zone_struct.zone1_mode ^ 0x01));
+			}
 		}
+		else
+		{
+			set_ctrl_unit(TOUCH_NET_MODE, 0x01, (uint8_t)(zone_struct.zone1_mode ^ 0x01));
+		}
+//			
 	}
 	else if(page_sta == IN_MENU_PAGE)	//如果在菜单界面
 	{
@@ -475,25 +484,25 @@ static void short_press_key4_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE_TYPE)
 		{
-			zone_struct_set_buff.zone_type ^= 0x03;	//单防区为0 双防区为1 异或0x01 在0和1之间变化
-			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(zone_struct_set_buff.zone_type - 1), 1);
+			temp_zone_type ^= 0x03;	//单防区为0 双防区为1 异或0x01 在0和1之间变化
+			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(temp_zone_type - 1), 1);
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE1_ID)
 		{
-			if(--zone_struct_set_buff.zone1_id < 1)
+			if(--temp_zone1_id < 1)
 			{
-				zone_struct_set_buff.zone1_id = 1;			//按上键防区id减一  最小可设1
+				temp_zone1_id = 1;			//按上键防区id减一  最小可设1
 			}
-			num_to_string(num_string, zone_struct_set_buff.zone1_id);
+			num_to_string(num_string, temp_zone1_id);
 			lcd_show_str_8x16(7, 105, num_string);
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE2_ID)
 		{
-			if(--zone_struct_set_buff.zone2_id < 1)
+			if(--temp_zone2_id < 1)
 			{
-				zone_struct_set_buff.zone2_id = 1;			//按上键防区id减一  最小可设1
+				temp_zone2_id = 1;			//按上键防区id减一  最小可设1
 			}
-			num_to_string(num_string, zone_struct_set_buff.zone2_id);
+			num_to_string(num_string, temp_zone2_id);
 			lcd_show_str_8x16(10, 105, num_string);
 		}			
 	}
@@ -721,9 +730,16 @@ static void short_press_key5_action(void)
 	
 	if(page_sta == IN_MAIN_PAGE)
 	{
-		if(zone_struct.arm_sta == 1)
+		if(zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta)
 		{
-			set_ctrl_unit(HIGH_LOW_VOLTAGE, (uint8_t)(zone_struct.zone_voltage_level ^ 0x01));
+			if(zone_struct.zone_type == DOUBLE_ZONE)
+			{
+				set_ctrl_unit(HIGH_LOW_VOLTAGE, 0xFF, (uint8_t)(zone_struct.zone1_voltage_level ^ 0x01));
+			}
+			else
+			{
+				set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x01, (uint8_t)(zone_struct.zone1_voltage_level ^ 0x01));
+			}
 		}
 	}
 	else if(page_sta == IN_MENU_PAGE)
@@ -764,7 +780,7 @@ static void short_press_key5_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE_TYPE)
 		{
-			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(zone_struct_set_buff.zone_type - 1), 1);
+			lcd_show_chs_16x16(4, 121, double_single_gbk_code+(temp_zone_type - 1), 1);
 			master_type_set_page_cursor_sta = AT_ZONE_TYPE;
 		}
 		else if(master_type_set_page_cursor_sta == AT_ZONE1_ID)
@@ -773,7 +789,7 @@ static void short_press_key5_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE1_ID)
 		{
-			num_to_string(num_string, zone_struct_set_buff.zone1_id);
+			num_to_string(num_string, temp_zone1_id);
 			lcd_show_str_8x16(7, 105, num_string);
 			master_type_set_page_cursor_sta = AT_ZONE1_ID;
 		}
@@ -783,7 +799,7 @@ static void short_press_key5_action(void)
 		}
 		else if(master_type_set_page_cursor_sta == TOOGLE_ZONE2_ID)
 		{
-			num_to_string(num_string, zone_struct_set_buff.zone2_id);
+			num_to_string(num_string, temp_zone2_id);
 			lcd_show_str_8x16(10, 105, num_string);
 			master_type_set_page_cursor_sta = AT_ZONG2_ID;
 		}
@@ -794,9 +810,9 @@ static void short_press_key5_action(void)
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
 			page_sta = IN_MENU_PAGE;	//页面状态切换为菜单页
 			
-			zone_struct_set_buff.zone_type = zone_struct.zone_type;
-			zone_struct_set_buff.zone1_id = zone_struct.zone1_id;
-			zone_struct_set_buff.zone2_id = zone_struct.zone2_id;			//返回不保存设定数据
+			temp_zone_type = zone_struct.zone_type;
+			temp_zone1_id = zone_struct.zone1_id;
+			temp_zone2_id = zone_struct.zone2_id;			//返回不保存设定数据
 		}
 		else if(master_type_set_page_cursor_sta == AT_OK_MASTER_TYPE_SET_PAGE)
 		{
@@ -805,9 +821,9 @@ static void short_press_key5_action(void)
 			menu_page_coursor_sta = AT_MASTER_TYPE_SET; //光标状态指向主机类型/ID
 			page_sta = IN_MENU_PAGE;	//页面状态切换为菜单页
 			
-			set_ctrl_unit(SINGLE_DOUBLE_ZONE, (uint8_t)zone_struct_set_buff.zone_type);
-			zone_struct.zone1_id = zone_struct_set_buff.zone1_id;
-			zone_struct.zone2_id = zone_struct_set_buff.zone2_id;	
+			set_ctrl_unit(SINGLE_DOUBLE_ZONE, 0xFF, (uint8_t)temp_zone_type);
+//			zone_struct.zone1_id = temp_zone1_id;
+//			zone_struct.zone2_id = temp_zone2_id;
 		}
 	}
 	
@@ -1035,7 +1051,7 @@ static void short_press_key5_action(void)
 	{
 		if(auto_detect_page_cursor_sta == AT_COMFIRM)
 		{
-			set_ctrl_unit(AUTO_DETECT, 0x01);
+			set_ctrl_unit(AUTO_DETECT, 0xFF, 0x01);
 		}
 		else if(auto_detect_page_cursor_sta == AT_AUTO_DETECTING)
 		{

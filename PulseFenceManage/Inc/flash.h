@@ -15,11 +15,14 @@ typedef struct{
 	uint8_t flash_zone_type;
 	uint8_t flash_zone1_id;
 	uint8_t flash_zone2_id;
-	uint8_t flash_zone_mode;
-	uint8_t flash_voltage_level;
+	uint8_t flash_zone1_mode;
+	uint8_t flash_zone2_mode;
+	uint8_t flash_zone1_voltage_level;
+	uint8_t flash_zone2_voltage_level;
 	uint8_t flash_zone1_sensitivity;
 	uint8_t flash_zone2_sensitivity;
-	uint8_t flash_targe_delay_time;					//触发延时  单位s
+	uint32_t flash_zone1_trigger_delay_time;					//触发延时  单位ms
+	uint32_t flash_zone2_trigger_delay_time;					//触发延时  单位ms
 	uint32_t flash_zone1_alarm_reset_time; 	//防区1报警延时 单位ms
 	uint32_t flash_zone2_alarm_reset_time; 	//防区2报警延时 单位ms	
 	uint32_t flash_demolition_alarm_reset_time; //防拆报警延时 单位ms
