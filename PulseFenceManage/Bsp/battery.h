@@ -15,6 +15,7 @@
 #define DISCHARGE		0
 
 extern uint8_t bettery_manage_mask;
+extern uint8_t battery_sta_send;
 
 //void relay_battery(uint8_t cmd);
 uint8_t ac_detect(void);

@@ -1,10 +1,10 @@
 --cpu=Cortex-M4.fp
-"pulsefencemanage\main.o"
 "pulsefencemanage\flash.o"
-"pulsefencemanage\lwip.o"
-"pulsefencemanage\ethernetif.o"
 "pulsefencemanage\tcp_client.o"
 "pulsefencemanage\udp_client.o"
+"pulsefencemanage\main.o"
+"pulsefencemanage\lwip.o"
+"pulsefencemanage\ethernetif.o"
 "pulsefencemanage\stm32f4xx_it.o"
 "pulsefencemanage\stm32f4xx_hal_msp.o"
 "pulsefencemanage\display.o"

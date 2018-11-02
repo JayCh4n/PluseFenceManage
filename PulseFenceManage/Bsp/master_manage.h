@@ -6,6 +6,7 @@
 #include "display.h"
 #include "flash.h"
 #include "alarm.h"
+#include "battery.h"
 
 #define COMMUNICATING	1	//通讯
 #define DISCOMMUNICAT	0	//不通讯
@@ -19,7 +20,7 @@ typedef enum{
 //	ZONE2_SENSITIVITY,				//防区2灵敏度命令			数据：0x01 - 0x03	对应1——3等级灵敏度
 	TOUCH_NET_MODE,						//触网功能开关				数据:	0x00 关闭   0x01开启
 	AUTO_DETECT,							//自动检测命令				数据:	0x01 开始自动检测  0x02:自动检测完成
-	TARGE_DELAY,							//触发延时时间				数据：时间		单位：秒
+	POWER_USE_STA,							//触发延时时间				数据：时间		单位：秒
 	ZONE1_STA = 0x11,					//防区1状态返回命令		数据: 0x01 断线 0x02短路 0x03触网
 	ZONE2_STA									//防区2状态返回命令		数据: 0x01 断线 0x02短路 0x03触网
 }zone_ctrl_cmd_def;

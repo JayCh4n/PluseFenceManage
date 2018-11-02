@@ -91,4 +91,5 @@ pulsefencemanage\battery.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/pro
 pulsefencemanage\battery.o: ..\Bsp\max485.h
 pulsefencemanage\battery.o: ..\Bsp\alarm.h
 pulsefencemanage\battery.o: ../Inc/flash.h
+pulsefencemanage\battery.o: ..\Bsp\battery.h
 pulsefencemanage\battery.o: ..\Bsp\sim800c.h

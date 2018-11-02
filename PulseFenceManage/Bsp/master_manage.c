@@ -192,7 +192,7 @@ void uart1_deal(uint8_t *data_package)
 				auto_detect_page_cursor_sta = AT_AUTO_DETECT_COMPLATED;
 			}
 			break;
-		case TARGE_DELAY:
+		case POWER_USE_STA:
 			break;
 		case 0x30:
 			if(data_package[4] == 0)
@@ -234,7 +234,7 @@ void init_control_uint(void)
 {
 	uart1_tx_data[0] = 0xA5;
 	uart1_tx_data[1] = 0x5A;
-	uart1_tx_data[2] = 0x08;
+	uart1_tx_data[2] = 0x09;
 	uart1_tx_data[3] = 0x20;					//命令   对控制单元初始化数据
 	uart1_tx_data[4] = (uint8_t)zone_struct.zone_type;
 	uart1_tx_data[5] = (uint8_t)zone_struct.zone1_voltage_level;
@@ -243,22 +243,24 @@ void init_control_uint(void)
 	uart1_tx_data[8] = (uint8_t)zone_struct.zone2_sensitivity;
 	uart1_tx_data[9] = (uint8_t)zone_struct.zone1_mode;
 	uart1_tx_data[10] = (uint8_t)zone_struct.zone2_mode;
-	uart1_tx_data[11] = 0;
+	uart1_tx_data[11] = battery_sta_send = ac_detect();		//使用交流电：1		使用电池：0
 	uart1_tx_data[12] = 0;
+	uart1_tx_data[13] = 0;
 	
-	HAL_UART_Transmit(&huart1, uart1_tx_data, 13, 1000);
+	HAL_UART_Transmit(&huart1, uart1_tx_data, 14, 1000);
 }
 
 void inquire_ctrl_sta(void)
 {
 	uart1_tx_data[0] = 0xA5;
 	uart1_tx_data[1] = 0x5A;
-	uart1_tx_data[2] = 0x01;
-	uart1_tx_data[3] = 0x30;						//命令  查询控制单元状态
-	uart1_tx_data[4] = 0x00;
+	uart1_tx_data[2] = 0x02;
+	uart1_tx_data[3] = 0x30;								//命令  查询控制单元状态
+	uart1_tx_data[4] = battery_sta_send;
 	uart1_tx_data[5] = 0x00;
+	uart1_tx_data[6] = 0x00;
 	
-	HAL_UART_Transmit(&huart1, uart1_tx_data, 6, 1000);
+	HAL_UART_Transmit(&huart1, uart1_tx_data, 7, 1000);
 }
 
 void inquire_ctrl_sta_process(void)
@@ -269,10 +271,10 @@ void inquire_ctrl_sta_process(void)
 	}
 	inquire_ctrl_sta_flag = 0;
 	
-	if(page_sta != IN_MAIN_PAGE)
-	{
-		return;
-	}
+//	if(page_sta != IN_MAIN_PAGE)
+//	{
+//		return;
+//	}
 
 	if(!(zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta))
 	{

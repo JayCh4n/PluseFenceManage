@@ -91,3 +91,4 @@ pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lw
 pulsefencemanage\master_manage.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
 pulsefencemanage\master_manage.o: ..\Bsp\max485.h
 pulsefencemanage\master_manage.o: ../Inc/flash.h
+pulsefencemanage\master_manage.o: ..\Bsp\battery.h

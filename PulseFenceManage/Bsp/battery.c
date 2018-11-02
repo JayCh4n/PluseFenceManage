@@ -15,6 +15,8 @@ extern uint8_t battery_icon_32x16[6][64];
 
 uint8_t bettery_manage_mask = 0;  //��ع���ʱ����־
 uint8_t charged_flag = 1;		//ÿ��һ�ε�  �ı�������1  ��ֹ��������
+uint8_t battery_sta_send = 0;
+
 //uint8_t ac_connected_flag = 2;
 
 /***********************************************************************/
@@ -71,7 +73,7 @@ uint8_t ac_detect(void)
 	
 	get_voltage = (float)(reference_voltage*get_value/vref_value);
 	
-	if(get_voltage >= 2.36f)
+	if(get_voltage >= 2.45f)
 	{
 		return AC_CONNECTED;
 	}
@@ -220,8 +222,9 @@ uint8_t get_charge_sta(void)
 
 void bettery_manage_process(void)
 {
-	static uint8_t bettery_icon_mask = 0;
+	static uint8_t battery_icon_mask = 0;
 	int8_t battery_capacity;
+	static uint8_t bettery_charge_cnt = 0; 		//检测到电池在充电的次数
 	
 	//��ʱδ�� ��ֹ
 	if(!bettery_manage_mask)
@@ -231,22 +234,32 @@ void bettery_manage_process(void)
 	
 	bettery_manage_mask = 0;
 	
-	if(ac_detect() == AC_CONNECTED)		//������������
+	if((battery_sta_send = ac_detect()) == AC_CONNECTED)		//������������
 	{
 		if(page_sta == IN_MAIN_PAGE)
 		{
 			if(get_charge_sta() == CHARGEING)	//������ڳ��
 			{
 				charged_flag = 1;
-				lcd_show_32x16(1,209,battery_icon_32x16[bettery_icon_mask]);
-				if(++bettery_icon_mask >= 6)
+				
+				if(bettery_charge_cnt >= 6)
 				{
-					bettery_icon_mask = 0;
+					lcd_show_32x16(1,209,battery_icon_32x16[battery_icon_mask]);
+				}
+				else
+				{
+					++bettery_charge_cnt;
+				}
+				
+				if(++battery_icon_mask >= 6)
+				{
+					battery_icon_mask = 0;
 				}
 			}
 			else			//���û�ڳ��
 			{
 				clear_screen(1, 209, 2, 32);
+				bettery_charge_cnt = 0;
 			}
 		}
 	}
@@ -255,8 +268,8 @@ void bettery_manage_process(void)
 		if(page_sta == IN_MAIN_PAGE)
 		{
 			battery_capacity = get_battery_capacity();
-			bettery_icon_mask = battery_capacity / 20;
-			lcd_show_32x16(1,209,battery_icon_32x16[bettery_icon_mask]);
+			battery_icon_mask = battery_capacity / 20;
+			lcd_show_32x16(1,209,battery_icon_32x16[battery_icon_mask]);
 		}
 		if(battery_capacity <= 0)
 		{

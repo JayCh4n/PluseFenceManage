@@ -90,4 +90,5 @@ pulsefencemanage\display.o: ../Middlewares/Third_Party/LwIP/src/include/lwip/pro
 pulsefencemanage\display.o: ..\Bsp\max485.h
 pulsefencemanage\display.o: ..\Bsp\alarm.h
 pulsefencemanage\display.o: ../Inc/flash.h
+pulsefencemanage\display.o: ..\Bsp\battery.h
 pulsefencemanage\display.o: ..\Bsp\sim800c.h
