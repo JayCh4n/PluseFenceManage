@@ -152,10 +152,9 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim1);
-	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
-	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
-	__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
-	__HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
+	HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
+	HAL_UART_Receive_IT(&huart2, &max485_1_receivebuf, 1);
+	HAL_UART_Receive_IT(&huart6, &uart6_rx_buff, 1);
 	
 	read_data_from_flash();
 	MX_LWIP_Init();
@@ -183,10 +182,7 @@ int main(void)
 		write_flash_process();
 		inquire_ctrl_sta_process();
 		alarm_sta_detect_process();
-		if(sim800c_init_flag)
-		{
-			sim800c_process();
-		}
+		sim800c_process();
   }
   /* USER CODE END 3 */
 
@@ -851,10 +847,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 			uart1_rx_data[uart1_rx_cnt - 1] = uart1_rx_buff; 
 			uart1_rx_cnt = 0;
-			if(max485_wait_usart1_flag)
-			{
-				max485_wait_usart1_finish = 1;
-			}
 			uart1_deal(uart1_rx_data);
 		}
 		else if(uart1_rx_cnt > 50)

@@ -270,11 +270,6 @@ void inquire_ctrl_sta_process(void)
 		return;
 	}
 	inquire_ctrl_sta_flag = 0;
-	
-//	if(page_sta != IN_MAIN_PAGE)
-//	{
-//		return;
-//	}
 
 	if(!(zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta))
 	{

@@ -342,11 +342,11 @@ void udp_rx_processing(void)
 //			udp_return_set_ok((uint8_t)cmd);
 			break;
 		case MODIFY_VOLTAGE_LAVEL:
-			if(udp_recvbuf[9] == 0x01)
+			if(udp_recvbuf[9] == zone_struct.zone1_id)
 			{
 				set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x01, udp_recvbuf[8]);
 			}
-			else if(udp_recvbuf[9] == 0x02)
+			else if(udp_recvbuf[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x02, udp_recvbuf[8]);
@@ -367,11 +367,11 @@ void udp_rx_processing(void)
 			{
 				break;
 			}
-			if(udp_recvbuf[9] == 0x01)
+			if(udp_recvbuf[9] == zone_struct.zone1_id)
 			{
 					set_ctrl_unit(SENSITIVITY, 0x01, udp_recvbuf[8]);
 			}
-			else if(udp_recvbuf[9] == 0x02)
+			else if(udp_recvbuf[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(SENSITIVITY, 0x02, udp_recvbuf[8]);
@@ -392,11 +392,11 @@ void udp_rx_processing(void)
 			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
 			alarm_delay_ms = alarm_delay_s * 1000;
 		
-			if(udp_recvbuf[10] == 0x01)
+			if(udp_recvbuf[10] == zone_struct.zone1_id)
 			{
 				zone1_alarm_reset_time = alarm_delay_ms;
 			}
-			else if(udp_recvbuf[10] == 0x02)
+			else if(udp_recvbuf[10] == zone_struct.zone2_id)
 			{
 				zone2_alarm_reset_time = alarm_delay_ms;
 			}
@@ -416,11 +416,11 @@ void udp_rx_processing(void)
 			alarm_delay_s = (alarm_delay_s << 8) | udp_recvbuf[9];
 			alarm_delay_ms = alarm_delay_s * 1000;
 		
-			if(udp_recvbuf[10] == 0x01)
+			if(udp_recvbuf[10] == zone_struct.zone1_id)
 			{
 				zone1_trigger_delay_time = alarm_delay_ms;
 			}
-			else if(udp_recvbuf[10] == 0x02)
+			else if(udp_recvbuf[10] == zone_struct.zone2_id)
 			{
 				zone2_trigger_delay_time = alarm_delay_ms;
 			}
@@ -436,11 +436,11 @@ void udp_rx_processing(void)
 			break;
 		case MODIFY_ARM_DISARM:
 			//0:撤防  1：布防
-			if(udp_recvbuf[9] == 0x01)
+			if(udp_recvbuf[9] == zone_struct.zone1_id)
 			{
 				set_ctrl_unit(AMING_DISARM, 0x01, udp_recvbuf[8]);
 			}
-			else if(udp_recvbuf[9] == 0x02)
+			else if(udp_recvbuf[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(AMING_DISARM, 0x02, udp_recvbuf[8]);
@@ -459,11 +459,11 @@ void udp_rx_processing(void)
 		case TMING_CMD:
 			break;
 		case MODIFY_TOUCH_NET:
-			if(udp_recvbuf[9] == 0x01)
+			if(udp_recvbuf[9] == zone_struct.zone1_id)
 			{
 				set_ctrl_unit(TOUCH_NET_MODE, 0x01, udp_recvbuf[8]);
 			}
-			else if(udp_recvbuf[9] == 0x02)
+			else if(udp_recvbuf[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(TOUCH_NET_MODE, 0x02, udp_recvbuf[8]);

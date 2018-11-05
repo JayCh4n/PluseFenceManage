@@ -494,6 +494,11 @@ uint8_t sim800c_init(int8_t pwr_wait_time, int8_t baud_wait_time)
 /***********************************************************************/
 void sim800c_process(void)
 {
+	if(!sim800c_init_flag)
+	{
+		return;
+	}
+	
 	if(sim800c_link_flag)
 	{
 		if(sim800c_heart_mask)

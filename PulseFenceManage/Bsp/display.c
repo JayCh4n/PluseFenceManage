@@ -13,7 +13,7 @@ lcd_auto_detect_page_cursor_state auto_detect_page_cursor_sta = AT_COMFIRM;
 uint8_t value_continuous_add_flag = 0;	//数据连加标志
 uint8_t value_continuous_sub_flag = 0;	//数据连减标志
 
-uint8_t update_communication_icon_flag = 0;			//更新主页面标志
+uint8_t update_communication_icon_flag = 0;			//更新主页面通讯标志
 uint16_t update_communication_icon_cnt = 0;
 
 uint8_t logo_256x160[5120] = {

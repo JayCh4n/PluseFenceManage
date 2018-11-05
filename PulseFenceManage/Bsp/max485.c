@@ -18,8 +18,6 @@ extern uint8_t uart1_rx_buff;
 uint8_t max485_1_sendbuf[50];
 uint8_t max485_1_receive_data[50];
 uint8_t max485_1_receivebuf;
-uint8_t max485_wait_usart1_flag = 0;
-uint8_t max485_wait_usart1_finish = 0;
 
 /*  */
 uint16_t CRC16(uint8_t *arr_buff, uint8_t len)  
@@ -117,17 +115,6 @@ static void max_485_1_return_master_msg(void)
 //{
 //	uint16_t crc;
 //	uint32_t i;
-//	
-//	max485_wait_usart1_flag = 1;
-//	while(!max485_wait_usart1_finish)
-//	{
-//		if(++i >= 70000000)
-//		{
-//			max485_wait_usart1_flag = 0;
-//			break;
-//		}
-//		HAL_UART_Receive_IT(&huart1, &uart1_rx_buff, 1);
-//	};
 //	
 //	max485_1_sendbuf[0] = 0xC8;
 //	max485_1_sendbuf[1] = 0xD9;
@@ -242,11 +229,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 			if(zone_struct.zone1_arm_sta || zone_struct.zone2_arm_sta) 						//如果在布防状态下
 			{
 				//低压：0  高压：1
-				if(data_pakge[9] == 0x01)
+				if(data_pakge[9] == zone_struct.zone1_id)
 				{
 					set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x01, data_pakge[8]);
 				}
-				else if(data_pakge[9] == 0x02)
+				else if(data_pakge[9] == zone_struct.zone2_id)
 				{
 					if(zone_struct.zone_type == DOUBLE_ZONE)
 						set_ctrl_unit(HIGH_LOW_VOLTAGE, 0x02, data_pakge[8]);
@@ -268,11 +255,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 			{
 				break;
 			}
-			if(data_pakge[9] == 0x01)
+			if(data_pakge[9] == zone_struct.zone1_id)
 			{
 					set_ctrl_unit(SENSITIVITY, 0x01, data_pakge[8]);
 			}
-			else if(data_pakge[9] == 0x02)
+			else if(data_pakge[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(SENSITIVITY, 0x02, data_pakge[8]);
@@ -293,11 +280,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 			alarm_delay_s = (alarm_delay_s << 8) | data_pakge[9];
 			alarm_delay_ms = alarm_delay_s * 1000;
 		
-			if(data_pakge[10] == 0x01)
+			if(data_pakge[10] == zone_struct.zone1_id)
 			{
 				zone1_alarm_reset_time = alarm_delay_ms;
 			}
-			else if(data_pakge[10] == 0x02)
+			else if(data_pakge[10] == zone_struct.zone2_id)
 			{
 				zone2_alarm_reset_time = alarm_delay_ms;
 			}
@@ -316,11 +303,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 			alarm_delay_s = (alarm_delay_s << 8) | data_pakge[9];
 			alarm_delay_ms = alarm_delay_s * 1000;
 		
-			if(data_pakge[10] == 0x01)
+			if(data_pakge[10] == zone_struct.zone1_id)
 			{
 				zone1_trigger_delay_time = alarm_delay_ms;
 			}
-			else if(data_pakge[10] == 0x02)
+			else if(data_pakge[10] == zone_struct.zone2_id)
 			{
 				zone2_trigger_delay_time = alarm_delay_ms;
 			}
@@ -337,11 +324,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 			break;
 		case MODIFY_ARM_DISARM:
 			//0:撤防  1：布防
-			if(data_pakge[9] == 0x01)
+			if(data_pakge[9] == zone_struct.zone1_id)
 			{
 				set_ctrl_unit(AMING_DISARM, 0x01, data_pakge[8]);
 			}
-			else if(data_pakge[9] == 0x02)
+			else if(data_pakge[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(AMING_DISARM, 0x02, data_pakge[8]);
@@ -360,11 +347,11 @@ void max_485_1_deal(uint8_t *data_pakge)
 		case TMING_CMD:
 			break;
 		case MODIFY_TOUCH_NET:
-			if(data_pakge[9] == 0x01)
+			if(data_pakge[9] == zone_struct.zone1_id)
 			{
 				set_ctrl_unit(TOUCH_NET_MODE, 0x01, data_pakge[8]);
 			}
-			else if(data_pakge[9] == 0x02)
+			else if(data_pakge[9] == zone_struct.zone2_id)
 			{
 				if(zone_struct.zone_type == DOUBLE_ZONE)
 					set_ctrl_unit(TOUCH_NET_MODE, 0x02, data_pakge[8]);

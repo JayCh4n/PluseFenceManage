@@ -15,8 +15,6 @@
 extern uint8_t max485_1_sendbuf[50];
 extern uint8_t max485_1_receive_data[50];
 extern uint8_t max485_1_receivebuf;
-extern uint8_t max485_wait_usart1_flag;
-extern uint8_t max485_wait_usart1_finish;
 
 /*键盘主机通讯控制命令定义（功能码）*/
 typedef enum
